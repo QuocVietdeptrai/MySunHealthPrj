@@ -7,9 +7,12 @@ const port = 3000
 app.set('views', path.join(__dirname,"views"));
 app.set('view engine', 'pug')
 
+// Nhúng file tĩnh muốn public lên 
+app.use(express.static(path.join(__dirname,"public")));
+
 app.get('/', (req, res) => {
   res.render("client/pages/home",{
-    pageTitle:"Trang chủ1"
+    pageTitle:"Trang chủ"
   });
 })
 app.get('/tours', (req, res) => {
