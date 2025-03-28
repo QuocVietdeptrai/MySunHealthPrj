@@ -1,5 +1,15 @@
 const express = require('express')
 const path = require('path')
+const mongoose = require('mongoose');
+require('dotenv').config()
+mongoose.connect(process.env.DATABASE)
+
+const Tour = mongoose.model('Tour', { 
+  name: String,
+  vehicle: String 
+});
+
+
 const app = express()
 const port = 3000
 
@@ -15,9 +25,13 @@ app.get('/', (req, res) => {
     pageTitle:"Trang chủ"
   });
 })
-app.get('/tours', (req, res) => {
-    res.render("client/pages/tour_list",{
-        pageTilte:"Danh sách Tour"
+app.get('/tours', async (req, res) => {
+  const tourList = await Tour.find({});
+  console.log(tourList);
+
+  res.render("client/pages/tour_list",{
+        pageTilte:"Danh sách Tour" ,
+        tourList: tourList
     });
   })
 
