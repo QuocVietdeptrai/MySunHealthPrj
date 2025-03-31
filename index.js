@@ -3,6 +3,7 @@ const path = require('path')
 require('dotenv').config()
 const dataBase = require("./config/database");
 const clientRoutes = require("./routes/client/index.route");
+const adminRoutes = require("./routes/admin/index.route");
 
 
 const app = express()
@@ -21,6 +22,8 @@ app.use(express.static(path.join(__dirname,"public")));
 
 //Thiết lập đường dẫn
 app.use("/",clientRoutes);
+app.use("/admin", adminRoutes);
+
 app.listen(port, () => {
   console.log(`Website đang chạy trên cổng ${port}`)
 })
