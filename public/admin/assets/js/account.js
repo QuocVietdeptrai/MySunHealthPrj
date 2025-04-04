@@ -1,5 +1,3 @@
-const { pathAdmin } = require("../../../../config/variable");
-
 // Login Form
 const loginForm = document.querySelector("#login-form");
 if(loginForm) {

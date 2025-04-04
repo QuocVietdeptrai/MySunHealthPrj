@@ -7,7 +7,7 @@ const adminRoutes = require("./routes/admin/index.route");
 const variableConfig = require("./config/variable");
 
 const app = express()
-const port = 3000
+const port = 4000
 
 // Kết nối database 
 dataBase.connect();
