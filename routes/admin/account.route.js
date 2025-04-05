@@ -5,6 +5,12 @@ const accountValidate = require("../../validates/admin/account.validate");
 
 router.get('/login', accountController.login);
 
+router.post(
+  '/login', 
+  accountValidate.loginPost, 
+  accountController.loginPost
+)
+
 router.get('/register',accountController.register);
 
 router.get('/register-initial' ,accountController.registerInitial);
@@ -13,7 +19,7 @@ router.post(
     '/register', 
     accountValidate.registerPost, 
     accountController.registerPost
-  )
+)
   
 
 router.get('/forgot_password', accountController.forgot_password);
