@@ -47,7 +47,7 @@ module.exports.registerPost = async (req, res) => {
 
 module.exports.registerInitial = (req, res) => {
     res.render("admin/pages/register-initial",{
-      pageTitle:"Tài khzoản đã được khởi tạo"
+      pageTitle:"Tài khoản đã được khởi tạo"
     });
 }
 module.exports.forgot_password = (req, res) => {

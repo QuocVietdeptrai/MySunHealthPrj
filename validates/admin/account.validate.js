@@ -3,19 +3,19 @@ module.exports.registerPost = (req, res, next) => {
     const schema = Joi.object({
         fullName: Joi.string()
             .required()
-            .message({
+            .messages({
                 "string.empty" : "Vui lòng nhập họ tên !"
             }),
 
         email: Joi.string()
             .required()
-            .message({
+            .messages({  
                 "string.empty" : "Vui lòng nhập email !"
             }),
 
         password: Joi.string()
             .required()
-            .message({
+            .messages({
                 "string.empty" : "Vui lòng nhập mật khẩu !"
             }),
     });
