@@ -124,3 +124,10 @@ module.exports.reset_password = (req, res) => {
     pageTitle:"Đổi mật khẩu"
   });
 }
+module.exports.logoutPost = async (req, res) => {
+  res.clearCookie("token")
+  res.json({
+    code:"success",
+    message:"Đăng xuất tài khoản thành công"
+  });
+}
