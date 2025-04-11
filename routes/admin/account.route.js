@@ -26,6 +26,7 @@ router.get('/forgot_password', accountController.forgot_password);
 router.post('/forgot_password', accountController.forgot_passwordPost);
 
 router.get('/otp_password', accountController.otp_password);
+router.post('/otp_password', accountController.otp_passwordPost);
 
 router.get('/reset_password', accountController.reset_password);
 router.post('/logout', accountController.logoutPost);
