@@ -11,6 +11,8 @@ const profileRoutes = require("./profile.route");
 
 
 const authMiddleware = require("../../middlewares/admin/auth.middlewares")
+
+//Khong cho luu vao bo nho dem 
 router.use((req,res,next) => {
   res.setHeader('Cache-Control','no-store')
   next();
