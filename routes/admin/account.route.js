@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const accountController = require("../../controllers/admin/account.controller");
 const accountValidate = require("../../validates/admin/account.validate");
-
+const middleWares = require("../../middlewares/admin/auth.middlewares");
 
 router.get('/login', accountController.login);
 
@@ -29,6 +29,7 @@ router.get('/otp_password', accountController.otp_password);
 router.post('/otp_password', accountController.otp_passwordPost);
 
 router.get('/reset_password', accountController.reset_password);
+router.post('/reset_password',middleWares.verifyToken,accountController.reset_passwordPost);
 router.post('/logout', accountController.logoutPost);
 
 module.exports = router;

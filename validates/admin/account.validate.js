@@ -114,3 +114,46 @@ module.exports.loginPost = (req, res, next) => {
 
     next();
 }
+module.exports.resetPassWordPost = (req, res, next) => { 
+    const schema = Joi.object({
+        password: Joi.string()
+            .required()
+            .min(8)
+            .custom((value, helpers) => {
+                if(!/[A-Z]/.test(value)){
+                    return helpers.error('password.uppercase');
+                }
+                if(!/[a-z]/.test(value)){
+                    return helpers.error('password.lowercase');
+                }
+                if(!/\d/.test(value)){
+                    return helpers.error('password.number');
+                }
+                if(!/[@$!%*?&]/.test(value)){
+                    return helpers.error('password.special');
+                }
+                return value
+            })
+            .messages({
+                "string.empty" : "Vui lòng nhập mật khẩu !",
+                "string.min" : "Mật khẩu phải ít nhất có 8 ký tự !",
+                "password.uppercase" : "Mật khẩu phải chứa ít nhất một chữ cái in hoa !",
+                "password.lowercase" : "Mật khẩu phải chứa ít nhất một chữ cái in thường !",
+                "password.number" : "Mật khẩu phải chứa ít nhất một số !",
+                "password.special" : "Mật khẩu phải chứa ít nhất một ký tự đặc biệt! !"
+            }),
+    });
+    const { error } = schema.validate(req.body);
+
+    if(error){
+        const errorMesage = error.details[0].message;
+        res.json({
+            code:"error",
+            message: errorMesage
+        });
+        return;
+    }
+
+
+    next();
+}
