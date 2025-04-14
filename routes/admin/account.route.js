@@ -29,7 +29,7 @@ router.get('/otp_password', accountController.otp_password);
 router.post('/otp_password', accountController.otp_passwordPost);
 
 router.get('/reset_password', accountController.reset_password);
-router.post('/reset_password',middleWares.verifyToken,accountController.reset_passwordPost);
+router.post('/reset_password',accountValidate.resetPassWordPost,middleWares.verifyToken,accountController.reset_passwordPost);
 router.post('/logout', accountController.logoutPost);
 
 module.exports = router;
