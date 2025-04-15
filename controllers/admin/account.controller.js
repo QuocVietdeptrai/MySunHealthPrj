@@ -13,7 +13,7 @@ module.exports.login = async (req, res) => {
   }
 
 
-  module.exports.loginPost = async (req, res) => {
+module.exports.loginPost = async (req, res) => {
     const { email , password , rememberPassword} = req.body;
   
     const existAccount = await AccountAdmin.findOne({
@@ -240,7 +240,9 @@ module.exports.reset_passwordPost = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
   
   await AccountAdmin.updateOne({
-    _id:req.account.id
+    _id: req.account.id,
+    deleted: false,
+    status : "active"
   },{
     password:hashedPassword
   })

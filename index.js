@@ -35,6 +35,6 @@ app.use(cookieParser())
 app.use("/",clientRoutes);
 app.use(`/${variableConfig.pathAdmin}`, adminRoutes);
 
-app.listen(port,'0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`Website đang chạy trên cổng ${port}`)
 })
