@@ -32,9 +32,10 @@ module.exports.createPost = async (req, res) => {
 
   const newRecord = new Category(req.body);
   await newRecord.save();
-  console.log(req.body);
+
+  req.flash("success","Tạo danh mục thành công !");
+  // console.log(req.body);
   res.json({
-    code:"success",
-    message: "Tạo danh mục thành công !"
+    code:"success"
   })
 }
