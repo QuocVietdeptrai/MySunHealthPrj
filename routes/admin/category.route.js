@@ -13,6 +13,6 @@ router.post('/create',upload.single('avatar'),validateCategory.createPost,catego
 
 router.get('/edit/:id', categoryController.edit);
 router.patch('/edit/:id',upload.single('avatar'),validateCategory.createPost,categoryController.editPatch);
-
+router.patch('/delete/:id', categoryController.deletePatch);
 
 module.exports = router;    

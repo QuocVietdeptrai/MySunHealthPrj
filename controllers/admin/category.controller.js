@@ -16,7 +16,7 @@ module.exports.list =async (req, res) => {
         _id:item.createdBy
       })
       item.createdByFullName =infoAccountCreatedBy.fullName   
-      console.log(infoAccountCreatedBy)
+      // console.log(infoAccountCreatedBy)
     }
 
     if(item.updatedBy){
@@ -24,7 +24,7 @@ module.exports.list =async (req, res) => {
         _id:item.createdBy
       })
       item.updatedByFullName =infoAccountUpdatedBy.fullName   
-      console.log(infoAccountUpdatedBy)
+      // console.log(infoAccountUpdatedBy)
     } 
     item.createdAtFomat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
     item.updatedAtFomat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
@@ -78,7 +78,7 @@ module.exports.edit = async (req, res) => {
       _id:id,
       deleted:false
     })
-    console.log(categoryDetail)
+    // console.log(categoryDetail)
     // console.log(categoryTree)
     res.render("admin/pages/category-edit",{
       pageTitle:"Chỉnh sửa danh mục",
@@ -116,6 +116,29 @@ module.exports.editPatch = async (req, res) => {
   res.json({
     code:"success"
   })
+  } catch (error) {
+    res.json({
+      code:"error",
+      message:"Id không hợp lệ !"
+    })
+  }
+}
+module.exports.deletePatch = async (req,res) => {
+  try {
+    const id = req.params.id;
+    
+    await Category.updateOne({
+      _id:id
+    },{
+      deleted:true,
+      deletedBy:req.account.id,
+      deletedAt: Date.now()
+    })
+
+    req.flash("success","Xóa danh mục thành công !");
+    res.json({
+      code:"success"
+    })
   } catch (error) {
     res.json({
       code:"error",
