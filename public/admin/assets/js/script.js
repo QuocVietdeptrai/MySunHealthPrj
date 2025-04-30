@@ -764,7 +764,6 @@ if(listButtonDelete.length > 0){
 }
 // End button delete 
 // Filter Status
-// End Filter Status 
 const filterStatus = document.querySelector("[filter-status]")
 if(filterStatus){
   const url = new URL(window.location.href);
@@ -784,3 +783,29 @@ if(filterStatus){
     filterStatus.value = valueCurrent;
   }
 }
+
+// End Filter Status 
+
+
+// Filter Created By
+const filterCreatedBy = document.querySelector("[filter-created-by]")
+if(filterCreatedBy){
+  const url = new URL(window.location.href);
+  filterCreatedBy.addEventListener("change", () => {
+    const value = filterCreatedBy.value;
+    if(value){
+      url.searchParams.set("createdBy",value);
+    }else{
+      url.searchParams.delete("createdBy");
+    }
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định 
+  const valueCurrent = url.searchParams.get("createdBy");
+  if(valueCurrent){
+    filterCreatedBy.value = valueCurrent;
+  }
+}
+
+// End Filter Status 
