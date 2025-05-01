@@ -854,3 +854,12 @@ if(filterEndDate){
 }
 
 // End Filter End Date 
+
+//Delete Category
+const filterDelete = document.querySelector("[filter-delete]")
+if(filterDelete){
+  filterDelete.addEventListener("click", () => {
+    window.location.href = `/${pathAdmin}/category/list`
+  })
+}
+// End Delete Category 
