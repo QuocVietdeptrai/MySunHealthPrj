@@ -2,6 +2,7 @@ const Category = require("../../models/category.model");
 const AccountAdmin = require("../../models/account-admin.model")
 const categoryHelper = require("../../helpers/category.helper")
 const moment = require('moment'); 
+const slugify = require('slugify');
 
 module.exports.list =async (req, res) => {
   const find = {
@@ -32,7 +33,17 @@ module.exports.list =async (req, res) => {
     find.createdAt = dateFilter;
   }
 
-
+  // Tìm kiếm 
+  if(req.query.keyword){
+    const keyword = slugify(req.query.keyword,{
+      lower:true
+    });
+    
+    const keywordRegex = new RegExp(keyword);
+    // console.log(keywordRegex)
+    find.slug = keywordRegex;
+  }
+  // End Tìm Kiếm 
 
   const categoryList = await Category
     .find(find)
