@@ -10,7 +10,26 @@ module.exports.list = async (req, res) => {
   const find = {
     deleted:false
   };
-
+  const limitItems = 3;
+  let page = 1;
+  if(req.query.page){
+    const currentPage = parseInt(req.query.page);
+    if(currentPage > 0){
+      page = currentPage;
+    }
+  }
+  const totalRecord = await Tour.countDocuments(find);
+  const totalPage = Math.ceil(totalRecord/limitItems);
+  if(page > totalPage){
+    page=totalPage
+  }
+  const skip = (page - 1)*limitItems;
+  const pagination = {
+    skip: skip,
+    totalRecord: totalRecord,
+    totalPage: totalPage
+  }
+  // End phân trang 
   // Tìm kiếm 
   if(req.query.keyword){
     const keyword = slugify(req.query.keyword,{
@@ -27,6 +46,8 @@ module.exports.list = async (req, res) => {
     .sort({
       position:"desc"
     })
+    .limit(limitItems)
+    .skip(skip)
 
     for (const item of tourList) {
       if(item.createdBy){
@@ -49,7 +70,8 @@ module.exports.list = async (req, res) => {
     }
   res.render("admin/pages/tour-list",{
     pageTitle:"Quản lý tour",
-    tourList:tourList
+    tourList:tourList,
+    pagination:pagination
   });
 }
 module.exports.create = async (req, res) => {
