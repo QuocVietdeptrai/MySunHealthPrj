@@ -1,7 +1,12 @@
 extends ../layouts/default.pug
+include ../mixins/options.pug
 
 block main
   h1.box-title Quản lý tour
+
+  //- Hiển thị thông báo nếu có
+  if message
+    .alert.alert-info #{message}
 
   //- Section 4
   .section-4
@@ -9,24 +14,23 @@ block main
       .inner-item.inner-label
         <i class="fa-solid fa-filter"></i> Bộ lọc
       .inner-item
-        select
+        select(filter-status)
           option(value="") Trạng thái
-          option(value="") Hoạt động
-          option(value="") Tạm dừng
+          option(value="active") Hoạt động
+          option(value="inactive") Tạm dừng
       .inner-item
-        select
+        select(filter-created-by)
           option(value="") Người tạo
-          option(value="") Lê Văn A
-          option(value="") Lê Văn B
+          each item in accountAdminList
+            option(value=item.id) #{item.fullName}
       .inner-item.inner-date
-        input(type="date")
+        input(type="date" filter-start-date)
         span -
-        input(type="date")
+        input(type="date" filter-end-date)
       .inner-item
         select
           option(value="") Danh mục
-          option(value="") Danh mục 1
-          option(value="") Danh mục 2
+          +options(categoryList, 0, tourList.category)
       .inner-item
         select
           option(value="") Mức giá
@@ -34,7 +38,7 @@ block main
           option(value="") 2tr đến 4tr
           option(value="") 4tr đến 8tr
           option(value="") Trên 8tr
-      .inner-item.inner-reset
+      .inner-item.inner-reset(filter-reset)
         <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
   //- End Section 4
 
@@ -45,9 +49,9 @@ block main
         .inner-item
           select
             option(value="") -- Hành động --
-            option(value="") Hoạt động
-            option(value="") Dừng hoạt động
-            option(value="") Xóa
+            option(value="active") Hoạt động
+            option(value="inactive") Dừng hoạt động
+            option(value="delete") Xóa
         .inner-item
           button Áp dụng
       .inner-search
@@ -77,47 +81,54 @@ block main
             th Cập nhật bởi
             th Hành động
         tbody
-          each item in tourList
-            tr
-              td(class="inner-center")
-                input(type="checkbox" class="inner-check")
-              td #{item.name}
-              td
-                img(src=item.avatar class="inner-avatar")
-              td
-                div NL: #{item.priceNewAdult.toLocaleString("vi-VN")}đ
-                div TE: #{item.priceNewChildren.toLocaleString("vi-VN")}đ
-                div EB: #{item.priceNewBaby.toLocaleString("vi-VN")}đ
-              td
-                div NL: #{item.stockAdult}
-                div TE: #{item.stockChildren}
-                div EB: #{item.stockBaby}
-              td(class="inner-center") #{item.position}
-              td(class="inner-center")
-                if (item.status == "active")
-                  .badge.badge-green Hoạt động
-                else if (item.status == "inactive")
-                  .badge.badge-red Tạm dừng
-              td
-                div #{item.createdByFullName}
-                div.inner-time #{item.createdAtFomat}
-              td
-                div #{item.updatedByFullName}
-                div.inner-time #{item.updatedAtFomat}
-              td
-                .inner-buttons
-                  a(href=`/${pathAdmin}/tour/edit/${item.id}` class="inner-edit") <i class="fa-regular fa-pen-to-square"></i>
-                  button(
+          if tourList.length > 0
+            each item in tourList
+              tr
+                td(class="inner-center")
+                  input(type="checkbox" class="inner-check")
+                td #{item.name}
+                td
+                  img(src=item.avatar class="inner-avatar")
+                td
+                  div NL: #{item.priceNewAdult.toLocaleString("vi-VN")}đ
+                  div TE: #{item.priceNewChildren.toLocaleString("vi-VN")}đ
+                  div EB: #{item.priceNewBaby.toLocaleString("vi-VN")}đ
+                td
+                  div NL: #{item.stockAdult}
+                  div TE: #{item.stockChildren}
+                  div EB: #{item.stockBaby}
+                td(class="inner-center") #{item.position}
+                td(class="inner-center")
+                  if item.status == "active"
+                    .badge.badge-green Hoạt động
+                  else if item.status == "inactive"
+                    .badge.badge-red Tạm dừng
+                td
+                  div #{item.createdByFullName}
+                  div.inner-time #{item.createdAtFomat}
+                td
+                  div #{item.updatedByFullName}
+                  div.inner-time #{item.updatedAtFomat}
+                td
+                  .inner-buttons
+                    a(href=`/${pathAdmin}/tour/edit/${item.id}` class="inner-edit")
+                      <i class="fa-regular fa-pen-to-square"></i>
+                    button(
                       class="inner-delete"
                       button-delete
-                      data-api = `/${pathAdmin}/tour/delete/${item.id}`
-                  ) <i class="fa-regular fa-trash-can"></i>
+                      data-api=`/${pathAdmin}/tour/delete/${item.id}`
+                    )
+                      <i class="fa-regular fa-trash-can"></i>
+          else
+            tr
+              td(colspan="10" class="inner-center") Không có tour nào được tìm thấy
   //- End Section 6
 
   //- Section 7
   .section-7
     span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + tourList.length} của #{pagination.totalRecord}
-    select(class="inner-pagination" pagination)
-      - for(let i = 1;i <= pagination.totalPage;i++)
-        option(value=i) Trang #{i}
+    if pagination.totalPage > 0
+      select(class="inner-pagination" pagination)
+        - for(let i = 1; i <= pagination.totalPage; i++)
+          option(value=i selected=(i == page)) Trang #{i}
   //- End Section 7

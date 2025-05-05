@@ -4,110 +4,105 @@ const categoryHelper = require("../../helpers/category.helper")
 const moment = require('moment'); 
 const slugify = require('slugify');
 
-module.exports.list =async (req, res) => {
+module.exports.list = async (req, res) => {
   const find = {
-    deleted:false
+    deleted: false,
   };
-  
-  //Lọc theo trạng thái 
-  if(req.query.status){
+
+  // Lọc theo trạng thái
+  if (req.query.status) {
     find.status = req.query.status;
   }
 
-  //Lọc theo người tạo
-  if(req.query.createdBy){
+  // Lọc theo người tạo
+  if (req.query.createdBy) {
     find.createdBy = req.query.createdBy;
   }
-  // Lọc theo ngày tạo 
-  const dateFilter = {}
-  if(req.query.startDate){
+
+  // Lọc theo ngày tạo
+  const dateFilter = {};
+  if (req.query.startDate) {
     const startDate = moment(req.query.startDate).startOf("date").toDate();
     dateFilter.$gte = startDate;
   }
-  if(req.query.endDate){
+  if (req.query.endDate) {
     const endDate = moment(req.query.endDate).endOf("date").toDate();
     dateFilter.$lte = endDate;
   }
-  // console.log(dateFilter)
-  if(Object.keys(dateFilter).length > 0){
+  if (Object.keys(dateFilter).length > 0) {
     find.createdAt = dateFilter;
   }
 
-  // Tìm kiếm 
-  if(req.query.keyword){
-    const keyword = slugify(req.query.keyword,{
-      lower:true
-    });
-    
+  // Tìm kiếm
+  if (req.query.keyword) {
+    const keyword = slugify(req.query.keyword, { lower: true });
     const keywordRegex = new RegExp(keyword);
-    // console.log(keywordRegex)
     find.slug = keywordRegex;
   }
-  // End Tìm Kiếm
 
-  // Phân trang 
+  // Phân trang
   const limitItems = 3;
   let page = 1;
-  if(req.query.page){
+  if (req.query.page) {
     const currentPage = parseInt(req.query.page);
-    if(currentPage > 0){
+    if (currentPage > 0) {
       page = currentPage;
     }
   }
+
   const totalRecord = await Category.countDocuments(find);
-  const totalPage = Math.ceil(totalRecord/limitItems);
-  if(page > totalPage){
-    page=totalPage
+  const totalPage = Math.ceil(totalRecord / limitItems);
+
+  // Xử lý trường hợp không có bản ghi
+  if (totalRecord === 0) {
+    page = 1; // Đặt page về 1
+  } else if (page > totalPage) {
+    page = totalPage;
   }
-  const skip = (page - 1)*limitItems;
+
+  const skip = (page - 1) * limitItems;
   const pagination = {
     skip: skip,
     totalRecord: totalRecord,
-    totalPage: totalPage
-  }
-  // End phân trang  
+    totalPage: totalPage,
+  };
 
+  // Lấy danh sách danh mục
   const categoryList = await Category
     .find(find)
-    .sort({
-      position:"desc"
-    })
+    .sort({ position: "desc" })
     .limit(limitItems)
-    .skip(skip)
-    
-  // console.log(categoryList);
+    .skip(skip);
+
+  // Thêm thông tin người tạo và cập nhật
   for (const item of categoryList) {
-    if(item.createdBy){
-      const infoAccountCreatedBy = await AccountAdmin.findOne({
-        _id:item.createdBy
-      })
-      item.createdByFullName =infoAccountCreatedBy.fullName   
-      // console.log(infoAccountCreatedBy)
+    if (item.createdBy) {
+      const infoAccountCreatedBy = await AccountAdmin.findOne({ _id: item.createdBy });
+      item.createdByFullName = infoAccountCreatedBy ? infoAccountCreatedBy.fullName : "N/A";
     }
 
-    if(item.updatedBy){
-      const infoAccountUpdatedBy = await AccountAdmin.findOne({
-        _id:item.createdBy
-      })
-      item.updatedByFullName =infoAccountUpdatedBy.fullName   
-      // console.log(infoAccountUpdatedBy)
-    } 
+    if (item.updatedBy) {
+      const infoAccountUpdatedBy = await AccountAdmin.findOne({ _id: item.updatedBy }); // Sửa createdBy thành updatedBy
+      item.updatedByFullName = infoAccountUpdatedBy ? infoAccountUpdatedBy.fullName : "N/A";
+    }
+
     item.createdAtFomat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
     item.updatedAtFomat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
   }
-  //Danh sách tài khoản quản trị
-  const accountAdminList = await AccountAdmin
-    .find({})
-    .select("id fullName");
 
-  // console.log(accountAdminList)
-    res.render("admin/pages/category-list",{
-      pageTitle:"Quản lý danh mục",
-      categoryList : categoryList,
-      accountAdminList:accountAdminList,
-      pagination:pagination
-      
-    });
+  // Lấy danh sách tài khoản quản trị
+  const accountAdminList = await AccountAdmin.find({}).select("id fullName");
+
+  // Thêm thông báo khi không có bản ghi
+  const message = totalRecord === 0 ? "Không có bản ghi nào" : null;
+
+  res.render("admin/pages/category-list", {
+    pageTitle: "Quản lý danh mục",
+    categoryList: categoryList,
+    accountAdminList: accountAdminList,
+    pagination: pagination,
+    message: message
+  });
 }
 module.exports.create = async (req, res) => {
   const categoryList = await Category.find({

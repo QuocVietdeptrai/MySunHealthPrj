@@ -10,25 +10,60 @@ module.exports.list = async (req, res) => {
   const find = {
     deleted:false
   };
+  const categoryList = await Category.find({
+    deleted: false
+  })
+
+  const categoryTree = categoryHelper.buildCategoryTree(categoryList);
+  //Lọc theo trạng thái 
+  if(req.query.status){
+    find.status = req.query.status;
+  }
+  //Lọc theo người tạo
+  if(req.query.createdBy){
+    find.createdBy = req.query.createdBy;
+  }
+  // Lọc theo ngày tạo 
+  const dateFilter = {}
+  if(req.query.startDate){
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+  if(req.query.endDate){
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+  // console.log(dateFilter)
+  if(Object.keys(dateFilter).length > 0){
+    find.createdAt = dateFilter;
+  }
+
+  // Phân trang
   const limitItems = 3;
   let page = 1;
-  if(req.query.page){
+  if (req.query.page) {
     const currentPage = parseInt(req.query.page);
-    if(currentPage > 0){
+    if (currentPage > 0) {
       page = currentPage;
     }
   }
+
   const totalRecord = await Tour.countDocuments(find);
-  const totalPage = Math.ceil(totalRecord/limitItems);
-  if(page > totalPage){
-    page=totalPage
+  const totalPage = Math.ceil(totalRecord / limitItems);
+
+  // Xử lý trường hợp không có bản ghi
+  if (totalRecord === 0) {
+    page = 1; // Đặt page về 1
+  } else if (page > totalPage) {
+    page = totalPage;
   }
-  const skip = (page - 1)*limitItems;
+
+  const skip = (page - 1) * limitItems;
   const pagination = {
     skip: skip,
     totalRecord: totalRecord,
-    totalPage: totalPage
-  }
+    totalPage: totalPage,
+  };
   // End phân trang 
   // Tìm kiếm 
   if(req.query.keyword){
@@ -37,10 +72,11 @@ module.exports.list = async (req, res) => {
     });
     
     const keywordRegex = new RegExp(keyword);
-    console.log(keywordRegex)
+    // console.log(keywordRegex)
     find.slug = keywordRegex;
   }
   // End Tìm Kiếm
+
   const tourList = await Tour
     .find(find)
     .sort({
@@ -68,10 +104,21 @@ module.exports.list = async (req, res) => {
       item.createdAtFomat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
       item.updatedAtFomat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
     }
+  //Danh sách tài khoản quản trị
+  const accountAdminList = await AccountAdmin
+    .find({})
+    .select("id fullName");
+  // console.log(tourList.length)
+  // Thêm thông báo khi không có bản ghi
+  const message = totalRecord === 0 ? "Không có bản ghi nào" : null;
   res.render("admin/pages/tour-list",{
     pageTitle:"Quản lý tour",
     tourList:tourList,
-    pagination:pagination
+    pagination:pagination,
+    accountAdminList:accountAdminList,
+    categoryList:categoryList,
+    categoryTree:categoryTree,
+    message:message
   });
 }
 module.exports.create = async (req, res) => {

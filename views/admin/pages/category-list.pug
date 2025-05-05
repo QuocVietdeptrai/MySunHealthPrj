@@ -3,6 +3,10 @@ extends ../layouts/default.pug
 block main
   h1.box-title Quản lý danh mục
 
+  //- Hiển thị thông báo nếu có
+  if message
+    .alert.alert-info #{message}
+
   //- Section 4
   .section-4
     .inner-wrap
@@ -22,7 +26,7 @@ block main
         input(type="date" filter-start-date)
         span -
         input(type="date" filter-end-date)
-      .inner-item.inner-reset(filter-delete)
+      .inner-item.inner-reset(filter-reset)
         <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
   //- End Section 4
 
@@ -31,7 +35,7 @@ block main
     .inner-wrap
       .inner-change-status(
         change-multi
-        data-api = `/${pathAdmin}/category/change-multi`
+        data-api=`/${pathAdmin}/category/change-multi`
       )
         .inner-item
           select
@@ -64,40 +68,46 @@ block main
             th Cập nhật bởi
             th Hành động
         tbody
-          each item in categoryList
-            tr
-              td(class="inner-center")
-                input(type="checkbox" class="inner-check" check-item = item.id)
-              td #{item.name}
-              td
-                img(src=item.avatar class="inner-avatar")
-              td(class="inner-center") #{item.position}
-              td(class="inner-center")
-                if (item.status == "active")
-                  .badge.badge-green Hoạt động
-                else if (item.status == "inactive")
-                  .badge.badge-red Tạm dừng
-              td
-                div #{item.createdByFullName}
-                div.inner-time #{item.createdAtFomat}
-              td
-                div #{item.updatedByFullName}
-                div.inner-time #{item.updatedAtFomat}
-              td
-                .inner-buttons
-                  a(href=`/${pathAdmin}/category/edit/${item.id}` class="inner-edit") <i class="fa-regular fa-pen-to-square"></i>
-                  button(
+          if categoryList.length > 0
+            each item in categoryList
+              tr
+                td(class="inner-center")
+                  input(type="checkbox" class="inner-check" check-item=item.id)
+                td #{item.name}
+                td
+                  img(src=item.avatar class="inner-avatar")
+                td(class="inner-center") #{item.position}
+                td(class="inner-center")
+                  if item.status == "active"
+                    .badge.badge-green Hoạt động
+                  else if item.status == "inactive"
+                    .badge.badge-red Tạm dừng
+                td
+                  div #{item.createdByFullName}
+                  div.inner-time #{item.createdAtFomat}
+                td
+                  div #{item.updatedByFullName}
+                  div.inner-time #{item.updatedAtFomat}
+                td
+                  .inner-buttons
+                    a(href=`/${pathAdmin}/category/edit/${item.id}` class="inner-edit")
+                      <i class="fa-regular fa-pen-to-square"></i>
+                    button(
                       class="inner-delete"
                       button-delete
-                      data-api = `/${pathAdmin}/category/delete/${item.id}`
-                  ) <i class="fa-regular fa-trash-can"></i>
-          
+                      data-api=`/${pathAdmin}/category/delete/${item.id}`
+                    )
+                      <i class="fa-regular fa-trash-can"></i>
+          else
+            tr
+              td(colspan="8" class="inner-center") Không có bản ghi nào
   //- End Section 6
 
   //- Section 7
   .section-7
     span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + categoryList.length} của #{pagination.totalRecord}
-    select(class="inner-pagination" pagination)
-      - for(let i = 1;i <= pagination.totalPage;i++)
-        option(value=i) Trang #{i}
+    if pagination.totalPage > 0
+      select(class="inner-pagination" pagination)
+        - for(let i = 1; i <= pagination.totalPage; i++)
+          option(value=i selected=(i == pagination.currentPage)) Trang #{i}
   //- End Section 7

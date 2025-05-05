@@ -985,10 +985,13 @@ if(filterEndDate){
 // End Filter End Date 
 
 //Delete Category
-const filterDelete = document.querySelector("[filter-delete]")
-if(filterDelete){
+const filterDelete = document.querySelector("[filter-reset]")
+if(filterDelete) {
+  const url = new URL(window.location.href);
+
   filterDelete.addEventListener("click", () => {
-    window.location.href = `/${pathAdmin}/category/list`
+    url.search = "";
+    window.location.href = url.href;
   })
 }
 // End Delete Category 
