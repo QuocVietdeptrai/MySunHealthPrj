@@ -565,12 +565,28 @@ if(settingWebsiteInfoForm) {
         favicon = favicons[0].file;
       }
 
-      console.log(websiteName);
-      console.log(phone);
-      console.log(email);
-      console.log(address);
-      console.log(logo);
-      console.log(favicon);
+      const formData = new FormData();
+      formData.append("websiteName", websiteName);
+      formData.append("phone", phone);
+      formData.append("email", email);
+      formData.append("address", address);
+      formData.append("logo", logo);
+      formData.append("favicon", favicon);
+
+      fetch(`/${pathAdmin}/setting/website_info`, {
+        method: "PATCH",
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
     })
   ;
 }
@@ -1099,3 +1115,46 @@ if(pagination){
   }
 }
 // End pagination 
+
+// Filter Category 
+const filterCategory = document.querySelector("[filter-category]")
+if(filterCategory){
+  const url = new URL(window.location.href);
+  filterCategory.addEventListener("change", () => {
+    const value = filterCategory.value;
+    if(value){
+      url.searchParams.set("category",value);
+    }else{
+      url.searchParams.delete("category");
+    }
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định 
+  const valueCurrent = url.searchParams.get("category");
+  if(valueCurrent){
+    filterCategory.value = valueCurrent;
+  }
+}
+// End Filter Category 
+// Filter price
+const filterPrice = document.querySelector("[filter-price]")
+if(filterPrice){
+  const url = new URL(window.location.href);
+  filterPrice.addEventListener("change", () => {
+    const value = filterPrice.value;
+    if(value){
+      url.searchParams.set("price",value);
+    }else{
+      url.searchParams.delete("price");
+    }
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định 
+  const valueCurrent = url.searchParams.get("price");
+  if(valueCurrent){
+    filterPrice.value = valueCurrent;
+  }
+}
+// End filter price

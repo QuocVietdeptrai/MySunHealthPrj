@@ -17,3 +17,17 @@ const buildCategoryTree = (categories, parentId = "") => {
 }
 
 module.exports.buildCategoryTree = buildCategoryTree;
+
+const getAllChildCategoryIds = (categories, parentId) => {
+  let ids = [];
+  for (const category of categories) {
+    if (String(category.parent) === String(parentId)) {
+      ids.push(category._id.toString());
+      ids = ids.concat(getAllChildCategoryIds(categories, category._id));
+    }
+  }
+  return ids;
+}
+
+module.exports.getAllChildCategoryIds = getAllChildCategoryIds;
+

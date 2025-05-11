@@ -1,4 +1,3 @@
- // Import the Nodemailer library
  const nodemailer = require('nodemailer');
 
 module.exports.sendMail = (email , subject , content) => {

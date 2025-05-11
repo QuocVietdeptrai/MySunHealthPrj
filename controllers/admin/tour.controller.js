@@ -11,9 +11,8 @@ module.exports.list = async (req, res) => {
     deleted:false
   };
   const categoryList = await Category.find({
-    deleted: false
+    deleted:false
   })
-
   const categoryTree = categoryHelper.buildCategoryTree(categoryList);
   //Lọc theo trạng thái 
   if(req.query.status){
@@ -36,6 +35,39 @@ module.exports.list = async (req, res) => {
   // console.log(dateFilter)
   if(Object.keys(dateFilter).length > 0){
     find.createdAt = dateFilter;
+  }
+
+  // Lọc theo danh mục
+  if (req.query.category) {
+    const selectedCategoryId = req.query.category;
+    const allCategoryIds = [selectedCategoryId, ...categoryHelper.getAllChildCategoryIds(categoryList, selectedCategoryId)];
+    find.category = { $in: allCategoryIds };
+  }
+  
+  //Lọc theo giá
+  if (req.query.price) {
+    const priceFilter = {};
+    switch (req.query.price) {
+      case 'under_2m':
+        priceFilter.$lte = 2000000
+        break;
+      case '2m_to_4m':
+        priceFilter.$gte = 2000000
+        priceFilter.$lte = 4000000
+        break;
+      case '4m_to_8m':
+        priceFilter.$gte = 4000000
+        priceFilter.$lte = 8000000
+        break;
+      case 'over_8m':
+        priceFilter.$gte = 8000000
+        break;
+      default:
+        break;
+    }
+    if (Object.keys(priceFilter).length > 0) {
+      find.priceNewAdult = priceFilter
+    }
   }
 
   // Phân trang
@@ -418,6 +450,42 @@ module.exports.trashChangeMultiPatch = async (req, res) => {
     res.json({
       code: "error",
       message: "Id không tồn tại trong hệ thông!"
+    })
+  }
+}
+
+module.exports.changeMultiPatch = async (req, res) => {
+  try {
+    const {option,ids} = req.body
+    switch(option){
+      case "active":
+      case "inactive":
+        await Tour.updateMany({
+          _id: { $in: ids }
+        },{
+          status:option
+        })
+        req.flash("success","Đổi trạng thái thành công !");
+        break;
+      case "delete":
+        await Tour.updateMany({
+          _id:{ $in: ids}
+        },{
+          deleted:true,
+          deletedBy:req.account.id,
+          deletedAt:Date.now()
+        })
+        req.flash("success","Xóa tour thành công !");
+        break;
+    }
+    
+    res.json({
+      code:"success"
+    })
+  } catch (error) {
+    res.json({
+      code:"error",
+      message:"Id không tồn tại trong hệ thống !"
     })
   }
 }

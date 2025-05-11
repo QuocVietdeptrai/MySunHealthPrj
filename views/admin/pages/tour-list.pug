@@ -28,16 +28,16 @@ block main
         span -
         input(type="date" filter-end-date)
       .inner-item
-        select
+        select(filter-category)
           option(value="") Danh mục
-          +options(categoryList, 0, tourList.category)
+          +options(categoryTree, 0)
       .inner-item
-        select
+        select(filter-price)
           option(value="") Mức giá
-          option(value="") Dưới 2tr
-          option(value="") 2tr đến 4tr
-          option(value="") 4tr đến 8tr
-          option(value="") Trên 8tr
+          option(value="under_2m") Dưới 2tr
+          option(value="2m_to_4m") 2tr đến 4tr
+          option(value="4m_to_8m") 4tr đến 8tr
+          option(value="over_8m") Trên 8tr
       .inner-item.inner-reset(filter-reset)
         <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
   //- End Section 4
@@ -45,7 +45,10 @@ block main
   //- Section 5
   .section-5
     .inner-wrap
-      .inner-change-status
+      .inner-change-status(
+        change-multi 
+        data-api=`/${pathAdmin}/tour/change-multi`
+      )
         .inner-item
           select
             option(value="") -- Hành động --
@@ -70,7 +73,7 @@ block main
         thead
           tr
             th(class="inner-center")
-              input(type="checkbox" class="inner-check")
+              input(type="checkbox" class="inner-check" check-all)
             th Tên tour
             th Ảnh đại diện
             th Giá
@@ -85,7 +88,7 @@ block main
             each item in tourList
               tr
                 td(class="inner-center")
-                  input(type="checkbox" class="inner-check")
+                  input(type="checkbox" class="inner-check" check-item=item.id)
                 td #{item.name}
                 td
                   img(src=item.avatar class="inner-avatar")
