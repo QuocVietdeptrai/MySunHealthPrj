@@ -1,7 +1,9 @@
 const SettingWebsiteInfo = require("../../models/setting-website-info.model");
 const Role = require("../../models/role.model")
-const Permission = require("../../models/permissions.model")
+const permissionConfig = require("../../config/permission");
 const slugify = require('slugify');
+
+
 module.exports.list = (req, res) => {
     res.render("admin/pages/setting-list",{
       pageTitle:"Cài đặt chung"
@@ -45,16 +47,8 @@ module.exports.website_infoPatch = async (req, res) => {
   })
 
 }
-module.exports.account_admin_list = (req, res) => {
-  res.render("admin/pages/setting-account-admin-list",{
-    pageTitle:"Tài khoản quản trị"
-  });
-}
-module.exports.account_admin_create = (req, res) => {
-    res.render("admin/pages/setting-account-admin-create",{
-      pageTitle:"Tài khoản quản trị"
-    });
-}
+
+
 module.exports.role_list = async (req, res) => {
   const find = {
     deleted: false,
@@ -76,11 +70,11 @@ module.exports.role_list = async (req, res) => {
     listRole:listRole
   });
 }
+
 module.exports.role_create = async (req, res) => {
-  const listPermissions = await Permission.find({})
     res.render("admin/pages/setting-role-create",{
       pageTitle:"Tạo nhóm quyền",
-      listPermissions:listPermissions
+      permissionList: permissionConfig.permissionList
     });
 }
 
@@ -126,12 +120,10 @@ module.exports.editRole = async (req, res) => {
       _id:id,
       deleted:false
     })
-    const listPermissions = await Permission.find({})
-    console.log(listPermissions)
     res.render("admin/pages/setting-role-edit",{
       pageTitle:"Chỉnh sửa nhóm quyền",
-      listRoleDetail:listRoleDetail,
-      listPermissions:listPermissions
+      permissionList: permissionConfig.permissionList,
+      listRoleDetail:listRoleDetail
     });
   } catch (error) {
     res.redirect(`/${pathAdmin}/setting/role/list`)
@@ -181,3 +173,14 @@ module.exports.changeMultiRolePatch = async (req, res) => {
   }
 }
 
+
+module.exports.account_admin_list = (req, res) => {
+  res.render("admin/pages/setting-account-admin-list",{
+    pageTitle:"Tài khoản quản trị"
+  });
+}
+module.exports.account_admin_create = (req, res) => {
+    res.render("admin/pages/setting-account-admin-create",{
+      pageTitle:"Tài khoản quản trị"
+    });
+}

@@ -17,15 +17,15 @@ block main
       .inner-group
         label(class="inner-label") Phân quyền
         .inner-checkbox-list
-          each item in listPermissions
+          each item in permissionList
             .inner-checkbox-item
               input(
                 type="checkbox" 
                 name="permissions" 
-                value=item.id
-                checked=listRoleDetail.permissions.includes(item.id)
+                value=item.value
+                checked=listRoleDetail.permissions.includes(item.value)
               )
-              label #{item.name}
+              label #{item.label}
       .inner-button.inner-two-col
         button Cập nhật
     .inner-back
