@@ -105,6 +105,37 @@ if(listFilepondImage.length > 0) {
 }
 // End Filepond Image
 
+// Filepond Image Multi
+const listFilepondImageMulti = document.querySelectorAll("[filepond-image-multi]");
+let filePondMulti = {};
+if(listFilepondImageMulti.length > 0) {
+  listFilepondImageMulti.forEach(filepondImage => {
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+
+    let files = null;
+    const elementListImageDefault = filepondImage.closest("[list-image-default]");
+    if(elementListImageDefault) {
+      let listImageDefault = elementListImageDefault.getAttribute("list-image-default");
+      if(listImageDefault) {
+        listImageDefault = JSON.parse(listImageDefault);
+        files = [];
+        listImageDefault.forEach(image => {
+          files.push({
+            source: image, // Đường dẫn ảnh
+          });
+        })
+      }
+    }
+
+    filePondMulti[filepondImage.name] = FilePond.create(filepondImage, {
+      labelIdle: '+',
+      files: files,
+    });
+  });
+}
+// End Filepond Image Multi
+
 // Biểu đồ doanh thu
 const revenueChart = document.querySelector("#revenue-chart");
 if(revenueChart) {
@@ -276,7 +307,6 @@ if(tourCreateForm) {
       }
     ])
     .onSuccess((event) => {
-      const id = event.target.id.value;
       const name = event.target.name.value;
       const category = event.target.category.value;
       const position = event.target.position.value;
@@ -325,7 +355,7 @@ if(tourCreateForm) {
         });
       });
       // End schedules
-      
+
       // Tạo FormData
       const formData = new FormData();
       formData.append("name", name);
@@ -349,20 +379,28 @@ if(tourCreateForm) {
       formData.append("information", information);
       formData.append("schedules", JSON.stringify(schedules));
 
-      fetch(`/${pathAdmin}/tour/create`,{
-        method:"POST",
-        body:formData
+      // images
+      if(filePondMulti.images.getFiles().length > 0) {
+        filePondMulti.images.getFiles().forEach(item => {
+          formData.append("images", item.file);
+        })
+      }
+      // End images
+
+      fetch(`/${pathAdmin}/tour/create`, {
+        method: "POST",
+        body: formData
       })
         .then(res => res.json())
         .then(data => {
-          if(data.code == "error"){
-            alert(data.message)
+          if(data.code == "error") {
+            alert(data.message);
           }
-          if(data.code == "success"){
-            window.location.href= `/${pathAdmin}/tour/list`;
+
+          if(data.code == "success") {
+            window.location.href = `/${pathAdmin}/tour/list`;
           }
         })
-
     })
   ;
 }
@@ -459,6 +497,14 @@ if(tourEditForm) {
       formData.append("information", information);
       formData.append("schedules", JSON.stringify(schedules));
 
+      // images
+      if(filePondMulti.images.getFiles().length > 0) {
+        filePondMulti.images.getFiles().forEach(item => {
+          formData.append("images", item.file);
+        })
+      }
+      // End images
+
       fetch(`/${pathAdmin}/tour/edit/${id}`, {
         method: "PATCH",
         body: formData
@@ -477,7 +523,6 @@ if(tourEditForm) {
   ;
 }
 // End Tour Edit Form
-
 
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
@@ -558,13 +603,24 @@ if(settingWebsiteInfoForm) {
       let logo = null;
       if(logos.length > 0) {
         logo = logos[0].file;
+        const elementImageDefault = event.target.logo.closest("[image-default]");
+        const imageDefault = elementImageDefault.getAttribute("image-default");
+        if(imageDefault.includes(logo.name)) {
+          logo = null;
+        }
       }
       const favicons = filePond.favicon.getFiles();
       let favicon = null;
       if(favicons.length > 0) {
         favicon = favicons[0].file;
+        const elementImageDefault = event.target.favicon.closest("[image-default]");
+        const imageDefault = elementImageDefault.getAttribute("image-default");
+        if(imageDefault.includes(favicon.name)) {
+          favicon = null;
+        }
       }
 
+      // Tạo FormData
       const formData = new FormData();
       formData.append("websiteName", websiteName);
       formData.append("phone", phone);
@@ -573,9 +629,9 @@ if(settingWebsiteInfoForm) {
       formData.append("logo", logo);
       formData.append("favicon", favicon);
 
-      fetch(`/${pathAdmin}/setting/website_info`, {
+      fetch(`/${pathAdmin}/setting/website-info`, {
         method: "PATCH",
-        body: formData
+        body: formData,
       })
         .then(res => res.json())
         .then(data => {
@@ -681,18 +737,154 @@ if(settingAccountAdminCreateForm) {
         avatar = avatars[0].file;
       }
 
-      console.log(fullName);
-      console.log(email);
-      console.log(phone);
-      console.log(role);
-      console.log(positionCompany);
-      console.log(status);
-      console.log(password);
-      console.log(avatar);
+      // Tạo FormData
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("role", role);
+      formData.append("positionCompany", positionCompany);
+      formData.append("status", status);
+      formData.append("password", password);
+      formData.append("avatar", avatar);
+
+      fetch(`/${pathAdmin}/setting/account_admin/create`, {
+        method: "POST",
+        body: formData,
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.href = `/${pathAdmin}/setting/account_admin/list`;
+          }
+        })
     })
   ;
 }
 // End Setting Account Admin Create Form
+
+// Setting Account Admin Edit Form
+const settingAccountAdminEditForm = document.querySelector("#setting-account-admin-edit-form");
+if(settingAccountAdminEditForm) {
+  const validation = new JustValidate('#setting-account-admin-edit-form');
+
+  validation
+    .addField('#fullName', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập họ tên!'
+      },
+      {
+        rule: 'minLength',
+        value: 5,
+        errorMessage: 'Họ tên phải có ít nhất 5 ký tự!',
+      },
+      {
+        rule: 'maxLength',
+        value: 50,
+        errorMessage: 'Họ tên không được vượt quá 50 ký tự!',
+      },
+    ])
+    .addField('#email', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập email!'
+      },
+      {
+        rule: 'email',
+        errorMessage: 'Email không đúng định dạng!',
+      },
+    ])
+    .addField('#phone', [
+      {
+        rule: 'customRegexp',
+        value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+        errorMessage: 'Số điện thoại không đúng định dạng!'
+      },
+    ])
+    .addField('#positionCompany', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập chức vụ!'
+      },
+    ])
+    .addField('#password', [
+      {
+        validator: (value) => value ? value.length >= 8 : true,
+        errorMessage: 'Mật khẩu phải chứa ít nhất 8 ký tự!',
+      },
+      {
+        validator: (value) => value ? /[A-Z]/.test(value) : true,
+        errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái in hoa!',
+      },
+      {
+        validator: (value) => value ? /[a-z]/.test(value) : true,
+        errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái thường!',
+      },
+      {
+        validator: (value) => value ? /\d/.test(value) : true,
+        errorMessage: 'Mật khẩu phải chứa ít nhất một chữ số!',
+      },
+      {
+        validator: (value) => value ? /[@$!%*?&]/.test(value) : true,
+        errorMessage: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt!',
+      },
+    ])
+    .onSuccess((event) => {
+      const id = event.target.id.value;
+      const fullName = event.target.fullName.value;
+      const email = event.target.email.value;
+      const phone = event.target.phone.value;
+      const role = event.target.role.value;
+      const positionCompany = event.target.positionCompany.value;
+      const status = event.target.status.value;
+      const password = event.target.password.value;
+      const avatars = filePond.avatar.getFiles();
+      let avatar = null;
+      if(avatars.length > 0) {
+        avatar = avatars[0].file;
+        const elementImageDefault = event.target.avatar.closest("[image-default]");
+        const imageDefault = elementImageDefault.getAttribute("image-default");
+        if(imageDefault.includes(avatar.name)) {
+          avatar = null;
+        }
+      }
+
+      // Tạo FormData
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("role", role);
+      formData.append("positionCompany", positionCompany);
+      formData.append("status", status);
+      if(password) {
+        formData.append("password", password);
+      }
+      formData.append("avatar", avatar);
+
+      fetch(`/${pathAdmin}/setting/account_admin/edit/${id}`, {
+        method: "PATCH",
+        body: formData,
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
+    })
+  ;
+}
+// End Setting Account Admin Edit Form
 
 // Setting Role Create Form
 const settingRoleCreateForm = document.querySelector("#setting-role-create-form");
@@ -727,13 +919,12 @@ if(settingRoleCreateForm) {
       fetch(`/${pathAdmin}/setting/role/create`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(dataFinal)
+        body: JSON.stringify(dataFinal),
       })
         .then(res => res.json())
         .then(data => {
-          console.log(data)
           if(data.code == "error") {
             alert(data.message);
           }
@@ -742,11 +933,11 @@ if(settingRoleCreateForm) {
             window.location.href = `/${pathAdmin}/setting/role/list`;
           }
         })
-        
     })
   ;
 }
 // End Setting Role Create Form
+
 // Setting Role Edit Form
 const settingRoleEditForm = document.querySelector("#setting-role-edit-form");
 if(settingRoleEditForm) {
@@ -781,13 +972,12 @@ if(settingRoleEditForm) {
       fetch(`/${pathAdmin}/setting/role/edit/${id}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(dataFinal)
+        body: JSON.stringify(dataFinal),
       })
         .then(res => res.json())
         .then(data => {
-          // console.log(data)
           if(data.code == "error") {
             alert(data.message);
           }
@@ -796,7 +986,6 @@ if(settingRoleEditForm) {
             window.location.reload();
           }
         })
-        
     })
   ;
 }
@@ -853,12 +1042,34 @@ if(profileEditForm) {
       let avatar = null;
       if(avatars.length > 0) {
         avatar = avatars[0].file;
+        const elementImageDefault = event.target.avatar.closest("[image-default]");
+        const imageDefault = elementImageDefault.getAttribute("image-default");
+        if(imageDefault.includes(avatar.name)) {
+          avatar = null;
+        }
       }
 
-      console.log(fullName);
-      console.log(email);
-      console.log(phone);
-      console.log(avatar);
+      // Tạo FormData
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("avatar", avatar);
+
+      fetch(`/${pathAdmin}/profile/edit`, {
+        method: "PATCH",
+        body: formData,
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
     })
   ;
 }
@@ -911,7 +1122,28 @@ if(profileChangePasswordForm) {
     ])
     .onSuccess((event) => {
       const password = event.target.password.value;
-      console.log(password);
+      
+      const dataFinal = {
+        password: password
+      }
+
+      fetch(`/${pathAdmin}/profile/change-password`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataFinal),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
     })
   ;
 }
@@ -961,136 +1193,173 @@ if(alertTime) {
   }, time);
 }
 // End Alert
-// Button delete 
+
+// Button Delete
 const listButtonDelete = document.querySelectorAll("[button-delete]");
-// console.log(listButtonDelete)
-if(listButtonDelete.length > 0){
+if(listButtonDelete.length > 0) {
   listButtonDelete.forEach(button => {
-    button.addEventListener("click" , () => {
+    button.addEventListener("click", () => {
       const dataApi = button.getAttribute("data-api");
-      fetch(dataApi,{
-        method:"PATCH"
+      
+      fetch(dataApi, {
+        method: "PATCH"
       })
         .then(res => res.json())
         .then(data => {
-          if(data.code == "error"){
+          if(data.code == "error") {
             alert(data.message);
           }
-          if(data.code =="success"){
+
+          if(data.code == "success") {
             window.location.reload();
           }
         })
     })
   })
 }
-// End button delete 
+// End Button Delete
+
 // Filter Status
-const filterStatus = document.querySelector("[filter-status]")
-if(filterStatus){
+const filterStatus = document.querySelector("[filter-status]");
+if(filterStatus) {
   const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
   filterStatus.addEventListener("change", () => {
     const value = filterStatus.value;
-    if(value){
-      url.searchParams.set("status",value);
-    }else{
+    if(value) {
+      url.searchParams.set("status", value);
+    } else {
       url.searchParams.delete("status");
     }
+
     window.location.href = url.href;
   })
 
-  // Hiển thị lựa chọn mặc định 
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("status");
-  if(valueCurrent){
+  if(valueCurrent) {
     filterStatus.value = valueCurrent;
   }
 }
+// End Filter Status
 
-// End Filter Status 
 
-
-// Filter Created By
-const filterCreatedBy = document.querySelector("[filter-created-by]")
-if(filterCreatedBy){
+// Filter Role
+const filterRole = document.querySelector("[filter-role]");
+if(filterRole) {
   const url = new URL(window.location.href);
-  filterCreatedBy.addEventListener("change", () => {
-    const value = filterCreatedBy.value;
-    if(value){
-      url.searchParams.set("createdBy",value);
-    }else{
-      url.searchParams.delete("createdBy");
+
+  // Lắng nghe thay đổi lựa chọn
+  filterRole.addEventListener("change", () => {
+    const value = filterRole.value;
+    if(value) {
+      url.searchParams.set("role", value);
+    } else {
+      url.searchParams.delete("role");
     }
+
     window.location.href = url.href;
   })
 
-  // Hiển thị lựa chọn mặc định 
+  // Hiển thị lựa chọn mặc định
+  const valueCurrent = url.searchParams.get("role");
+  if(valueCurrent) {
+    filterRole.value = valueCurrent;
+  }
+}
+// End Filter Role
+
+// Filter Created By
+const filterCreatedBy = document.querySelector("[filter-created-by]");
+if(filterCreatedBy) {
+  const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
+  filterCreatedBy.addEventListener("change", () => {
+    const value = filterCreatedBy.value;
+    if(value) {
+      url.searchParams.set("createdBy", value);
+    } else {
+      url.searchParams.delete("createdBy");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("createdBy");
-  if(valueCurrent){
+  if(valueCurrent) {
     filterCreatedBy.value = valueCurrent;
   }
 }
+// End Filter Created By
 
-// End Filter Status 
-
-// Filter Start Date 
-const filterStartDate = document.querySelector("[filter-start-date]")
-if(filterStartDate){
+// Filter Start Date
+const filterStartDate = document.querySelector("[filter-start-date]");
+if(filterStartDate) {
   const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
   filterStartDate.addEventListener("change", () => {
     const value = filterStartDate.value;
-    if(value){
-      url.searchParams.set("startDate",value);
-    }else{
+    if(value) {
+      url.searchParams.set("startDate", value);
+    } else {
       url.searchParams.delete("startDate");
     }
+
     window.location.href = url.href;
   })
 
-  // Hiển thị lựa chọn mặc định 
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("startDate");
-  if(valueCurrent){
+  if(valueCurrent) {
     filterStartDate.value = valueCurrent;
   }
 }
+// End Filter Start Date
 
-// End Filter Start Date 
-// Filter End Date 
-const filterEndDate = document.querySelector("[filter-end-date]")
-if(filterEndDate){
+// Filter End Date
+const filterEndDate = document.querySelector("[filter-end-date]");
+if(filterEndDate) {
   const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
   filterEndDate.addEventListener("change", () => {
     const value = filterEndDate.value;
-    if(value){
-      url.searchParams.set("endDate",value);
-    }else{
+    if(value) {
+      url.searchParams.set("endDate", value);
+    } else {
       url.searchParams.delete("endDate");
     }
+
     window.location.href = url.href;
   })
 
-  // Hiển thị lựa chọn mặc định 
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("endDate");
-  if(valueCurrent){
+  if(valueCurrent) {
     filterEndDate.value = valueCurrent;
   }
 }
+// End Filter End Date
 
-// End Filter End Date 
-
-//Delete Category
-const filterDelete = document.querySelector("[filter-reset]")
-if(filterDelete) {
+// Filter Reset
+const filterReset = document.querySelector("[filter-reset]");
+if(filterReset) {
   const url = new URL(window.location.href);
 
-  filterDelete.addEventListener("click", () => {
+  filterReset.addEventListener("click", () => {
     url.search = "";
     window.location.href = url.href;
   })
 }
-// End Delete Category 
+// End Filter Reset
 
-// CheckAll
+// Check All
 const checkAll = document.querySelector("[check-all]");
-if(checkAll){
+if(checkAll) {
   checkAll.addEventListener("click", () => {
     const listCheckItem = document.querySelectorAll("[check-item]");
     listCheckItem.forEach(item => {
@@ -1098,139 +1367,102 @@ if(checkAll){
     })
   })
 }
-// EndCheckAll
+// End Check All
 
-// Change multi
+// Change Multi
 const changeMulti = document.querySelector("[change-multi]");
-if(changeMulti){
+if(changeMulti) {
   const dataApi = changeMulti.getAttribute("data-api");
   const select = changeMulti.querySelector("select");
   const button = changeMulti.querySelector("button");
 
-  button.addEventListener("click" , () => {
+  button.addEventListener("click", () => {
     const option = select.value;
     const listInputChecked = document.querySelectorAll("[check-item]:checked");
     if(option && listInputChecked.length > 0) {
       const ids = [];
-      listInputChecked.forEach(item => {
-        const id = item.getAttribute("check-item")
+      listInputChecked.forEach(inputChecked => {
+        const id = inputChecked.getAttribute("check-item");
         ids.push(id);
-        // console.log(dataApi)
-        // console.log(option)
-        // console.log(ids)
-        const dataFinal = {
-          option:option,
-          ids:ids
-        };
-        fetch(dataApi,{
-          method:"PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(dataFinal)
-        })
-          .then(res => res.json())
-          .then(data => {
-            if(data.code == "error"){
-              alert(data.message);
-            }
-            if(data.code == "success"){
-              window.location.reload();
-            }
-          })
       })
-    }else{
-      alert("Vui lòng chọn option và bản ghi muốn thực hiện !")
+
+      const dataFinal = {
+        option: option,
+        ids: ids
+      };
+
+      fetch(dataApi, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataFinal)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            alert(data.message);
+          }
+
+          if(data.code == "success") {
+            window.location.reload();
+          }
+        })
+    } else {
+      alert("Vui lòng chọn option và bản ghi muốn thực hiện!");
     }
   })
-
 }
-// End change multi 
+// End Change Multi
 
-// Search 
+// Search
 const search = document.querySelector("[search]");
-if(search){
+if(search) {
   const url = new URL(window.location.href);
+
+  // Lắng nghe phím đang gõ
   search.addEventListener("keyup", (event) => {
-    console.log(event)
-    if(event.code == "Enter"){
+    if(event.code == "Enter") {
       const value = search.value;
-      if(value){
-        url.searchParams.set("keyword",value.trim());
-      }else{
+      if(value) {
+        url.searchParams.set("keyword", value.trim());
+      } else {
         url.searchParams.delete("keyword");
       }
-      window.location.href = url.href;  
+
+      window.location.href = url.href;
     }
   })
-  // Hiển thị lựa chọn mặc định 
+
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("keyword");
-  if(valueCurrent){
+  if(valueCurrent) {
     search.value = valueCurrent;
   }
 }
-// End search 
+// End Search
 
 // Pagination
 const pagination = document.querySelector("[pagination]");
-if(pagination){
+if(pagination) {
   const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
   pagination.addEventListener("change", () => {
-      const value = pagination.value;
-      if(value){
-        url.searchParams.set("page",value);
-      }else{
-        url.searchParams.delete("page");
-      }
-      window.location.href = url.href;   
+    const value = pagination.value;
+    if(value) {
+      url.searchParams.set("page", value);
+    } else {
+      url.searchParams.delete("page");
+    }
+
+    window.location.href = url.href;
   })
-  // Hiển thị lựa chọn mặc định 
+
+  // Hiển thị lựa chọn mặc định
   const valueCurrent = url.searchParams.get("page");
-  if(valueCurrent){
+  if(valueCurrent) {
     pagination.value = valueCurrent;
   }
 }
-// End pagination 
-
-// Filter Category 
-const filterCategory = document.querySelector("[filter-category]")
-if(filterCategory){
-  const url = new URL(window.location.href);
-  filterCategory.addEventListener("change", () => {
-    const value = filterCategory.value;
-    if(value){
-      url.searchParams.set("category",value);
-    }else{
-      url.searchParams.delete("category");
-    }
-    window.location.href = url.href;
-  })
-
-  // Hiển thị lựa chọn mặc định 
-  const valueCurrent = url.searchParams.get("category");
-  if(valueCurrent){
-    filterCategory.value = valueCurrent;
-  }
-}
-// End Filter Category 
-// Filter price
-const filterPrice = document.querySelector("[filter-price]")
-if(filterPrice){
-  const url = new URL(window.location.href);
-  filterPrice.addEventListener("change", () => {
-    const value = filterPrice.value;
-    if(value){
-      url.searchParams.set("price",value);
-    }else{
-      url.searchParams.delete("price");
-    }
-    window.location.href = url.href;
-  })
-
-  // Hiển thị lựa chọn mặc định 
-  const valueCurrent = url.searchParams.get("price");
-  if(valueCurrent){
-    filterPrice.value = valueCurrent;
-  }
-}
-// End filter price
+// End Filter Status

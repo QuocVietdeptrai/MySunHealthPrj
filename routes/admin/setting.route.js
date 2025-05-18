@@ -18,6 +18,11 @@ router.patch('/website_info',
 //Account admin
 router.get('/account_admin/list', settingController.account_admin_list);
 router.get('/account_admin/create', settingController.account_admin_create);
+router.post('/account_admin/create',upload.single('avatar'), settingController.account_admin_createPost);
+router.get('/account_admin/edit/:id', settingController.account_admin_edit);
+router.patch('/account_admin/edit/:id',upload.single("avatar"), settingController.account_admin_editPatch);
+router.patch('/account_admin/delete/:id', settingController.account_admin_delete);
+router.patch('/account_admin/change-multi', settingController.changeMultiAccountAdminPatch);
 
 //Role
 router.get('/role/list', settingController.role_list);
