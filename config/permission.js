@@ -59,4 +59,16 @@ module.exports.permissionList = [
     label: "Thùng rác đơn hàng",
     value: "order-trash"
   },
+  {
+    label: "Xem người dùng",
+    value: "user-view"
+  },
+  {
+    label: "Liên hệ người dùng",
+    value: "contact-view"
+  },
+  {
+    label: "Cài đặt chung",
+    value: "setting-view"
+  },
 ];

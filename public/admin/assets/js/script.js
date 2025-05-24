@@ -629,7 +629,7 @@ if(settingWebsiteInfoForm) {
       formData.append("logo", logo);
       formData.append("favicon", favicon);
 
-      fetch(`/${pathAdmin}/setting/website-info`, {
+      fetch(`/${pathAdmin}/setting/website_info`, {
         method: "PATCH",
         body: formData,
       })
@@ -1127,7 +1127,7 @@ if(profileChangePasswordForm) {
         password: password
       }
 
-      fetch(`/${pathAdmin}/profile/change-password`, {
+      fetch(`/${pathAdmin}/profile/change_password`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -1344,6 +1344,55 @@ if(filterEndDate) {
   }
 }
 // End Filter End Date
+// Filter Category
+const filterCategory = document.querySelector("[filter-category]");
+if(filterCategory) {
+  const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
+  filterCategory.addEventListener("change", () => {
+    const value = filterCategory.value;
+    if(value) {
+      url.searchParams.set("category", value);
+    } else {
+      url.searchParams.delete("category");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định
+  const valueCurrent = url.searchParams.get("category");
+  if(valueCurrent) {
+    filterCategory.value = valueCurrent;
+  }
+}
+// End Filter Category
+
+// Filter Price
+const filterPrice = document.querySelector("[filter-price]");
+if(filterPrice) {
+  const url = new URL(window.location.href);
+
+  // Lắng nghe thay đổi lựa chọn
+  filterPrice.addEventListener("change", () => {
+    const value = filterPrice.value;
+    if(value) {
+      url.searchParams.set("price", value);
+    } else {
+      url.searchParams.delete("price");
+    }
+
+    window.location.href = url.href;
+  })
+
+  // Hiển thị lựa chọn mặc định
+  const valueCurrent = url.searchParams.get("price");
+  if(valueCurrent) {
+    filterPrice.value = valueCurrent;
+  }
+}
+// End Filter Price
 
 // Filter Reset
 const filterReset = document.querySelector("[filter-reset]");

@@ -122,7 +122,7 @@ module.exports.list = async (req, res) => {
         const infoAccountCreatedBy = await AccountAdmin.findOne({
           _id:item.createdBy
         })
-        item.createdByFullName =infoAccountCreatedBy.fullName   
+        item.createdByFullName = infoAccountCreatedBy ? infoAccountCreatedBy.fullName : "Không xác định";
         // console.log(infoAccountCreatedBy)
       }
   
@@ -130,7 +130,7 @@ module.exports.list = async (req, res) => {
         const infoAccountUpdatedBy = await AccountAdmin.findOne({
           _id:item.createdBy
         })
-        item.updatedByFullName =infoAccountUpdatedBy.fullName   
+         item.updatedByFullName = infoAccountUpdatedBy ? infoAccountUpdatedBy.fullName : "Không xác định";
         // console.log(infoAccountUpdatedBy)
       } 
       item.createdAtFomat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
@@ -217,8 +217,11 @@ module.exports.trash = async (req, res) => {
     }
     const totalRecord = await Tour.countDocuments(find);
     const totalPage = Math.ceil(totalRecord/limitItems);
-    if(page > totalPage){
-      page=totalPage
+    // Xử lý trường hợp không có bản ghi
+    if (totalRecord === 0) {
+      page = 1; // Đặt page về 1
+    } else if (page > totalPage) {
+      page = totalPage;
     }
     const skip = (page - 1)*limitItems;
     const pagination = {
@@ -264,11 +267,13 @@ module.exports.trash = async (req, res) => {
     item.createdAtFormat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
     item.deletedAtFormat = moment(item.deletedAt).format("HH:mm - DD/MM/YYYY");
   }
-
+  // Thêm thông báo khi không có bản ghi
+  const message = totalRecord === 0 ? "Không có bản ghi nào" : null;
   res.render("admin/pages/tour-trash", {
     pageTitle: "Thùng rác tour",
     tourList: tourList,
-    pagination:pagination
+    pagination:pagination,
+    message:message
   })
 }
 

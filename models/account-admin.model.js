@@ -18,7 +18,7 @@ const schema = new mongoose.Schema(
     },
     slug : {
       type: String, 
-      slug: "name",
+      slug: "fullName",
       unique: true
     },
     deletedBy: String,
