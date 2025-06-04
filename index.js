@@ -10,7 +10,7 @@ const flash = require('express-flash');
 const session = require('express-session')
 
 const app = express()
-const port = 3000
+const port = 4000
 
 // Kết nối database 
 dataBase.connect();
