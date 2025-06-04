@@ -470,7 +470,7 @@ if(formSearch){
     if(stockBaby > 0){
       url.searchParams.set("stockBaby", stockBaby);
     }else{
-      url.searchParams.delete("stockAdult");
+      url.searchParams.delete("stockBaby");
     }
 
     //Ngày khởi hành
