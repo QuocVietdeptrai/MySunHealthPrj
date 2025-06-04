@@ -11,7 +11,7 @@ const categoryMiddleWares = require("../../middlewares/client/category.middlewar
 router.use(settingMiddleWares.websiteInfo);
 router.use(categoryMiddleWares.list);
 router.use('/', homeRoutes);
-router.use('/tours', tourRoutes);
+router.use('/tour', tourRoutes);
 router.use('/cart', cartRoutes);
 router.use('/contact', contactRoutes);
 router.use('/category', categoryRoutes);
