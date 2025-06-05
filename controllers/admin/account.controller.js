@@ -12,7 +12,6 @@ module.exports.login = async (req, res) => {
     });
   }
 
-
 module.exports.loginPost = async (req, res) => {
     const { email , password , rememberPassword} = req.body;
   
@@ -68,7 +67,6 @@ module.exports.loginPost = async (req, res) => {
       message:"Đăng nhập tài khoản thành công"
     });
   }
-
 
 module.exports.register = async (req, res) => {
     res.render("admin/pages/register",{
