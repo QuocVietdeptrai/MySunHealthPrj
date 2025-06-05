@@ -1,118 +1,149 @@
-const { create, createPost } = require('../controllers/admin/tour.controller');
-const Category = require('../models/category.model');
-const City = require('../models/cities.model');
-const Tour = require('../models/tour.model');
+const { login, loginPost } = require('../controllers/admin/account.controller');
+const AccountAdmin = require('../models/account-admin.model');
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 const mockingoose = require('mockingoose');
-const categoryHelper = require('../helpers/category.helper');
+const bcrypt = require("bcryptjs")
+const jwt = require('jsonwebtoken');
 
-describe('Tour Controller', () => {
-  beforeAll(() => {
-    global.pathAdmin = 'admin';
-  });
-
+describe('Account Controller - Login', () => {
   beforeEach(() => {
-    mockingoose(Category).reset();
-    mockingoose(City).reset();
-    mockingoose(Tour).reset();
+    mockingoose(AccountAdmin).reset();
     jest.clearAllMocks();
   });
 
-  describe('create', () => {
-    it('should render create page if user has permission', async () => {
-      const req = getMockReq({
-        permissions: ['tour-create'],
-      });
+  describe('login', () => {
+    it('should render login page', async () => {
+      const req = getMockReq();
       const { res } = getMockRes({ render: jest.fn() });
 
-      const categories = [{ _id: "67ff60975d1d3b772fe52f37", name: 'Tour Miền Bắc', deleted: false }];
-      const cities = [
-        { _id: "6814eaaf99249630be5d2afc", name: 'City1' },
-        { _id: "6814eaaf99249630be5d2afe", name: 'Hải Phòng' },
-        { _id: "6814eaaf99249630be5d2b2c", name: 'Quảng Ninh' },
-      ];
-      const categoryTree = [{ _id: 1, name: 'Cat1', children: [] }];
+      await login(req, res);
 
-      mockingoose(Category).toReturn(categories, 'find');
-      mockingoose(City).toReturn(cities, 'find');
-      jest.spyOn(categoryHelper, 'buildCategoryTree').mockReturnValue(categoryTree);
-
-      await create(req, res);
-
-      expect(res.render).toHaveBeenCalledWith('admin/pages/tour-create', {
-        pageTitle: 'Tạo tour',
-        categoryList: categoryTree,
-        cityList: cities,
+      expect(res.render).toHaveBeenCalledWith('admin/pages/login', {
+        pageTitle: 'Đăng nhập'
       });
-    });
-
-    it('should redirect if user does not have permission', async () => {
-      const flashMock = jest.fn();
-      const redirectMock = jest.fn();
-      const req = getMockReq({
-        permissions: [],
-        flash: flashMock,
-      });
-      const { res } = getMockRes({ redirect: redirectMock });
-
-      await create(req, res);
-
-      expect(flashMock).toHaveBeenCalledWith('error', 'Bạn không có quyền tạo tour!');
-      expect(redirectMock).toHaveBeenCalledWith('/admin/dashboard');
     });
   });
 
-  describe('createPost', () => {
-    it('should create a new tour and return success JSON', async () => {
-      const flashMock = jest.fn();
-      const jsonMock = jest.fn();
+  describe('loginPost', () => {
+    it('should return error if email does not exist', async () => {
+      mockingoose(AccountAdmin).toReturn(null, 'findOne');
       const req = getMockReq({
-        permissions: ['tour-create'],
-        account: { id: 'user123' },
-        file: { path: 'avatar.jpg' },
         body: {
-          priceAdult: '1000',
-          priceChildren: '500',
-          priceBaby: '200',
-          locations: JSON.stringify(['loc1', 'loc2']),
-          departureDate: '2025-01-01',
-          schedules: JSON.stringify([{ day: 1, activity: 'activity' }]),
-        },
-        flash: flashMock,
+          email: 'notfound@example.com',
+          password: 'any',
+        }
       });
+      const { res } = getMockRes({ json: jest.fn() });
 
-      const { res } = getMockRes({ json: jsonMock });
+      await loginPost(req, res);
 
-      mockingoose(Tour).toReturn(5, 'countDocuments');
-      mockingoose(Tour).toReturn({
-        _id: 'mocked-tour-id',
-        ...req.body,
-        avatar: req.file.path,
-        account: req.account.id,
-      }, 'save');
-
-      await createPost(req, res);
-
-      expect(flashMock).toHaveBeenCalledWith('success', 'Tạo tour thành công!');
-      expect(jsonMock).toHaveBeenCalledWith({ code: 'success' });
+      expect(res.json).toHaveBeenCalledWith({
+        code: 'error',
+        message: 'Email không tồn tại trong hệ thống !'
+      });
     });
 
-    it('should return error JSON if no permission', async () => {
-      const flashMock = jest.fn();
-      const jsonMock = jest.fn();
+    it('should return error if password is incorrect', async () => {
+      const hashedPassword = await bcrypt.hash('correctPassword', 10);
+
+      const mockAccount = {
+        email: 'test@example.com',
+        password: hashedPassword,
+        status: 'active'
+      };
+
+      mockingoose(AccountAdmin).toReturn(mockAccount, 'findOne');
+
       const req = getMockReq({
-        permissions: [],
-        flash: flashMock,
+        body: {
+          email: mockAccount.email,
+          password: 'wrongPassword',
+        }
+      });
+      const { res } = getMockRes({ json: jest.fn() });
+
+      await loginPost(req, res);
+
+      expect(res.json).toHaveBeenCalledWith({
+        code: 'error',
+        message: 'Mật khẩu không đúng !'
+      });
+    });
+
+    it('should return error if account is not active', async () => {
+      const hashedPassword = await bcrypt.hash('password123', 10);
+
+      const mockAccount = {
+        email: 'test@example.com',
+        password: hashedPassword,
+        status: 'inactive'
+      };
+
+      mockingoose(AccountAdmin).toReturn(mockAccount, 'findOne');
+
+      const req = getMockReq({
+        body: {
+          email: mockAccount.email,
+          password: 'password123',
+        }
+      });
+      const { res } = getMockRes({ json: jest.fn() });
+
+      await loginPost(req, res);
+
+      expect(res.json).toHaveBeenCalledWith({
+        code: 'error',
+        message: 'Tài khoản chưa được kích hoạt !'
+      });
+    });
+
+    it('should login successfully and set cookie', async () => {
+      const passwordPlain = 'password123';
+      const passwordHashed = await bcrypt.hash(passwordPlain, 10);
+
+      const mockAccount = {
+        _id: '6829ac0201838904b45cad2f',
+        email: 'nguyenquocviet2004tb12@gmail.com',
+        password: passwordHashed,
+        status: 'active'
+      };
+
+      const tokenMock = 'mocked-jwt-token';
+      jest.spyOn(jwt, 'sign').mockReturnValue(tokenMock);
+
+      mockingoose(AccountAdmin).toReturn(mockAccount, 'findOne');
+
+      const cookieMock = jest.fn();
+      const jsonMock = jest.fn();
+
+      const req = getMockReq({
+        body: {
+          email: mockAccount.email,
+          password: passwordPlain,
+          rememberPassword: true
+        }
       });
 
-      const { res } = getMockRes({ json: jsonMock });
+      const { res } = getMockRes({
+        cookie: cookieMock,
+        json: jsonMock
+      });
 
-      await createPost(req, res);
+      await loginPost(req, res);
 
-      expect(flashMock).toHaveBeenCalledWith('error', 'Bạn không có quyền tạo tour!');
+      expect(cookieMock).toHaveBeenCalledWith(
+        'token',
+        tokenMock,
+        expect.objectContaining({
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: 'strict'
+        })
+      );
+
       expect(jsonMock).toHaveBeenCalledWith({
-        code: 'error',
-        message: 'Bạn không có quyền tạo tour!',
+        code: 'success',
+        message: 'Đăng nhập tài khoản thành công'
       });
     });
   });

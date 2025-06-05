@@ -37,9 +37,28 @@ module.exports.home = async (req, res) => {
     item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
   }
   //End Section 4
+  //Section 6
+  const categoryIdSection6 = "67ff5f032e6105f2e8b3885c";//id danh muc tour nước ngoài
+  const listCategoryIdNuocNgoai = await categoryHelper.getAllSubcategoryIds(categoryIdSection6)
+  const tourListSection6 = await Tour
+    .find({
+      category: {$in : listCategoryIdNuocNgoai},
+      deleted: false,
+      status: "active"
+    })
+    .sort({
+      position: "desc"
+    })
+    .limit(8)
+
+  for(const item of categoryIdSection6) {
+    item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
+  }
+  //End Section 6
   res.render("client/pages/home", {
     pageTitle: "Trang chủ",
     tourListSection2: tourListSection2,
-    tourListSection4:tourListSection4
+    tourListSection4:tourListSection4,
+    tourListSection6:tourListSection6
   })
 }
