@@ -484,3 +484,77 @@ if(formSearch){
   })
 }
 // End Form Search 
+// Box Tour Detail
+const boxTourDetail = document.querySelector(".box-tour-detail");
+if(boxTourDetail){
+  // Bước 1 : Lấy ra 3 ô input
+  const inputStockAdult = document.querySelector("[input-stock-adult]");
+  const inputStockChildren = document.querySelector("[input-stock-children]");
+  const inputStockBaby = document.querySelector("[input-stock-baby]");
+
+
+  // Bước 2: Viết hàm cập nhất box detail 
+  const drawBoxDetail = () => {
+    const quantityAdult = parseInt(inputStockAdult.value);
+    const quantityChildren = parseInt(inputStockChildren.value);
+    const quantityBaby = parseInt(inputStockBaby.value);
+
+    const stockAdult = document.querySelector("[stock-adult]");
+    const stockChildren = document.querySelector("[stock-children]");
+    const stockBaby = document.querySelector("[stock-baby]");
+
+    stockAdult.innerHTML = quantityAdult;
+    stockChildren.innerHTML = quantityChildren;
+    stockBaby.innerHTML = quantityBaby;
+
+    const priceAdult = parseInt(inputStockAdult.getAttribute("price"));
+    const priceChildren = parseInt(inputStockChildren.getAttribute("price"));
+    const priceBaby = parseInt(inputStockBaby.getAttribute("price"));
+
+    const totalPrice = quantityAdult * priceAdult + quantityChildren * priceChildren + quantityBaby * priceBaby;
+    const totalHTML = document.querySelector("[total-price]");
+    totalHTML.innerHTML=totalPrice.toLocaleString("vi-VN")
+  }
+  // Bước 3 : Bắt sự kiện Change cho 3 ô input 
+  inputStockAdult.addEventListener("change",drawBoxDetail)
+  inputStockChildren.addEventListener("change",drawBoxDetail)
+  inputStockBaby.addEventListener("change",drawBoxDetail)
+  
+
+  // Bước 4 : Bắt sự kiện click thêm vào giỏ hàng 
+  const buttonAddToCart = boxTourDetail. querySelector(".inner-button-add-cart");
+  buttonAddToCart.addEventListener("click" , () => {
+    const tourId = buttonAddToCart.getAttribute("tour-id");
+    const quantityAdult = parseInt(inputStockAdult.value);
+    const quantityChildren = parseInt(inputStockChildren.value);
+    const quantityBaby = parseInt(inputStockBaby.value);
+    const locationFrom = boxTourDetail.querySelector("[location-from]").value;
+    if(quantityAdult > 0 || quantityChildren > 0 || quantityBaby > 0){
+      const cartItem = {
+        tourId:tourId,
+        quantityAdult:quantityAdult,
+        quantityChildren:quantityChildren,
+        quantityBaby:quantityBaby,
+        locationFrom:locationFrom
+      };
+      // console.log(cartItem)
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      const indexItemExitst = cart.findIndex(item => item.tourId == tourId);
+      if(indexItemExitst != -1){
+        cart[indexItemExitst]=cartItem
+      }else{
+        cart.push(cartItem)
+      }
+      localStorage.setItem("cart",JSON.stringify(cart));
+      window.location.href="/cart"
+    }
+  })
+}
+// End Box Tour Detail 
+
+// Initial Cart 
+const cart = localStorage.getItem("cart");
+if(!cart){
+  localStorage.setItem("cart",JSON.stringify([]))
+}
+// End Initial Cart 
