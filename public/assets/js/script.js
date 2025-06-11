@@ -677,7 +677,7 @@ const drawCart = () => {
           </div>
           `);
           const cartList = document.querySelector("[cart-list]");
-          cartList.innerHTML = htmlCart.join("")
+          cartList.innerHTML = htmlCart.join("");
 
           //Cập nhật lại giỏ hàng
           localStorage.setItem("cart",JSON.stringify(data.cart));
@@ -698,6 +698,23 @@ const drawCart = () => {
 
 
           // Hết tính tổng tiền 
+
+          // Sự kiện cập nhật số lượng
+          const listInputQuanlity = document.querySelectorAll("[input-quantity]");
+          listInputQuanlity.forEach(input =>  {
+            input.addEventListener("change",() => {
+              const tourTd = input.getAttribute("tour-id");
+              const name = input.getAttribute("input-quantity");
+              const quantity = parseInt(input.value);
+
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const itemUpdate = cart.find(item => item.tourId == tourTd);
+              itemUpdate[name] = quantity;
+              localStorage.setItem("cart",JSON.stringify(cart));
+              drawCart();
+            })
+          })
+          // Hết sự kiện cập nhật số lượng 
       }
     })
 }
