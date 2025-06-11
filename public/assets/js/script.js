@@ -535,7 +535,8 @@ if(boxTourDetail){
         quantityAdult:quantityAdult,
         quantityChildren:quantityChildren,
         quantityBaby:quantityBaby,
-        locationFrom:locationFrom
+        locationFrom:locationFrom,
+        checked: true
       };
       // console.log(cartItem)
       const cart = JSON.parse(localStorage.getItem("cart"));
@@ -686,7 +687,11 @@ const drawCart = () => {
 
           // Tính tổng tiền
           const subTotalPrice = data.cart.reduce((sum,item) => {
-            return sum + ((item.priceNewAdult * item.quantityAdult) + (item.priceNewChildren * item.quantityChildren) + (item.priceNewBaby * item.quantityBaby));
+            if(item.checked) {
+              return sum + ((item.priceNewAdult * item.quantityAdult) + (item.priceNewChildren * item.quantityChildren) + (item.priceNewBaby * item.quantityBaby));
+            }else{
+              return sum;
+            }
           },0);
           const discount = 0;
           const totalPrice = subTotalPrice - discount;
@@ -715,6 +720,38 @@ const drawCart = () => {
             })
           })
           // Hết sự kiện cập nhật số lượng 
+          // Sự kiện xóa item
+          const listButtonDelete = document.querySelectorAll("[button-delete]");
+          listButtonDelete.forEach(button => {
+            button.addEventListener("click", () => {
+              const tourId = button.getAttribute("tour-id");
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const indexItem = cart.findIndex(tour => tour.tourId == tourId);
+              cart.splice(indexItem, 1);
+              localStorage.setItem("cart", JSON.stringify(cart));
+              drawCart();
+            })
+          })
+          // Hết Sự kiện xóa item
+
+          // Sự kiện check item
+          const listInputCheck = document.querySelectorAll("[input-check]");
+          listInputCheck.forEach(input => {
+            input.addEventListener("change", () => {
+              const checked = input.checked;
+              const tourId = input.getAttribute("tour-id");
+
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const itemUpdate = cart.find(item => item.tourId == tourId);
+              itemUpdate.checked = checked;
+              localStorage.setItem("cart", JSON.stringify(cart));
+              drawCart();
+            })
+          })
+          // Hết Sự kiện check item
+
+
+
       }
     })
 }
