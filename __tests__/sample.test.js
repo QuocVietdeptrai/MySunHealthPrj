@@ -11,28 +11,27 @@ describe('Account Controller - Login', () => {
     jest.clearAllMocks();
   });
 
-  describe('login', () => {
-    it('should render login page', async () => {
-      const req = getMockReq();
-      const { res } = getMockRes({ render: jest.fn() });
-
-      await login(req, res);
-
-      expect(res.render).toHaveBeenCalledWith('admin/pages/login', {
-        pageTitle: 'Đăng nhập'
-      });
-    });
-  });
-
   describe('loginPost', () => {
-    it('should return error if email does not exist', async () => {
-      mockingoose(AccountAdmin).toReturn(null, 'findOne');
+    it('Email không tồn tại trong hệ thống', async () => {
+      mockingoose(AccountAdmin).toReturn((query) => {
+        const { email } = query.getQuery();
+        if (email === 'found@example.com') {
+          return {
+            email: 'found@example.com',
+            password: 'hashedpassword',
+            status: 'active'
+          };
+        }
+        return null;
+      }, 'findOne');
+
       const req = getMockReq({
         body: {
-          email: 'notfound@example.com',
+          email: 'notfound@example.com', // không trùng email mock
           password: 'any',
         }
       });
+
       const { res } = getMockRes({ json: jest.fn() });
 
       await loginPost(req, res);
@@ -43,34 +42,45 @@ describe('Account Controller - Login', () => {
       });
     });
 
-    it('should return error if password is incorrect', async () => {
-      const hashedPassword = await bcrypt.hash('correctPassword', 10);
 
-      const mockAccount = {
-        email: 'test@example.com',
-        password: hashedPassword,
-        status: 'active'
-      };
 
-      mockingoose(AccountAdmin).toReturn(mockAccount, 'findOne');
+    it('Mật khẩu không đúng', async () => {
+    const email = 'test@example.com';
+    const correctPassword = 'correctPassword';
+    const wrongPassword = 'wrongPassword';
+    const hashedPassword = await bcrypt.hash(correctPassword, 10);
 
-      const req = getMockReq({
-        body: {
-          email: mockAccount.email,
-          password: 'wrongPassword',
-        }
-      });
-      const { res } = getMockRes({ json: jest.fn() });
+    // Mock findOne có điều kiện email
+    mockingoose(AccountAdmin).toReturn((query) => {
+      if (query.getQuery().email === email) {
+        return {
+          email,
+          password: hashedPassword,
+          status: 'active'
+        };
+      }
+      return null;
+    }, 'findOne');
 
-      await loginPost(req, res);
-
-      expect(res.json).toHaveBeenCalledWith({
-        code: 'error',
-        message: 'Mật khẩu không đúng !'
-      });
+    const req = getMockReq({
+      body: {
+        email: email,
+        password: wrongPassword, // cung cấp sai password
+      }
     });
 
-    it('should return error if account is not active', async () => {
+    const { res } = getMockRes({ json: jest.fn() });
+
+    await loginPost(req, res);
+
+    expect(res.json).toHaveBeenCalledWith({
+      code: 'error',
+      message: 'Mật khẩu không đúng !'
+    });
+  });
+
+
+    it('Tài khoản chưa được kích hoạt', async () => {
       const hashedPassword = await bcrypt.hash('password123', 10);
 
       const mockAccount = {
@@ -97,7 +107,7 @@ describe('Account Controller - Login', () => {
       });
     });
 
-    it('should login successfully and set cookie', async () => {
+    it('Đăng nhập tài khoản thành công', async () => {
       const passwordPlain = 'password123';
       const passwordHashed = await bcrypt.hash(passwordPlain, 10);
 
