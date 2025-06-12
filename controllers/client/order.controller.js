@@ -1,8 +1,13 @@
 const Order = require("../../models/order.model");
 const Tour = require("../../models/tour.model")
+const City = require("../../models/cities.model");
 
+const variableConfig = require("../../config/variable");
+const gererateHelper = require("../../helpers/generate.helper");
+const moment = require("moment");
 module.exports.createPost = async (req,res) => {
   try {
+      req.body.orderCode = "OD" + gererateHelper.generateRandomNumber(10);
     // Danh sách tour 
     for (const item of req.body.items){
       const infoTour = await Tour.findOne({
@@ -69,5 +74,57 @@ module.exports.createPost = async (req,res) => {
       message:"Đặt hàng không thành công !",
       
     })
+  }
+}
+module.exports.success = async (req,res) => {
+try {
+    const { orderId, phone } = req.query;
+
+    const orderDetail = await Order.findOne({
+      _id: orderId,
+      phone: phone
+    })
+
+    if(!orderDetail) {
+      res.redirect("/");
+      return;
+    }
+
+    orderDetail.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
+
+    orderDetail.paymentStatusName = variableConfig.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
+
+    orderDetail.statusName = variableConfig.orderStatus.find(item => item.value == orderDetail.status).label;
+
+    orderDetail.createdAtFormat = moment(orderDetail.createdAt).format("HH:mm - DD/MM/YYYY");
+
+    for (const item of orderDetail.items) {
+      const infoTour = await Tour.findOne({
+        _id: item.tourId,
+        deleted: false
+      })
+
+      if(infoTour) {
+        item.slug = infoTour.slug;
+      }
+
+      item.departureDateFormat = moment(item.departureDate).format("DD/MM/YYYY");
+
+      const city = await City.findOne({
+        _id: item.locationFrom
+      })
+
+      if(city) {
+        item.locationFromName = city.name;
+      }
+    }
+
+    res.render("client/pages/order-success", {
+      pageTitle: "Đặt hàng thành công",
+      orderDetail: orderDetail
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
   }
 }
