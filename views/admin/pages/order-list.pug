@@ -82,7 +82,13 @@ block main
                 div PTTT: #{item.paymentMethodName}
                 div TTTT: #{item.paymentStatusName}
               td
-                .badge.badge-orange #{item.statusName}
+                if (item.status == "initial")
+                  .badge.badge-orange #{item.statusName}
+                else if (item.status == "done")
+                  .badge.badge-green #{item.statusName}
+                else if (item.status == "cancel")
+                  .badge.badge-red #{item.statusName}
+
               td(class="inner-center")
                 div #{item.createdAtTime}
                 div #{item.createdAtDate}
