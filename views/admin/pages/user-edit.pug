@@ -1,0 +1,25 @@
+extends ../layouts/default.pug
+
+block main
+  h1.box-title Sửa người dùng   
+  .section-8
+    form#user-edit-form
+      .inner-group(style="display:none")
+          label(class="inner-label" for="id") Id
+          input(type="text" id="id" name="id" value=userDetail.id)
+      .inner-group
+        label(class="inner-label" for="fullName") Họ tên
+        input(type="text" id="fullName" name="fullName" value=userDetail.fullName)
+      .inner-group
+        label(class="inner-label" for="email") Email
+        input(type="email" id="email" name="email" value=userDetail.email)
+      .inner-group
+        label(class="inner-label" for="phone") Số điện thoại
+        input(type="text" id="phone" name="phone" value=userDetail.phone)
+      .inner-group
+        label(class="inner-label" for="password") Địa chỉ 
+        input(type="text" id="address" name="address" value=userDetail.address)
+      .inner-button.inner-two-col
+        button Cập nhật
+    .inner-back
+      a(href=`/${pathAdmin}/user/list`) Quay lại danh sách

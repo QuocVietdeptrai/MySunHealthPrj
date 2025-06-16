@@ -1,7 +1,7 @@
 const Order = require("../../models/order.model");
 const Tour = require("../../models/tour.model")
 const City = require("../../models/cities.model");
-
+const User = require("../../models/user.model");
 const variableConfig = require("../../config/variable");
 const gererateHelper = require("../../helpers/generate.helper");
 const moment = require("moment");
@@ -63,6 +63,18 @@ module.exports.createPost = async (req,res) => {
     // console.log(req.body)
     const newOrder = new Order(req.body);
     await newOrder.save();
+
+    // console.log("Body nhận được:", req.body);
+    let user = await User.findOne({ phone: req.body.phone });
+    if (!user) {
+      user = new User({
+        fullName: req.body.fullName,
+        phone: req.body.phone
+      });
+      console.log(User)
+      await user.save();
+    }
+
     res.json({
         code: "success",
         message:"Đặt hàng thành công !",

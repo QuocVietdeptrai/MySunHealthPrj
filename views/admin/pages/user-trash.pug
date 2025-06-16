@@ -2,19 +2,20 @@ extends ../layouts/default.pug
 
 
 block main
-  h1.box-title Quản lý người dùng
+  h1.box-title Thùng rác người dùng
 
   //- Section 5
   .section-5
     .inner-wrap
       .inner-change-status(
-        change-multi 
-        data-api=`/${pathAdmin}/user/change-multi`
+        change-multi
+        data-api=`/${pathAdmin}/user/trash/change-multi`
       )
         .inner-item
           select
             option(value="") -- Hành động --
-            option(value="delete") Xóa
+            option(value="undo") Khôi phục
+            option(value="delete-destroy") Xóa vĩnh viễn
         .inner-item
           button Áp dụng
       .inner-search
@@ -48,16 +49,16 @@ block main
               td #{item.address}
               td
                 .inner-buttons
-                  a(
-                    href=`/${pathAdmin}/user/edit/${item.id}`
-                    class="inner-edit"
-                  ) <i class="fa-regular fa-pen-to-square"></i>
                   button(
-                      class="inner-delete"
-                      button-delete
-                      data-api=`/${pathAdmin}/user/delete/${item.id}`
-                  )
-                    <i class="fa-regular fa-trash-can"></i>
+                    class="inner-undo"
+                    button-delete
+                    data-api=`/${pathAdmin}/user/undo/${item.id}`
+                  ) <i class="fa-solid fa-rotate-left"></i>
+                  button(
+                    class="inner-delete"
+                    button-delete
+                    data-api=`/${pathAdmin}/user/delete-destroy/${item.id}`
+                  ) <i class="fa-regular fa-trash-can"></i>
   //- End Section 6
 
   //- Section 7
