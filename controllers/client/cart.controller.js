@@ -10,6 +10,7 @@ module.exports.cart = async (req, res) => {
 
 module.exports.detail = async (req, res) => {
   const cart = req.body;
+  console.log(cart)
 
   for(const item of cart) {
     const tourInfo = await Tour.findOne({
