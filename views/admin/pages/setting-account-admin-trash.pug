@@ -1,9 +1,8 @@
 extends ../layouts/default.pug
 
 
-
 block main
-  h1.box-title Tài khoản quản trị
+  h1.box-title Thùng tác tài khoản quản trị
 
   //- Section 4
   .section-4
@@ -25,6 +24,7 @@ block main
           option(value="") Nhóm quyền
           each item in listRole
             option(value=item.id) #{item.name}
+          
       .inner-item.inner-reset(filter-reset)
         <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
   //- End Section 4
@@ -33,25 +33,19 @@ block main
   .section-5
     .inner-wrap
       .inner-change-status(
-        change-multi
-        data-api=`/${pathAdmin}/setting/account_admin/change-multi`
-      )
+				change-multi
+				data-api=`/${pathAdmin}/setting/account_admin/trash/change-multi`
+			)
         .inner-item
           select
             option(value="") -- Hành động --
-            option(value="initial") Khởi tạo
-            option(value="active") Hoạt động
-            option(value="inactive") Dừng hoạt động
-            option(value="delete") Xóa
+            option(value="undo") Khôi phục
+            option(value="delete-destroy") Xóa vĩnh viễn
         .inner-item
           button Áp dụng
       .inner-search
         <i class="fa-solid fa-magnifying-glass"></i>
         input(type="text" placeholder="Tìm kiếm" search)
-      .inner-button-create
-        a(href=`/${pathAdmin}/setting/account_admin/create`) + Tạo mới
-      .inner-button-trash
-        a(href=`/${pathAdmin}/setting/account_admin/trash`) Thùng rác
   //- End Section 5
 
   //- Section 6
@@ -80,7 +74,7 @@ block main
                 img(src=item.avatar class="inner-avatar")
               td #{item.email}
               td #{item.phone}
-              td #{item.roleName}
+              td #{item.nameRole}
               td #{item.positionCompany}
               td
                 if (item.status == "active")
@@ -89,17 +83,19 @@ block main
                   .badge.badge-red Tạm dừng
                 else if(item.status == "initial")
                   .badge.badge-orange Khởi tạo
-
               td
                 .inner-buttons
-                    a(href=`/${pathAdmin}/setting/account_admin/edit/${item.id}` class="inner-edit")
-                      <i class="fa-regular fa-pen-to-square"></i>
-                    button(
-                      class="inner-delete"
-                      button-delete
-                      data-api=`/${pathAdmin}/setting/account_admin/delete/${item.id}`
-                    )
-                      <i class="fa-regular fa-trash-can"></i>
+                  button(
+                    class="inner-undo"
+                    button-delete
+                    data-api=`/${pathAdmin}/setting/account_admin/undo/${item.id}`
+                  ) <i class="fa-solid fa-rotate-left"></i>
+                  button(
+                    class="inner-delete"
+                    button-delete
+                    data-api=`/${pathAdmin}/setting/account_admin/delete-destroy/${item.id}`
+                  ) <i class="fa-regular fa-trash-can"></i>
+
   //- End Section 6
 
   //- Section 7

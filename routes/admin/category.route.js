@@ -16,4 +16,8 @@ router.patch('/edit/:id',upload.single('avatar'),validateCategory.createPost,cat
 router.patch('/delete/:id', categoryController.deletePatch);
 router.patch('/change-multi', categoryController.changeMultiPatch);
 
+router.get('/trash', categoryController.trash);
+router.patch('/undo/:id', categoryController.undoPatch)
+router.patch('/delete-destroy/:id', categoryController.deleteDestroyPatch)
+router.patch('/trash/change-multi', categoryController.trashChangeMultiPatch)
 module.exports = router;    

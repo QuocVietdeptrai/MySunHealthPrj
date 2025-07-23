@@ -3,7 +3,7 @@ extends ../layouts/default.pug
 
 
 block main
-  h1.box-title Thông tin liên hệ
+  h1.box-title Thùng rác thông tin liên hệ
 
   //- Section 4
   .section-4
@@ -15,7 +15,7 @@ block main
         span -
         input(type="date" filter-end-date)
       .inner-item.inner-reset(filter-reset)
-        <i class="fa-solid fa-rotate-left" ></i> Xóa bộ lọc
+        <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
   //- End Section 4
 
   //- Section 5
@@ -23,21 +23,18 @@ block main
     .inner-wrap
       .inner-change-status(
         change-multi
-        data-api=`/${pathAdmin}/contact/change-multi`
+        data-api=`/${pathAdmin}/contact/trash/change-multi`
       )
         .inner-item
           select
             option(value="") -- Hành động --
-            //- if (permissions.includes("contact-delete"))
-            option(value="delete") Xóa
+            option(value="undo") Khôi phục
+            option(value="delete-destroy") Xóa
         .inner-item
-          button(data-api = `/${pathAdmin}/contact/change-multi`) Áp dụng
+          button(data-api = `/${pathAdmin}/contact/trash/change-multi`) Áp dụng
       .inner-search
         <i class="fa-solid fa-magnifying-glass"></i>
         input(type="text" placeholder="Tìm kiếm theo Email" search)
-      //- if (permissions.includes("contact-trash"))  
-      .inner-button-trash
-        a(href=`/${pathAdmin}/contact/trash`) Thùng rác
   //- End Section 5
 
   //- Section 6
@@ -52,26 +49,31 @@ block main
             th Ngày tạo
             th(class="inner-center") Hành động
         tbody
-         each item in contactList
+         each item in listContactTrash
           tr
             td(class="inner-center")
               input(type="checkbox" class="inner-check" check-item = item.id)
             td #{item.email}
             td #{item.createdAtFormat}
             td(class="inner-center")
-              //- if (permissions.includes("contact-delete"))
               .inner-buttons
                 button(
+                  class="inner-undo"
                   button-delete
-                  data-api=`/${pathAdmin}/contact/delete/${item.id}`
+                  data-api=`/${pathAdmin}/contact/undo/${item.id}`
+                ) <i class="fa-solid fa-rotate-left"></i>
+                button(
                   class="inner-delete"
+                  button-delete
+                  data-api=`/${pathAdmin}/contact/delete-destroy/${item.id}`
                 ) <i class="fa-regular fa-trash-can"></i>
+
 
   //- End Section 6
 
   //- Section 7
   .section-7
-    span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{contactList.length + pagination.skip} của #{pagination.totalRecord}
+    span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{listContactTrash.length + pagination.skip} của #{pagination.totalRecord}
     select(class="inner-pagination" pagination)
       - for(let i = 1 ; i <= pagination.totalPage ; i++)
             option(value=i) Trang #{i}

@@ -1656,3 +1656,41 @@ if (UserEditForm) {
     });
 }
 // End User Edit 
+
+// Filter - PaymentMethod
+const filterPayment = document.querySelector("[filter-paymentMethod]")
+if (filterPayment) {
+  const url = new URL(window.location.href);
+  filterPayment.addEventListener("change", () => {
+    const value = filterPayment.value;
+    if (value) {
+      url.searchParams.set("namePayment", value);
+    } else {
+      url.searchParams.delete("namePayment")
+    }
+    window.location.href = url.href
+  })
+  const valueCurrent = url.searchParams.get("namePayment")
+  if (valueCurrent)
+    filterPayment.value = valueCurrent
+}
+// End
+
+// Filter Status Payment
+const filterStatusPayment = document.querySelector("[filter-status-payment]");
+if (filterStatusPayment) {
+  const url = new URL(window.location.href);
+  filterStatusPayment.addEventListener("change", () => {
+    const value = filterStatusPayment.value;
+    if (value) {
+      url.searchParams.set("statusPayment", value);
+    } else {
+      url.searchParams.delete("statusPayment")
+    }
+    window.location.href = url.href
+  })
+  const valueCurrent = url.searchParams.get("statusPayment")
+  if (valueCurrent)
+    filterStatusPayment.value = valueCurrent
+}
+// End

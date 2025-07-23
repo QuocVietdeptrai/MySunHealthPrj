@@ -1,0 +1,18 @@
+extends ../layouts/default.pug
+include ../mixins/product-item.pug
+
+block main
+  // Section 4
+  .section-4(style="padding-top: 60px;")
+    .container
+      h2.box-title Check Order
+      .inner-wrap.centered-form
+        form#check-order-form
+          input#order-code-input(
+            name="orderCode" 
+            placeholder="Nhập mã đơn hàng" 
+            type="text"
+          )
+          button(type="submit") TRA CỨU
+
+

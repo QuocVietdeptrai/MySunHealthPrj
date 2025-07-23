@@ -423,3 +423,180 @@ try {
     })
   }
 }
+
+module.exports.accountAdminTrash = async (req, res) => {
+    const find = {
+        deleted: true
+    }
+    //Nhóm quyền
+    const listRole = await Role.find({
+        deleted: false
+    })
+    //Lọc theo trạng thái
+    if (req.query.status) {
+        find.status = req.query.status;
+    }
+    //Lọc theo quyền
+    if (req.query.role) {
+        find.role = req.query.role
+    }
+
+    // Lọc theo ngày tạo
+    const dateFilter = {};
+    if (req.query.dateStart) {
+        const startDate = moment(req.query.dateStart).startOf("date").toDate();
+        dateFilter.$gte = startDate;
+    }
+    if (req.query.dateStart) {
+        const endDate = moment(req.query.dateEnd).endOf("date").toDate();
+        dateFilter.$lte = endDate;
+    }
+    if (Object.keys(dateFilter).length > 0) {
+        find.createdAt = dateFilter;
+    }
+
+    //Tìm kiếm
+    if (req.query.keyword) {
+        const keyword = req.query.keyword;
+        const keywordRegex = new RegExp(keyword, "i"); // i = không phân biệt hoa thường
+
+        console.log("name", keywordRegex)
+        find.$or = [
+            { fullName: keywordRegex },
+            { phone: keywordRegex },
+            { "items.name": keywordRegex }
+        ];
+    }
+
+    // Phân trang
+    const limitItems = 3;
+    let page = 1;
+    if (req.query.page) {
+        const currentPage = parseInt(req.query.page);
+        if (currentPage > 0) {
+            page = currentPage;
+        }
+    }
+
+    const totalRecord = await AccountAdmin.countDocuments(find);
+    const totalPage = Math.ceil(totalRecord / limitItems);
+
+    // Xử lý trường hợp không có bản ghi
+    if (totalRecord === 0) {
+        page = 1; // Đặt page về 1
+    } else if (page > totalPage) {
+        page = totalPage;
+    }
+
+    const skip = (page - 1) * limitItems;
+    const pagination = {
+        skip: skip,
+        totalRecord: totalRecord,
+        totalPage: totalPage,
+    };
+    const accountAdminList = await AccountAdmin
+        .find(find)
+        .sort({
+            createdAt: "desc"
+        })
+        .limit(limitItems)
+        .skip(skip)
+
+    for (const item of accountAdminList) {
+        if (item.role) {
+            const roleInf = await Role.findOne({
+                _id: item.role
+            })
+
+            if (roleInf) {
+                item.nameRole = roleInf.name;
+            }
+        }
+
+    }
+    console.log(accountAdminList)
+    res.render('admin/pages/setting-account-admin-trash', {
+        pageTitle: "Thùng rác tài khoản quản trị",
+        accountAdminList: accountAdminList,
+        listRole: listRole,
+        pagination: pagination
+    })
+}
+
+// Thay đổi trạng thái thùng rác tài khoản quản trị
+module.exports.trashAccountAdminChangeMultiPatch = async (req, res) => {
+    try {
+        const { option, ids } = req.body;
+
+        switch (option) {
+            case "undo":
+                await AccountAdmin.updateMany({
+                    _id: { $in: ids }
+                }, {
+                    deleted: false
+                });
+                req.flash("success", "Khôi phục tài khoản thành công!");
+                break;
+            case "delete-destroy":
+                await AccountAdmin.deleteMany({
+                    _id: { $in: ids }
+                });
+                req.flash("success", "Xóa viễn viễn tài khoản thành công!");
+                break;
+        }
+
+        res.json({
+            code: "success"
+        })
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không tồn tại trong hệ thông!"
+        })
+    }
+}
+
+module.exports.undoAccountAdminPatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await AccountAdmin.updateOne({
+            _id: id
+        }, {
+            deleted: false
+        })
+
+        req.flash("success", "Khôi phục tài khoản thành công!");
+
+        res.json({
+            code: "success"
+        })
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!"
+        })
+    }
+}
+
+//Xóa
+module.exports.deleteDestroyPatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await AccountAdmin.deleteOne({
+            _id: id
+        })
+
+        req.flash("success", "Đã xóa vĩnh viễn tài khoản thành công!");
+
+        res.json({
+            code: "success"
+        })
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!"
+        })
+    }
+}

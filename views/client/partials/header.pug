@@ -44,11 +44,13 @@ header.header
                     li
                       a(href=`/category/${itemChildren.slug}`) #{itemChildren.name} 
           li
-            a(href="#") Tin tức
+            a(href="#view-blog") Tin tức
           li
-            a(href="#") Liên hệ
+            a(href="#view-contact") Liên hệ
         .inner-overlay
       // Cart
+      .inner-checkorder
+        a(href="/checkorder") Check Order
       .inner-cart
         a(href="/cart")
           img(

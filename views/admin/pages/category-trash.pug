@@ -1,7 +1,7 @@
 extends ../layouts/default.pug
 
 block main
-  h1.box-title Quản lý danh mục
+  h1.box-title Thùng rác danh mục
 
   //- Hiển thị thông báo nếu có
   if message
@@ -35,23 +35,18 @@ block main
     .inner-wrap
       .inner-change-status(
         change-multi
-        data-api=`/${pathAdmin}/category/change-multi`
+        data-api=`/${pathAdmin}/category/trash/change-multi`
       )
         .inner-item
           select
             option(value="") -- Hành động --
-            option(value="active") Hoạt động
-            option(value="inactive") Dừng hoạt động
-            option(value="delete") Xóa
+            option(value="undo") Khôi phục
+            option(value="delete-destroy") Xóa vĩnh viễn
         .inner-item
           button Áp dụng
       .inner-search
         <i class="fa-solid fa-magnifying-glass"></i>
         input(type="text" placeholder="Tìm kiếm" search)
-      .inner-button-create
-        a(href=`/${pathAdmin}/category/create`) + Tạo mới
-      .inner-button-trash
-        a(href=`/${pathAdmin}/category/trash`) Thùng rác
   //- End Section 5
 
   //- Section 6
@@ -92,14 +87,16 @@ block main
                   div.inner-time #{item.updatedAtFomat}
                 td
                   .inner-buttons
-                    a(href=`/${pathAdmin}/category/edit/${item.id}` class="inner-edit")
-                      <i class="fa-regular fa-pen-to-square"></i>
+                    button(
+                      class="inner-undo"
+                      button-delete
+                      data-api=`/${pathAdmin}/category/undo/${item.id}`
+                    ) <i class="fa-solid fa-rotate-left"></i>
                     button(
                       class="inner-delete"
                       button-delete
-                      data-api=`/${pathAdmin}/category/delete/${item.id}`
-                    )
-                      <i class="fa-regular fa-trash-can"></i>
+                      data-api=`/${pathAdmin}/category/delete-destroy/${item.id}`
+                    ) <i class="fa-regular fa-trash-can"></i>
           else
             tr
               td(colspan="8" class="inner-center") Không có bản ghi nào

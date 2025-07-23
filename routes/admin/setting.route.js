@@ -24,6 +24,11 @@ router.patch('/account_admin/edit/:id',upload.single("avatar"), settingControlle
 router.patch('/account_admin/delete/:id', settingController.account_admin_delete);
 router.patch('/account_admin/change-multi', settingController.changeMultiAccountAdminPatch);
 
+router.get('/account_admin/trash', settingController.accountAdminTrash)
+router.patch('/account_admin/undo/:id', settingController.undoAccountAdminPatch)
+router.delete('/account_admin/delete-destroy/:id', settingController.deleteDestroyPatch)
+router.patch('/account_admin/trash/change-multi', settingController.trashAccountAdminChangeMultiPatch)
+
 //Role
 router.get('/role/list', settingController.role_list);
 router.get('/role/edit/:id', settingController.editRole);

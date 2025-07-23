@@ -8,6 +8,7 @@ const sortHelper = require("../../helpers/sort.helper");
 const moment = require("moment");
 const axios = require('axios').default; // npm install axios
 const CryptoJS = require('crypto-js'); // npm install crypto-js
+const mailHelper = require("../../helpers/mail.helper")
 module.exports.createPost = async (req,res) => {
   try {
       req.body.orderCode = "OD" + gererateHelper.generateRandomNumber(10);
@@ -72,11 +73,35 @@ module.exports.createPost = async (req,res) => {
     if (!user) {
       user = new User({
         fullName: req.body.fullName,
-        phone: req.body.phone
+        phone: req.body.phone,
+        email: req.body.email
       });
-      console.log(User)
+      // console.log(User)
       await user.save();
     }
+    const subject = `🎉 Cảm ơn bạn đã đặt tour tại VietTravel !`;
+    const content = `
+      <p>Xin chào <strong>${req.body.fullName}</strong>,</p>
+
+      <p>Chúng tôi đã nhận được đơn đặt tour của bạn với mã đơn hàng: 
+        <b style="color:green;">${req.body.orderCode}</b>.
+      </p>
+
+      <p>
+        Tổng số tiền tạm tính: <strong>${req.body.total.toLocaleString("vi-VN")}₫</strong><br/>
+        Hình thức thanh toán: <strong>Thanh toán sau</strong><br/>
+        Trạng thái đơn hàng: <strong>Chờ xác nhận</strong>
+      </p>
+
+      <p>Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận thông tin và hướng dẫn tiếp theo.</p>
+
+      <p>Xin chân thành cảm ơn bạn đã tin tưởng và lựa chọn dịch vụ của chúng tôi!</p>
+
+      <p>Trân trọng,<br/>
+      Đội ngũ VietTravel</p>
+    `;
+
+    mailHelper.sendMail(req.body.email,subject,content);
 
     res.json({
         code: "success",
@@ -91,25 +116,46 @@ module.exports.createPost = async (req,res) => {
     })
   }
 }
-module.exports.success = async (req,res) => {
-try {
-    const { orderId, phone } = req.query;
+module.exports.success = async (req, res) => {
+  try {
+    const { orderCode, orderId, phone } = req.query;
 
-    const orderDetail = await Order.findOne({
-      _id: orderId,
-      phone: phone
-    })
+    let orderDetail;
 
-    if(!orderDetail) {
-      res.redirect("/");
-      return;
+    // Trường hợp dùng orderCode (form check-order)
+    if (orderCode) {
+      orderDetail = await Order.findOne({
+        orderCode: orderCode,
+        deleted: false
+      });
     }
 
-    orderDetail.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
+    // Trường hợp dùng orderId + phone (form khác)
+    else if (orderId && phone) {
+      orderDetail = await Order.findOne({
+        _id: orderId,
+        phone: phone,
+        deleted: false
+      });
+    }
 
-    orderDetail.paymentStatusName = variableConfig.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
+    // Nếu không có thông tin nào phù hợp
+    if (!orderDetail) {
+      return res.redirect("/");
+    }
 
-    orderDetail.statusName = variableConfig.orderStatus.find(item => item.value == orderDetail.status).label;
+    // Xử lý dữ liệu đơn hàng
+    orderDetail.paymentMethodName = variableConfig.paymentMethod.find(
+      item => item.value == orderDetail.paymentMethod
+    )?.label || "Không xác định";
+
+    orderDetail.paymentStatusName = variableConfig.paymentStatus.find(
+      item => item.value == orderDetail.paymentStatus
+    )?.label || "Không xác định";
+
+    orderDetail.statusName = variableConfig.orderStatus.find(
+      item => item.value == orderDetail.status
+    )?.label || "Không xác định";
 
     orderDetail.createdAtFormat = moment(orderDetail.createdAt).format("HH:mm - DD/MM/YYYY");
 
@@ -117,9 +163,9 @@ try {
       const infoTour = await Tour.findOne({
         _id: item.tourId,
         deleted: false
-      })
+      });
 
-      if(infoTour) {
+      if (infoTour) {
         item.slug = infoTour.slug;
       }
 
@@ -127,22 +173,23 @@ try {
 
       const city = await City.findOne({
         _id: item.locationFrom
-      })
+      });
 
-      if(city) {
+      if (city) {
         item.locationFromName = city.name;
       }
     }
 
     res.render("client/pages/order-success", {
       pageTitle: "Đặt hàng thành công",
-      orderDetail: orderDetail
+      orderDetail
     });
   } catch (error) {
     console.log(error);
     res.redirect("/");
   }
-}
+};
+
 module.exports.paymentZaloPay = async (req, res) => {
   try {
     const orderId = req.query.orderId;

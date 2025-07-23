@@ -1,6 +1,8 @@
 const AccountAdmin = require("../../models/account-admin.model");
 const Order = require("../../models/order.model");
 const User = require("../../models/user.model");
+const variableConfig = require("../../config/variable");
+const moment = require("moment")
 
 module.exports.dashboard = async (req, res) => {
   //Section 1
@@ -17,23 +19,42 @@ module.exports.dashboard = async (req, res) => {
   overview.totalUser = await User.countDocuments({
     deleted: false
   });
-
-
-
-  const orderList = await Order.find({
+  overview.totalOrder = await Order.countDocuments({
     deleted: false
   })
 
-  overview.totalOrder = orderList.length;
+  const orderListDone = await Order
+    .find({
+        deleted: false,
+        status: "done"
+    })
+  const orderList = await Order
+    .find({
+      deleted: false
+    })
+    .sort({
+      createdAt: "desc"
+    })
+    .limit(7)
+  for(const orderDetail of orderList){
+    orderDetail.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == orderDetail.paymentMethod).label;
+    orderDetail.paymentStatusName = variableConfig.paymentStatus.find(item => item.value == orderDetail.paymentStatus).label;
+    orderDetail.statusName = variableConfig.orderStatus.find(item => item.value == orderDetail.status).label;
+    orderDetail.createdAtTime = moment(orderDetail.createdAt).format("HH:mm"); 
+    orderDetail.createdAtDate = moment(orderDetail.createdAt).format("DD/MM/YYYY"); 
+  }
+  
 
-  overview.totalPrice = orderList.reduce((sum, item) => {
+  overview.totalPrice = orderListDone.reduce((sum, item) => {
     return sum + item.total;
   }, 0);
 
   // End Section 1
+  
   res.render("admin/pages/dashboard",{
     pageTitle:"Tổng quan",
-    overview: overview
+    overview: overview,
+    orderList: orderList
   });
 }
 

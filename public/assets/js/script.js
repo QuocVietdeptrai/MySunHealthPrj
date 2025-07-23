@@ -363,9 +363,20 @@ if(orderForm) {
         errorMessage: 'Số điện thoại không đúng định dạng!'
       },
     ])
+    .addField('#email-input', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập email của bạn!',
+      },
+      {
+        rule: 'email',
+        errorMessage: 'Email không đúng định dạng!',
+      },
+    ])
     .onSuccess((event) => {
       const fullName = event.target.fullName.value;
       const phone = event.target.phone.value;
+      const email= event.target.email.value;
       const note = event.target.note.value;
       const method = event.target.method.value;
 
@@ -387,6 +398,7 @@ if(orderForm) {
         const dataFinal = {
           fullName: fullName,
           phone: phone,
+          email: email,
           note: note,
           paymentMethod : method,
           items: cart
@@ -540,6 +552,35 @@ if(formSearch){
     window.location.href = url.href;
   })
 }
+// Form CheckOrder
+const formCheckOrder = document.querySelector("#check-order-form");
+
+if (formCheckOrder) {
+  const validation = new JustValidate('#check-order-form');
+
+  validation
+    .addField('#order-code-input', [
+      {
+        rule: 'required',
+        errorMessage: "Vui lòng nhập mã đơn hàng!"
+      }
+    ])
+    .onSuccess((event) => {
+      event.preventDefault();
+
+      const orderCode = formCheckOrder.orderCode.value;
+      const url = new URL(`${window.location.origin}/order/success`);
+
+      url.searchParams.set("orderCode", orderCode);
+
+      window.location.href = url.href;
+    });
+}
+
+// End Form CheckOrder
+
+
+
 // End Form Search 
 // Box Tour Detail
 const boxTourDetail = document.querySelector(".box-tour-detail");
@@ -817,3 +858,64 @@ if(pageCart){
   drawCart();
 }
 // End Page Cart 
+const buttonNextPages = document.querySelectorAll("[nextpagination]");
+
+const leftButton = document.querySelector('[leftButton]')
+const rightButton = document.querySelector("[rightButton]")
+
+console.log(leftButton)
+console.log(rightButton)
+
+console.log(buttonNextPages.length)
+
+if (buttonNextPages.length > 0) {
+  const url = new URL(window.location.href); // tạo 1 url tại địa chỉ hiện tại
+
+  let pageCurrentActive = 1;
+
+  buttonNextPages.forEach(button => {
+
+
+
+    if (button.classList.contains("active")) {
+      pageCurrentActive = parseInt(button.textContent.trim(), 10);
+    }
+
+
+
+    button.addEventListener("click", () => {
+      const pageNumber = parseInt(button.textContent.trim(), 10);
+      console.log("Chạy vào trang", pageNumber);
+
+      if (pageNumber) {
+        url.searchParams.set("page", pageNumber);
+      } else {
+        url.searchParams.delete("page");
+      }
+
+
+      window.location.href = url.href;
+    });
+    // Xử lý nút left (←)
+    if (leftButton) {
+      leftButton.addEventListener("click", () => {
+        if (pageCurrentActive > 1) {
+          url.searchParams.set("page", pageCurrentActive - 1);
+          window.location.href = url.href;
+        }
+      });
+    }
+    // Xử lý nút right (←)
+    if (rightButton) {
+      rightButton.addEventListener("click", () => {
+        if (pageCurrentActive < buttonNextPages.length) {
+          url.searchParams.set("page", pageCurrentActive + 1);
+          window.location.href = url.href;
+        }
+      });
+    }
+  });
+
+
+
+}
