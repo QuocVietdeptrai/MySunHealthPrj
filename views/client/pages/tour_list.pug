@@ -98,16 +98,22 @@ block main
               span.inner-title Bộ Lọc
               i.fa-solid.fa-filter
           .inner-list-tour
-            each item in tourList
-              // Product Item
-              +product-item(item)
-              // End Product Item
+            if tourList.length === 0
+              .inner-no-tour Quý khách vui lòng quay lại sau tôi sẽ cập nhật tour sớm nhất !!!
+            else
+              each item in tourList
+                // Product Item
+                +product-item(item)
+                // End Product Item
           // Pagination
           .box-pagination
             button(leftButton)
               i.fa-solid.fa-angles-left
             - for (let i = 1; i <= pagination.totalPage; i++)
-              button(nextpagination)(class=`${i === pagination.pageCurrent ? 'active' : ''}`)= i
+              button(
+                nextpagination 
+                class=`${i === pagination.pageCurrent ? 'active' : ''}`
+              )= i
             button(rightButton)
               i.fa-solid.fa-angles-right
           // End Pagination

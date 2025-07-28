@@ -20,7 +20,7 @@ module.exports.home = async (req, res) => {
   // End Section 2
   
   //Section 4
-  const categoryIdSection4 = "67ff5ef52e6105f2e8b38855";//id danh muc tour trong nuoc
+  const categoryIdSection4 = "68825e063f7beb2afb97cdf5";//id danh muc tour trong nuoc
   const listCategoryId = await categoryHelper.getAllSubcategoryIds(categoryIdSection4)
   const tourListSection4 = await Tour
     .find({
@@ -38,7 +38,7 @@ module.exports.home = async (req, res) => {
   }
   //End Section 4
   //Section 6
-  const categoryIdSection6 = "67ff5f032e6105f2e8b3885c";//id danh muc tour nước ngoài
+  const categoryIdSection6 = "688262963f7beb2afb97ce5f";//id danh muc tour nước ngoài
   const listCategoryIdNuocNgoai = await categoryHelper.getAllSubcategoryIds(categoryIdSection6)
   const tourListSection6 = await Tour
     .find({

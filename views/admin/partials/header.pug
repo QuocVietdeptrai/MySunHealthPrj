@@ -5,8 +5,12 @@ header.header
       span Admin
   .inner-wrap
     .inner-notify
-      img(src="/admin/assets/images/icon-bell.svg", alt="")
-      span 6
+      a(href=`/${pathAdmin}/order/list`, style="position: relative; display: inline-block;")
+        img(src="/admin/assets/images/icon-bell.svg", alt="")
+        if countInitialOrders > 0
+          span.badge-notify= countInitialOrders
+        else
+          span.badge-notify 0
     .inner-account
       .inner-avatar
         img(src=(account.avatar || ""), alt="")

@@ -2968,6 +2968,12 @@ input, button, textarea {
   display: flex !important;
   justify-content: center !important;
 }
+.inner-no-tour {
+  /* text-align: center; */
+  font-size: 18px;
+  color: #0c0b0b;
+  padding: 50px 0;
+}
 
 
 

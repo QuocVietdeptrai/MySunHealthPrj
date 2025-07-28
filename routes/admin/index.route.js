@@ -9,6 +9,7 @@ const contactRoutes = require("./contact.route");
 const settingRoutes = require("./setting.route");
 const profileRoutes = require("./profile.route");
 const uploadRoutes = require("./upload.route");
+const countOrderInitial = require("../../middlewares/admin/countAnnountOrder");
 
 
 const authMiddleware = require("../../middlewares/admin/auth.middlewares")
@@ -18,6 +19,7 @@ router.use((req,res,next) => {
   res.setHeader('Cache-Control','no-store')
   next();
 })
+router.use(countOrderInitial);
 
 router.use('/account', accountRoutes);
 router.use('/dashboard',authMiddleware.verifyToken, dashboardRoutes);
