@@ -2,13 +2,12 @@ extends ../layouts/default.pug
 include ../mixins/options.pug
 
 block main
-  h1.box-title Quản lý tour
+  h1.box-title Quản lý sản phẩm
 
-  //- Hiển thị thông báo nếu có
   if message
     .alert.alert-info #{message}
 
-  //- Section 4
+  //- Bộ lọc
   .section-4
     .inner-wrap
       .inner-item.inner-label
@@ -31,23 +30,15 @@ block main
         select(filter-category)
           option(value="") Danh mục
           +options(categoryTree, 0)
-      .inner-item
-        select(filter-price)
-          option(value="") Mức giá
-          option(value="under_2m") Dưới 2tr
-          option(value="2m_to_4m") 2tr đến 4tr
-          option(value="4m_to_8m") 4tr đến 8tr
-          option(value="over_8m") Trên 8tr
       .inner-item.inner-reset(filter-reset)
         <i class="fa-solid fa-rotate-left"></i> Xóa bộ lọc
-  //- End Section 4
 
-  //- Section 5
+  //- Hành động + tìm kiếm
   .section-5
     .inner-wrap
       .inner-change-status(
         change-multi 
-        data-api=`/${pathAdmin}/tour/change-multi`
+        data-api=`/${pathAdmin}/product/change-multi`
       )
         .inner-item
           select
@@ -61,12 +52,11 @@ block main
         <i class="fa-solid fa-magnifying-glass"></i>
         input(type="text" placeholder="Tìm kiếm" search)
       .inner-button-create
-        a(href=`/${pathAdmin}/tour/create`) + Tạo mới
+        a(href=`/${pathAdmin}/product/create`) + Tạo mới
       .inner-button-trash
-        a(href=`/${pathAdmin}/tour/trash`) Thùng rác
-  //- End Section 5
+        a(href=`/${pathAdmin}/product/trash`) Thùng rác
 
-  //- Section 6
+  //- Danh sách sản phẩm
   .section-6
     .table-2
       table
@@ -74,33 +64,32 @@ block main
           tr
             th(class="inner-center")
               input(type="checkbox" class="inner-check" check-all)
-            th Tên tour
+            th Tên sản phẩm
             th Ảnh đại diện
             th Giá
-            th Còn lại
-            th(class="inner-center") Vị trí
+            th Tồn kho
+            th Vị trí
             th(class="inner-center") Trạng thái
             th Tạo bởi
             th Cập nhật bởi
             th Hành động
         tbody
-          if tourList.length > 0
-            each item in tourList
+          if productList.length > 0
+            each item in productList
               tr
                 td(class="inner-center")
                   input(type="checkbox" class="inner-check" check-item=item.id)
                 td #{item.name}
                 td
-                  img(src=item.avatar class="inner-avatar")
+                  if item.avatar
+                    img(src=item.avatar class="inner-avatar")
                 td
-                  div NL: #{item.priceNewAdult.toLocaleString("vi-VN")}đ
-                  div TE: #{item.priceNewChildren.toLocaleString("vi-VN")}đ
-                  div EB: #{item.priceNewBaby.toLocaleString("vi-VN")}đ
-                td
-                  div NL: #{item.stockAdult}
-                  div TE: #{item.stockChildren}
-                  div EB: #{item.stockBaby}
-                td(class="inner-center") #{item.position}
+                  if typeof item.price === 'number'
+                    div Giá gốc: #{item.price.toLocaleString("vi-VN")}đ
+                  if typeof item.salePrice === 'number'
+                    div KM: #{item.salePrice.toLocaleString("vi-VN")}đ
+                td #{item.stock || 0}
+                td #{item.position}
                 td(class="inner-center")
                   if item.status == "active"
                     .badge.badge-green Hoạt động
@@ -114,24 +103,22 @@ block main
                   div.inner-time #{item.updatedAtFomat}
                 td
                   .inner-buttons
-                    a(href=`/${pathAdmin}/tour/edit/${item.id}` class="inner-edit")
+                    a(href=`/${pathAdmin}/product/edit/${item.id}` class="inner-edit")
                       <i class="fa-regular fa-pen-to-square"></i>
                     button(
                       class="inner-delete"
                       button-delete
-                      data-api=`/${pathAdmin}/tour/delete/${item.id}`
+                      data-api=`/${pathAdmin}/product/delete/${item.id}`
                     )
                       <i class="fa-regular fa-trash-can"></i>
           else
             tr
-              td(colspan="10" class="inner-center") Không có tour nào được tìm thấy
-  //- End Section 6
+              td(colspan="10" class="inner-center") Không có sản phẩm nào được tìm thấy
 
-  //- Section 7
+  //- Phân trang
   .section-7
-    span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + tourList.length} của #{pagination.totalRecord}
+    span(class="inner-label") Hiển thị #{pagination.skip + 1} - #{pagination.skip + productList.length} của #{pagination.totalRecord}
     if pagination.totalPage > 0
       select(class="inner-pagination" pagination)
         - for(let i = 1; i <= pagination.totalPage; i++)
           option(value=i selected=(i == page)) Trang #{i}
-  //- End Section 7
