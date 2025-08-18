@@ -1,0 +1,201 @@
+extends ../layouts/default.pug
+include ../mixins/options.pug
+
+block main
+  h1.box-title Sửa sản phẩm
+
+  .section-8
+    form#product-edit-form
+      // ===== Thông tin cơ bản =====
+      .inner-group(style="display:none")
+        label.inner-label(for="id") Id
+        input(type="text" id="id" name="id" value=productDetail.id)
+      .inner-group
+        label.inner-label(for="name") Tên sản phẩm
+        input(type="text" id="name" name="name" required value=productDetail.name)
+      .inner-group
+        label.inner-label(for="category") Danh mục
+        select(id="category" name="category")
+          option(value="") -- Chọn danh mục --
+          +options(categoryList, 0 ,productDetail.category)
+      .inner-group
+        label.inner-label(for="status") Trạng thái
+        select(id="status" name="status")
+          option(
+            value="active"
+            selected=(productDetail.status=="active")
+          ) Hoạt động
+          option(
+            value="inactive"
+            selected=(productDetail.status=="inactive")
+          ) Dừng bán
+
+      // ===== Hình ảnh =====
+      .inner-group.inner-two-col
+        label.inner-label(for="avatar") Ảnh đại diện
+        div.inner-upload-image(image-default=productDetail.avatar)
+          input(type="file" id="avatar" accept="image/*" filepond-image name="avatar")
+
+      .inner-group.inner-two-col
+        label.inner-label(for="images") Danh sách ảnh
+        div.inner-upload-image-multi(list-image-default=productDetail.images)
+          input(type="file" multiple data-allow-reorder="true" id="images" accept="image/*" filepond-image-multi name="images")
+
+      // ===== Giá & tồn kho =====
+      .inner-group
+        label.inner-label(for="price") Giá gốc
+        input(type="number" id="price" name="price" required min="0" value=productDetail.price)
+      .inner-group
+        label.inner-label(for="salePrice") Giá khuyến mãi
+        input(type="number" id="salePrice" name="salePrice" min="0" value=productDetail.salePrice)
+      .inner-group
+        label.inner-label(for="unit") Đơn vị tính
+        select(id="unit" name="unit" required)
+          option(value="") -- Chọn đơn vị --
+          option(value="Hộp" selected=(productDetail.unit=="Hộp")) Hộp
+          option(value="Vỉ" selected=(productDetail.unit=="Vỉ")) Vỉ
+          option(value="Chai" selected=(productDetail.unit=="Chai")) Chai
+          option(value="Gói" selected=(productDetail.unit=="Gói")) Gói
+          option(value="Tuýp" selected=(productDetail.unit=="Tuýp")) Tuýp
+      .inner-group
+        label.inner-label(for="stock") Số lượng tồn kho
+        input(type="number" id="stock" name="stock" required min="0" value=productDetail.stock)
+
+      // ===== Mô tả =====
+      .inner-group
+        label.inner-label(for="shortDescription") Mô tả ngắn
+        textarea(id="shortDescription" name="shortDescription" required)= productDetail.shortDescription
+      .inner-group
+        label.inner-label(for="description") Mô tả chi tiết
+        textarea(id="description" textarea-mce name="description")= productDetail.description
+
+      // ===== Thông tin đặc thù (ẩn/hiện theo danh mục) =====
+      // Thuốc và Mẹ và Bé
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="activeIngredient") Hoạt chất
+        input(type="text" id="activeIngredient" name="activeIngredient" value=productDetail.activeIngredient)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="dosageForm") Dạng bào chế
+        input(type="text" id="dosageForm" name="dosageForm" value=productDetail.dosageForm)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="packaging") Quy cách đóng gói
+        input(type="text" id="packaging" name="packaging" value=productDetail.packaging)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="manufacturer") Nhà sản xuất
+        input(type="text" id="manufacturer" name="manufacturer" value=productDetail.manufacturer)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="countryOfOrigin") Nước sản xuất
+        input(type="text" id="countryOfOrigin" name="countryOfOrigin" value=productDetail.countryOfOrigin)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="registrationNumber") Số đăng ký
+        input(type="text" id="registrationNumber" name="registrationNumber" value=productDetail.registrationNumber)
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="indication") Chỉ định
+        textarea(id="indication" name="indication")= productDetail.indication
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="contraindication") Chống chỉ định
+        textarea(id="contraindication" name="contraindication")= productDetail.contraindication
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="dosage") Liều dùng
+        textarea(id="dosage" name="dosage")= productDetail.dosage
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="sideEffects") Tác dụng phụ
+        textarea(id="sideEffects" name="sideEffects")= productDetail.sideEffects
+      .inner-group.extra-fields(data-category="thuoc me-va-be")
+        label.inner-label(for="storage") Bảo quản
+        input(type="text" id="storage" name="storage" value=productDetail.storage)
+      .inner-group.extra-fields(data-category="me-va-be")
+        label.inner-label(for="ageGroup") Độ tuổi phù hợp
+        input(type="text" id="ageGroup" name="ageGroup" value=productDetail.ageGroup)
+      .inner-group.extra-fields(data-category="me-va-be")
+        label.inner-label(for="safetyComponents") Thành phần an toàn
+        input(type="text" id="safetyComponents" name="safetyComponents" value=productDetail.safetyComponents)
+
+      // Thực phẩm bảo vệ sức khỏe
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="nutrientContent") Hàm lượng dinh dưỡng
+        input(type="text" id="nutrientContent" name="nutrientContent" value=productDetail.nutrientContent)
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="targetAudience") Đối tượng sử dụng
+        input(type="text" id="targetAudience" name="targetAudience" value=productDetail.targetAudience)
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="recommendedDosage") Liều dùng khuyến nghị
+        textarea(id="recommendedDosage" name="recommendedDosage")= productDetail.recommendedDosage
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="ingredientsSupplement") Thành phần chi tiết
+        input(type="text" id="ingredientsSupplement" name="ingredientsSupplement" value=productDetail.ingredientsSupplement)
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="expirationDate") Hạn sử dụng
+        input(type="text" id="expirationDate" name="expirationDate" value=productDetail.expirationDate)
+      .inner-group.extra-fields(data-category="thuc-pham-bao-ve-suc-khoe")
+        label.inner-label(for="certificationSupplement") Chứng nhận
+        input(type="text" id="certificationSupplement" name="certificationSupplement" value=productDetail.certificationSupplement)
+
+      // Chăm sóc cá nhân
+      .inner-group.extra-fields(data-category="cham-soc-ca-nhan")
+        label.inner-label(for="skinType") Kiểu da/Thể loại
+        input(type="text" id="skinType" name="skinType" value=productDetail.skinType)
+      .inner-group.extra-fields(data-category="cham-soc-ca-nhan")
+        label.inner-label(for="mainIngredientsPersonalCare") Thành phần chính
+        input(type="text" id="mainIngredientsPersonalCare" name="mainIngredientsPersonalCare" value=productDetail.mainIngredientsPersonalCare)
+      .inner-group.extra-fields(data-category="cham-soc-ca-nhan")
+        label.inner-label(for="usageInstructionsPersonalCare") Hướng dẫn sử dụng
+        textarea(id="usageInstructionsPersonalCare" name="usageInstructionsPersonalCare")= productDetail.usageInstructionsPersonalCare
+      .inner-group.extra-fields(data-category="cham-soc-ca-nhan")
+        label.inner-label(for="volume") Khối lượng/Dung tích
+        input(type="text" id="volume" name="volume" value=productDetail.volume)
+      .inner-group.extra-fields(data-category="cham-soc-ca-nhan")
+        label.inner-label(for="distributorPersonalCare") Nhà phân phối
+        input(type="text" id="distributorPersonalCare" name="distributorPersonalCare" value=productDetail.distributorPersonalCare)
+
+      // Chăm sóc sắc đẹp
+      .inner-group.extra-fields(data-category="cham-soc-sac-dep")
+        label.inner-label(for="productTypeBeauty") Loại sản phẩm
+        input(type="text" id="productTypeBeauty" name="productTypeBeauty" value=productDetail.productTypeBeauty)
+      .inner-group.extra-fields(data-category="cham-soc-sac-dep")
+        label.inner-label(for="colorScent") Màu sắc/Hương thơm
+        input(type="text" id="colorScent" name="colorScent" value=productDetail.colorScent)
+      .inner-group.extra-fields(data-category="cham-soc-sac-dep")
+        label.inner-label(for="activeIngredientsBeauty") Thành phần hoạt tính
+        input(type="text" id="activeIngredientsBeauty" name="activeIngredientsBeauty" value=productDetail.activeIngredientsBeauty)
+      .inner-group.extra-fields(data-category="cham-soc-sac-dep")
+        label.inner-label(for="usageTime") Thời gian sử dụng
+        input(type="text" id="usageTime" name="usageTime" value=productDetail.usageTime)
+      .inner-group.extra-fields(data-category="cham-soc-sac-dep")
+        label.inner-label(for="distributorBeauty") Nhà phân phối
+        input(type="text" id="distributorBeauty" name="distributorBeauty" value=productDetail.distributorBeauty)
+
+      // Thiết bị y tế
+      .inner-group.extra-fields(data-category="thiet-bi-y-te")
+        label.inner-label(for="deviceType") Loại thiết bị
+        input(type="text" id="deviceType" name="deviceType" value=productDetail.deviceType)
+      .inner-group.extra-fields(data-category="thiet-bi-y-te")
+        label.inner-label(for="usageInstructionsDevice") Hướng dẫn sử dụng
+        textarea(id="usageInstructionsDevice" name="usageInstructionsDevice")= productDetail.usageInstructionsDevice
+      .inner-group.extra-fields(data-category="thiet-bi-y-te")
+        label.inner-label(for="powerSource") Nguồn điện
+        input(type="text" id="powerSource" name="powerSource" value=productDetail.powerSource)
+      .inner-group.extra-fields(data-category="thiet-bi-y-te")
+        label.inner-label(for="medicalCertification") Chứng nhận y tế
+        input(type="text" id="medicalCertification" name="medicalCertification" value=productDetail.medicalCertification)
+      .inner-group.extra-fields(data-category="thiet-bi-y-te")
+        label.inner-label(for="warranty") Bảo hành
+        input(type="text" id="warranty" name="warranty" value=productDetail.warranty)
+
+      // Sản phẩm tiện lợi
+      .inner-group.extra-fields(data-category="san-pham-tien-loi")
+        label.inner-label(for="productTypeConvenience") Loại sản phẩm
+        input(type="text" id="productTypeConvenience" name="productTypeConvenience" value=productDetail.productTypeConvenience)
+      .inner-group.extra-fields(data-category="san-pham-tien-loi")
+        label.inner-label(for="usageConvenience") Công dụng
+        textarea(id="usageConvenience" name="usageConvenience")= productDetail.usageConvenience
+      .inner-group.extra-fields(data-category="san-pham-tien-loi")
+        label.inner-label(for="manufacturerConvenience") Nhà sản xuất
+        input(type="text" id="manufacturerConvenience" name="manufacturerConvenience" value=productDetail.manufacturerConvenience)
+
+      // ===== Nút cập nhật =====
+      .inner-button.inner-two-col
+        button(type="submit") Cập nhật
+
+    .inner-back
+      a(href=`/${pathAdmin}/product/list`) Quay lại danh sách

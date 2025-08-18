@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-module.exports.createProduct = (req, res, next) => {
+module.exports.createPost = (req, res, next) => {
   const schema = Joi.object({
     // Thông tin cơ bản
     name: Joi.string().required().messages({
