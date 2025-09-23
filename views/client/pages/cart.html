@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng - MySunHealth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../../public/client/assets/css/style.css"/>
+</head>
+<body>
+    <header>
+    <!-- Top Banner -->
+    <div class="top-banner">
+      <div class="promo">
+        <img src="../../public/client/assets/images/top_banner.png" alt="MySunHealth Promotion Banner">
+      </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <a href="tel:18006821"><span>Hotline: 1800 6821</span></a>
+      <a href="/doanh-nghiep"><span>Doanh nghiệp</span></a>
+      <a href="/deal-hot-thang-8"><span>Deal hot tháng 8 🔥</span></a>
+      <a href="/tra-cuu-don-hang"><span>Tra cứu đơn hàng</span></a>
+      <a href="/goc-suc-khoe"><span>Góc sức khỏe</span></a>
+      <a href="/he-thong-nha-thuoc"><span>Hệ thống nhà thuốc</span></a>
+    </div>
+
+    <!-- Main Header -->
+    <div class="header">
+      <div class="logo">
+        <a href="/"><img src="../../public/client/assets/images/logo.png" alt="MySunHealth Logo"></a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Bạn đang tìm gì hôm nay...">
+        <button onclick="window.location.href='/tim-kiem'">Tìm kiếm</button>
+      </div>
+    <div class="header-right">
+      <a href="/notifications" class="icon-badge">
+        <i class="fa-solid fa-bell"></i>
+        <span class="badge">3</span>
+      </a>
+      <a href="/cart" class="icon-badge">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge">5</span>
+      </a>
+      <button>Đăng nhập / Đăng ký</button>
+    </div>
+
+
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav">
+      <div class="dropdown">
+        <button class="dropdown-btn">Danh mục</button>
+        <div class="dropdown-content">
+          <a href="#">Thuốc</a>
+          <a href="#">Tra cứu bệnh</a>
+          <a href="#">Thực phẩm bảo vệ sức khỏe</a>
+          <a href="#">Mẹ và bé</a>
+          <a href="#">Chăm sóc cá nhân</a>
+        </div>
+      </div>
+      <a href="#">Thuốc</a>
+      <a href="#">Tra cứu bệnh</a>
+      <a href="#">Thực phẩm bảo vệ sức khỏe</a>
+      <a href="#">Mẹ và bé</a>
+      <a href="#">Nhãn hàng Pharmacity</a>
+      <a href="#">Chăm sóc cá nhân</a>
+    </div>
+  </header>
+
+  <!-- Cart Section -->
+  <div class="cart-section">
+    <div class="cart-header">
+      <h1>Giỏ hàng (1)</h1>
+      <div class="select-all">
+        <input type="checkbox" id="selectAll" checked>
+        <label for="selectAll">Chọn tất cả</label>
+      </div>
+    </div>
+
+    <div class="free-shipping">
+      <i class="fas fa-shipping-fast"></i>
+      Miễn phí vận chuyển cho mọi đơn hàng từ 0đ
+    </div>
+
+    <div class="cart-grid">
+      <div class="products-section">
+        <div class="cart-item">
+          <input type="checkbox" checked>
+          <img src="../../public/client/assets/images/product1.webp" alt="Nucos NMN" class="cart-item-image">
+          <div class="cart-item-details">
+            <div class="cart-item-info">
+              <h2>Thực Phẩm Bảo Vệ Sức Khỏe Nucos NMN (Hộp 60 viên)</h2>
+              <div class="variant">Phân loại: Hộp</div>
+              <span class="promo">Mua 1 hộp Tặng 1 hộp NUCOS Spa...</span>
+            </div>
+            <div class="item-price-section">
+              <div class="price">3.950.000 đ</div>
+              <div class="old-price">4.500.000 đ</div>
+              <div class="quantity-wrapper">
+                <button class="qty-btn decrease">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="99">
+                <button class="qty-btn increase">+</button>
+              </div>
+              <a href="#" class="remove-btn">🗑 Xóa</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-title">Tóm tắt đơn hàng</div>
+        <div class="summary-row">
+          <span>Tạm tính</span>
+          <span class="subtotal">3.950.000 đ</span>
+        </div>
+        <div class="summary-row">
+          <span>Giảm giá ưu đãi</span>
+          <span class="discount"> - </span>
+        </div>
+        <div class="summary-row">
+          <span>Giảm giá sản phẩm</span>
+          <span class="product-discount"> - </span>
+        </div>
+        <div class="summary-row total">
+          <span>Tổng tiền</span>
+          <span class="total-price">3.950.000 đ</span>
+        </div>
+        <button class="checkout-btn">Mua hàng (1)</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      
+      <!-- Về Pharmacity -->
+      <div class="footer-col">
+        <h4>Về Pharmacity</h4>
+        <ul>
+          <li>Giới thiệu</li>
+          <li>Hệ thống cửa hàng</li>
+          <li>Giấy phép kinh doanh</li>
+          <li>Quy chế hoạt động</li>
+          <li>Chính sách đổi trả và bảo hành</li>
+          <li>Chính sách giao hàng</li>
+          <li>Chính sách bảo mật</li>
+          <li>Chính sách nội dung</li>
+          <li>Chính sách bảo vệ dữ liệu cá nhân</li>
+          <li>Chính sách thanh toán</li>
+          <li>Thể lệ chương trình thẻ thành viên</li>
+          <li>Câu hỏi thường gặp</li>
+          <li>Bệnh viện</li>
+        </ul>
+      </div>
+
+      <!-- Danh mục -->
+      <div class="footer-col">
+        <h4>Danh mục</h4>
+        <ul>
+          <li>Thuốc</li>
+          <li>Tra cứu bệnh</li>
+          <li>Thực phẩm bảo vệ sức khỏe</li>
+          <li>Chăm sóc cá nhân</li>
+          <li>Mẹ và Bé</li>
+          <li>Chăm sóc sắc đẹp</li>
+          <li>Thiết bị y tế</li>
+          <li>Sản phẩm tiện lợi</li>
+          <li>Doanh nghiệp</li>
+          <li>Nhãn hàng Pharmacity</li>
+          <li>Khuyến mãi HOT</li>
+          <li>Góc sức khỏe</li>
+          <li>Chăm sóc sức khỏe</li>
+        </ul>
+      </div>
+
+      <!-- Tổng đài -->
+      <div class="footer-col">
+        <h4>Tổng đài miễn cước</h4>
+        <p>Hỗ trợ đặt hàng<br><b class="highlight">1800 6821</b> (Nhánh 1)</p>
+        <p>Thông tin nhà thuốc, khuyến mãi<br><b class="highlight">1800 6821</b> (Nhánh 2)</p>
+        <p>Kiếu nại, góp ý<br><b class="highlight">1800 6821</b> (Nhánh 2)</p>
+
+        <h4>Theo dõi chúng tôi</h4>
+        <p class="socials">
+          <a href="#">Facebook</a> | 
+          <a href="#">Youtube</a> | 
+          <a href="#">Zalo</a>
+        </p>
+      </div>
+
+      <!-- QR + App -->
+      <div class="footer-col footer-app">
+        <h4>Tải ứng dụng Pharmacity</h4>
+        <img src="qr.png" alt="QR code" class="qr">
+        <div class="app-links">
+          <img src="appstore.png" alt="App Store">
+          <img src="googleplay.png" alt="Google Play">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Thông tin công ty -->
+    <div class="footer-bottom">
+      <p><b>Công Ty Cổ Phần Dược Phẩm Pharmacity</b></p>
+      <p>Trụ sở: 248A Nơ Trang Long, Phường Bình Thạnh, TP.Hồ Chí Minh<br>
+      Điện thoại: 1800 6821 – Email: cskh@pharmacity.vn</p>
+      <p>GCNDKDN: 0311770883 do Sở KH & ĐT TP.HCM cấp lần đầu ngày 05/05/2012.<br>
+      GCNDDKKDD: 6782/DDKKDDD-ĐNai ngày cấp 26/4/2022 Sở Y Tế Tỉnh Đồng Nai.</p>
+    </div>
+  </footer>
+</body>
+</html>

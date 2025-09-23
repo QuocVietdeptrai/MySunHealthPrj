@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sản phẩm - Ferrolip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../../public/client/assets/css/style.css"/>
+</head>
+<body>
+  <header>
+    <!-- Top Banner -->
+    <div class="top-banner">
+      <div class="promo">
+        <img src="../../public/client/assets/images/top_banner.png" alt="MySunHealth Promotion Banner">
+      </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <a href="tel:18006821"><span>Hotline: 1800 6821</span></a>
+      <a href="/doanh-nghiep"><span>Doanh nghiệp</span></a>
+      <a href="/deal-hot-thang-8"><span>Deal hot tháng 8 🔥</span></a>
+      <a href="/tra-cuu-don-hang"><span>Tra cứu đơn hàng</span></a>
+      <a href="/goc-suc-khoe"><span>Góc sức khỏe</span></a>
+      <a href="/he-thong-nha-thuoc"><span>Hệ thống nhà thuốc</span></a>
+    </div>
+
+    <!-- Main Header -->
+    <div class="header">
+      <div class="logo">
+        <a href="/"><img src="../../public/client/assets/images/logo.png" alt="MySunHealth Logo"></a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Bạn đang tìm gì hôm nay...">
+        <button onclick="window.location.href='/tim-kiem'">Tìm kiếm</button>
+      </div>
+    <div class="header-right">
+      <a href="/notifications" class="icon-badge">
+        <i class="fa-solid fa-bell"></i>
+        <span class="badge">3</span>
+      </a>
+      <a href="/cart" class="icon-badge">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge">5</span>
+      </a>
+      <button>Đăng nhập / Đăng ký</button>
+    </div>
+
+
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav">
+      <div class="dropdown">
+        <button class="dropdown-btn">Danh mục</button>
+        <div class="dropdown-content">
+          <a href="#">Thuốc</a>
+          <a href="#">Tra cứu bệnh</a>
+          <a href="#">Thực phẩm bảo vệ sức khỏe</a>
+          <a href="#">Mẹ và bé</a>
+          <a href="#">Chăm sóc cá nhân</a>
+        </div>
+      </div>
+      <a href="#">Thuốc</a>
+      <a href="#">Tra cứu bệnh</a>
+      <a href="#">Thực phẩm bảo vệ sức khỏe</a>
+      <a href="#">Mẹ và bé</a>
+      <a href="#">Nhãn hàng Pharmacity</a>
+      <a href="#">Chăm sóc cá nhân</a>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="/">Trang chủ</a> <span>></span>
+    <a href="/thuc-pham-bao-ve-suc-khoe">Thực phẩm bảo vệ sức khỏe</a> <span>></span>
+    <span>Bột uống FERROLIP bổ sung sắt (Hộp 20 gói)</span>
+  </div>
+
+  <!-- Product Detail Section -->
+  <div class="product-detail-section">
+    <div class="product-image">
+      <div class="main-image">
+        <img src="../../public/client/assets/images/product1.webp" alt="Ferrolip Main Image" id="mainImage">
+      </div>
+      <div class="thumbnail-gallery">
+        <img src="../../public/client/assets/images/product1.webp" alt="Thumb 1" onclick="changeMainImage(this.src)">
+        <img src="../../public/client/assets/images/product2.webp" alt="Thumb 2" onclick="changeMainImage(this.src)">
+        <img src="../../public/client/assets/images/product3.avif" alt="Thumb 3" onclick="changeMainImage(this.src)">
+        <img src="../../public/client/assets/images/product4.avif" alt="Thumb 4" onclick="changeMainImage(this.src)">
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1>Bột uống FERROLIP bổ sung sắt (Hộp 20 gói)</h1>
+      <div class="product-code">P28033 - Thương hiệu: FERROLIP</div>
+      <div class="origin">Sản phẩm 100% chính hãng, được nhập khẩu chính ngạch</div>
+      <div class="price">360.000 đ/Hộp <span class="old-price">420.000 đ</span></div>
+      <div class="save">Tiết kiệm: 60.000 đ</div>
+      <div><strong>Nhà sản xuất:</strong> Ferrolip, Ý</div>
+      <div><strong>Hạn sử dụng:</strong> 24 tháng kể từ ngày sản xuất</div>
+      <div><strong>Bảo quản:</strong> Để nơi khô ráo, tránh ánh nắng trực tiếp, nhiệt độ dưới 30°C</div>
+
+      <!-- Quantity + Buttons -->
+      <div class="quantity-action">
+        <div class="quantity-wrapper">
+          <button class="qty-btn decrease">-</button>
+          <input type="number" class="quantity-input" value="1" min="1" max="99">
+          <button class="qty-btn increase">+</button>
+        </div>
+
+        <div class="buy-buttons">
+          <button class="buy-now">Mua ngay</button>
+          <button class="add-to-cart">Thêm vào giỏ</button>
+        </div>
+      </div>
+
+      <div class="shipping-options">
+        <a href="#"><i class="fas fa-truck"></i> Bùn tức</a>
+        <a href="#"><i class="fas fa-shipping-fast"></i> Giao hàng siêu tốc</a>
+        <a href="#"><i class="fas fa-gift"></i> Miễn phí vận chuyển</a>
+      </div>
+
+      <!-- Product Tabs (Sticky) -->
+      <div class="product-tabs">
+        <a href="#view-ingredients" class="active">Thành phần</a>
+        <a href="#view-usage">Công dụng</a>
+        <a href="#view-instruction">Cách sử dụng</a>
+        <a href="#view-storage">Lưu ý</a>
+        <a href="#view-origin">Nơi sản xuất</a>
+      </div>
+
+      <!-- Combined Content Section -->
+      <div class="tab-content-section">
+        <section id="view-ingredients">
+          <h2>Thành phần</h2>
+          <p class="content-visible">Thành phần hàm lượng trong 1 gói bột: Sắt (sắt pyrophosphate dạng bao vi nang) 30mg, đường kính: tinh bột ngô; chất nhũ hóa: lecithin hoa hướng dương; chất làm ngọt: sorbitol; maltodextrin, chất làm đặc: tinh bột biến tính, citric acid; hương liệu tự nhiên (hương chanh), chất chống đông: silicon dioxide; chất làm ngọt: sucralose, acesulfame K...</p>
+          <p class="content-hidden">Ngoài ra, sản phẩm còn chứa một số khoáng chất vi lượng như kẽm (5mg), vitamin B12 (2.5µg) để hỗ trợ quá trình trao đổi chất, cùng với các chất chống oxy hóa như vitamin E (10mg) để bảo vệ tế bào. Sản phẩm được sản xuất với công nghệ bao vi nang tiên tiến, giúp tăng khả năng hấp thụ sắt lên đến 90% so với các loại sắt thông thường, đồng thời giảm thiểu tác dụng phụ như táo bón hoặc khó chịu dạ dày. Tất cả các thành phần đều đạt tiêu chuẩn quốc tế ISO 22000 và được kiểm định bởi các cơ quan y tế uy tín tại châu Âu. Thêm vào đó, Ferrolip sử dụng nguyên liệu tự nhiên, không chứa gluten, lactose, hoặc các chất bảo quản nhân tạo, phù hợp với người bị dị ứng hoặc theo chế độ ăn kiêng đặc biệt. Quá trình sản xuất được giám sát chặt chẽ để đảm bảo không có sự nhiễm chéo giữa các lô hàng, mang lại sự an tâm cho người sử dụng. Sản phẩm cũng có thể được kết hợp với các thực phẩm giàu vitamin C để tăng hiệu quả hấp thụ sắt.</p>
+        </section>
+
+        <section id="view-usage">
+          <h2>Công dụng</h2>
+          <p class="content-visible">Bổ sung sắt cho cơ thể. Hỗ trợ điều trị thiếu máu do thiếu sắt. Ngoài ra, sản phẩm còn giúp cải thiện tình trạng mệt mỏi, suy nhược cơ thể...</p>
+          <p class="content-hidden">đặc biệt ở phụ nữ mang thai, người sau sinh, hoặc người ăn chay trường. Ferrolip còn hỗ trợ tăng cường quá trình tạo máu, đặc biệt trong các trường hợp mất máu do chấn thương hoặc phẫu thuật. Sản phẩm phù hợp với trẻ em từ 12 tuổi trở lên khi được bác sĩ tư vấn, cũng như người lớn tuổi để duy trì sức khỏe hồng cầu. Với công thức độc quyền, Ferrolip không chỉ bổ sung sắt mà còn hỗ trợ hệ miễn dịch nhờ các thành phần bổ sung như kẽm và vitamin B12. Người dùng có thể cảm nhận sự khác biệt sau 2-4 tuần sử dụng đều đặn, tùy thuộc vào mức độ thiếu hụt sắt ban đầu. Sản phẩm được các chuyên gia dinh dưỡng khuyên dùng trong các chương trình chăm sóc sức khỏe cộng đồng tại Ý và một số nước châu Âu.</p>
+        </section>
+
+        <section id="view-instruction">
+          <h2>Cách sử dụng</h2>
+          <p class="content-visible">Uống 1 gói mỗi ngày, nên uống ngay sau bữa ăn. Uống trực tiếp mà không cần pha với nước...</p>
+          <p class="content-hidden">Để đạt hiệu quả tối ưu, nên sử dụng sản phẩm vào buổi sáng hoặc buổi trưa, tránh uống vào buổi tối để không ảnh hưởng đến giấc ngủ. Nếu đang dùng thuốc khác, hãy tham khảo ý kiến bác sĩ trước khi sử dụng để tránh tương tác thuốc. Sản phẩm nên được bảo quản ở nơi khô ráo, tránh để trẻ em tiếp cận. Đối với phụ nữ mang thai, cần tuân thủ liều lượng được bác sĩ chỉ định, thường là 1-2 gói/ngày tùy theo tình trạng thiếu máu. Người lớn tuổi có thể chia nhỏ liều lượng thành 2 lần/ngày (sáng và chiều) để cơ thể hấp thụ tốt hơn. Sau khi mở gói, nên sử dụng ngay để tránh mất tác dụng của các thành phần nhạy cảm với không khí.</p>
+        </section>
+
+        <section id="view-storage">
+          <h2>Lưu ý</h2>
+          <p class="content-visible">Ngậm trong bao bì kín, để nơi khô ráo, tránh ánh nắng trực tiếp. Bảo quản ở nhiệt độ dưới 30°C...</p>
+          <p class="content-hidden">tránh nơi ẩm ướt để giữ chất lượng sản phẩm. Không để sản phẩm gần các hóa chất mạnh hoặc khu vực có mùi lạ để tránh ảnh hưởng đến hương vị và hiệu quả. Kiểm tra hạn sử dụng trước khi dùng, không sử dụng nếu bao bì bị rách hoặc hư hỏng. Đối với khu vực có độ ẩm cao, nên bảo quản trong tủ mát để tăng thời gian sử dụng. Nếu phát hiện dấu hiệu đổi màu hoặc vón cục, hãy ngưng sử dụng và liên hệ nhà sản xuất để được hỗ trợ. Sản phẩm cần được giữ xa tầm tay trẻ em để tránh nuốt nhầm.</p>
+        </section>
+
+        <section id="view-origin">
+          <h2>Nơi sản xuất</h2>
+          <p class="content-visible">Sản phẩm nhập khẩu từ Ý. Được sản xuất tại nhà máy đạt chuẩn GMP tại Milan, Ý...</p>
+          <p class="content-hidden">dưới sự giám sát của Ferrolip International. Sản phẩm được kiểm định bởi cơ quan y tế Ý (AIFA) và có giấy chứng nhận xuất khẩu sang các thị trường quốc tế, bao gồm Việt Nam. Quy trình sản xuất tuân thủ các quy định nghiêm ngặt của Liên minh Châu Âu (EU), đảm bảo không sử dụng nguyên liệu biến đổi gen (GMO). Sản phẩm được đóng gói và vận chuyển trong điều kiện kiểm soát nhiệt độ để giữ nguyên chất lượng từ nhà máy đến tay người tiêu dùng.</p>
+        </section>
+        <button class="toggle-btn" id="global-toggle-btn">Thu gọn</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="reviews">
+    <h3>Đánh giá sản phẩm</h3>
+    <div class="review-item">
+      <div class="rating">★★★★☆ (4/5)</div>
+      <p>"Sản phẩm rất tốt, bổ sung sắt hiệu quả, không gây táo bón. Giao hàng nhanh!" - Nguyễn Văn A</p>
+    </div>
+    <div class="review-item">
+      <div class="rating">★★★☆☆ (3/5)</div>
+      <p>"Hương vị ổn, nhưng hiệu quả chưa rõ ràng sau 1 tuần sử dụng." - Trần Thị B</p>
+    </div>
+    <div class="review-item">
+      <div class="rating">★★★★★ (5/5)</div>
+      <p>"Tuyệt vời, sức khỏe cải thiện rõ rệt sau 2 tuần!" - Lê Văn C</p>
+    </div>
+  </div>
+
+  <!-- Form Top Ban Chay Toan Quoc -->
+  <section class="form-section">
+    <div class="top-seller-header">
+      <div class="top-seller-header-left">
+        <h2>SẢN PHẨM TƯƠNG TỰ</h2>
+      </div>
+      <a href="#" class="top-seller-header-right">Xem thêm</a>
+    </div>
+    <div class="swiper dealSwiper">
+      <div class="swiper-wrapper">
+        <!-- Card 1: Thuốc Paracetamol 500mg -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product1.webp" alt="Thuốc Paracetamol 500mg">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -30%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Thuốc Paracetamol 500mg (Hộp 100 viên)</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  150.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  105.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>PH123456</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>01/06/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>01/06/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (5)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    50
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2: Banila Co Clean It Zero -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product2.webp" alt="Banila Co Clean It Zero">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -38%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Banila Co Clean It Zero Sáp Tẩy Trang</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  480.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  298.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>BC789012</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>15/03/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>15/03/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (4)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    30
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3: Nucos NMN -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product3.avif" alt="Nucos NMN">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -12%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Thực Phẩm Bảo Vệ Sức Khỏe Nucos NMN</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  4.500.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  3.950.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>NM456789</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>10/01/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>10/01/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (5)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    20
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 4: Collagen Elasten -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product4.avif" alt="Collagen Elasten">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -12%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Nước Uống Collagen Elasten 2500mg</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  2.500.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  2.200.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>CE234567</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>20/02/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>20/02/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (4)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    25
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 5: Elevit Vitamin -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product5.webp" alt="Elevit Vitamin">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -20%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Viên Uống Elevit Bổ Sung Vitamin</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  366.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  292.800<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>EV345678</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>05/04/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>05/04/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (5)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    40
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 6: Arkopharma Detoxifiant -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product6.webp" alt="Arkopharma Detoxifiant">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -15%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Thực Phẩm Bảo Vệ Sức Khỏe ARKOPHARMA</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  675.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  573.750<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>AR567890</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>12/05/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>12/05/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (4)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    35
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 7: Vitamin C 1000mg -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product7.webp" alt="Vitamin C 1000mg">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -25%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Viên Uống Vitamin C 1000mg (Hộp 60 viên)</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  200.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  150.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>VC123789</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>01/07/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>01/07/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (5)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    60
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 8: Omega-3 Fish Oil -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product8.webp" alt="Omega-3 Fish Oil">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -20%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Omega-3 Fish Oil 1000mg (Hộp 90 viên)</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  350.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  280.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>OM456123</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>10/06/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>10/06/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (4)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    45
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 9: Ibuprofen 400mg -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product9.webp" alt="Ibuprofen 400mg">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -15%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Thuốc Ibuprofen 400mg (Hộp 50 viên)</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  120.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  102.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>IB789456</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>15/05/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>15/05/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (5)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    55
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card 10: Calcium D3 -->
+        <div class="swiper-slide">
+          <div class="product-item">
+            <div class="inner-image">
+              <a href="#">
+                <img src="../../public/client/assets/images/product10.webp" alt="Calcium D3">
+              </a>
+            </div>
+            <div class="inner-discount">
+              <i class="fa-solid fa-bolt"></i>
+              Giảm -10%
+            </div>
+            <div class="inner-content">
+              <h3 class="inner-title">
+                <a href="#">Viên Uống Calcium D3 (Hộp 60 viên)</a>
+              </h3>
+              <div class="inner-prices">
+                <div class="inner-price-old">
+                  180.000<span class="inner-unit">đ</span>
+                </div>
+                <div class="inner-price-new">
+                  162.000<span class="inner-unit">đ</span>
+                </div>
+              </div>
+              <div class="inner-desc">
+                <div class="inner-desc-item">
+                  Mã Sản Phẩm: <b>CD123890</b>
+                </div>
+                <div class="inner-desc-item">
+                  Ngày Sản Xuất: <b>20/04/2024</b>
+                </div>
+                <div class="inner-desc-item">
+                  Hạn Sử Dụng: <b>20/04/2026</b>
+                </div>
+              </div>
+              <div class="inner-meta">
+                <div class="inner-rating">
+                  <div class="inner-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-regular fa-star"></i>
+                  </div>
+                  <div class="inner-number">
+                    (4)
+                  </div>
+                </div>
+                <div class="inner-stock">
+                  <div class="inner-label">
+                    Số lượng còn:
+                  </div>
+                  <div class="inner-number">
+                    50
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      
+      <!-- Về Pharmacity -->
+      <div class="footer-col">
+        <h4>Về Pharmacity</h4>
+        <ul>
+          <li>Giới thiệu</li>
+          <li>Hệ thống cửa hàng</li>
+          <li>Giấy phép kinh doanh</li>
+          <li>Quy chế hoạt động</li>
+          <li>Chính sách đổi trả và bảo hành</li>
+          <li>Chính sách giao hàng</li>
+          <li>Chính sách bảo mật</li>
+          <li>Chính sách nội dung</li>
+          <li>Chính sách bảo vệ dữ liệu cá nhân</li>
+          <li>Chính sách thanh toán</li>
+          <li>Thể lệ chương trình thẻ thành viên</li>
+          <li>Câu hỏi thường gặp</li>
+          <li>Bệnh viện</li>
+        </ul>
+      </div>
+
+      <!-- Danh mục -->
+      <div class="footer-col">
+        <h4>Danh mục</h4>
+        <ul>
+          <li>Thuốc</li>
+          <li>Tra cứu bệnh</li>
+          <li>Thực phẩm bảo vệ sức khỏe</li>
+          <li>Chăm sóc cá nhân</li>
+          <li>Mẹ và Bé</li>
+          <li>Chăm sóc sắc đẹp</li>
+          <li>Thiết bị y tế</li>
+          <li>Sản phẩm tiện lợi</li>
+          <li>Doanh nghiệp</li>
+          <li>Nhãn hàng Pharmacity</li>
+          <li>Khuyến mãi HOT</li>
+          <li>Góc sức khỏe</li>
+          <li>Chăm sóc sức khỏe</li>
+        </ul>
+      </div>
+
+      <!-- Tổng đài -->
+      <div class="footer-col">
+        <h4>Tổng đài miễn cước</h4>
+        <p>Hỗ trợ đặt hàng<br><b class="highlight">1800 6821</b> (Nhánh 1)</p>
+        <p>Thông tin nhà thuốc, khuyến mãi<br><b class="highlight">1800 6821</b> (Nhánh 2)</p>
+        <p>Kiếu nại, góp ý<br><b class="highlight">1800 6821</b> (Nhánh 2)</p>
+
+        <h4>Theo dõi chúng tôi</h4>
+        <p class="socials">
+          <a href="#">Facebook</a> | 
+          <a href="#">Youtube</a> | 
+          <a href="#">Zalo</a>
+        </p>
+      </div>
+
+      <!-- QR + App -->
+      <div class="footer-col footer-app">
+        <h4>Tải ứng dụng Pharmacity</h4>
+        <img src="qr.png" alt="QR code" class="qr">
+        <div class="app-links">
+          <img src="appstore.png" alt="App Store">
+          <img src="googleplay.png" alt="Google Play">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Thông tin công ty -->
+    <div class="footer-bottom">
+      <p><b>Công Ty Cổ Phần Dược Phẩm Pharmacity</b></p>
+      <p>Trụ sở: 248A Nơ Trang Long, Phường Bình Thạnh, TP.Hồ Chí Minh<br>
+      Điện thoại: 1800 6821 – Email: cskh@pharmacity.vn</p>
+      <p>GCNDKDN: 0311770883 do Sở KH & ĐT TP.HCM cấp lần đầu ngày 05/05/2012.<br>
+      GCNDDKKDD: 6782/DDKKDDD-ĐNai ngày cấp 26/4/2022 Sở Y Tế Tỉnh Đồng Nai.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+</html>

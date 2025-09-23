@@ -1,0 +1,50 @@
+// File: views/pages/contact.pug
+extends ../layouts/default.pug
+
+block content
+  // Contact Section
+  section.contact-section
+    .contact-container
+      h2 Liên hệ với chúng tôi
+      p Vui lòng điền thông tin vào biểu mẫu bên dưới, chúng tôi sẽ phản hồi sớm nhất có thể.
+      
+      form#contactForm
+        // Họ tên
+        .form-group
+          label(for="fullname") * Họ và tên
+          input#fullname(
+            type="text" 
+            name="fullname" 
+            placeholder="Nhập họ và tên" 
+            required
+          )
+
+        // Email
+        .form-group
+          label(for="email") * Email
+          input#email(
+            type="email" 
+            name="email" 
+            placeholder="Nhập email" 
+            required
+          )
+
+        // Số điện thoại
+        .form-group
+          label(for="phone") Số điện thoại
+          input#phone(
+            type="text" 
+            name="phone" 
+            placeholder="Nhập số điện thoại"
+          )
+
+        // Nội dung
+        .form-group
+          label(for="message") * Nội dung
+          textarea#message(
+            name="message" 
+            placeholder="Nhập nội dung liên hệ" 
+            required
+          )
+
+        button.contact-btn(type="submit") Gửi liên hệ

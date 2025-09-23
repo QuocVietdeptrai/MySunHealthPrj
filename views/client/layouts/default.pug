@@ -1,0 +1,29 @@
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{pageTitle || 'Pharmacity'}
+
+    // CSS
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css")
+    link(rel="stylesheet", href="/client/assets/css/style.css")
+
+  body
+    // HEADER
+    include ../partials/header.pug
+
+    // MAIN CONTENT
+    block main
+
+    //BOX-CONTACT
+    include ../partials/box-contact.pug
+    // FOOTER
+    include ../partials/footer.pug
+    
+    // JS
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+    script(src="/client/assets/js/script.js")
+    block scripts

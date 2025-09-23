@@ -1,0 +1,28 @@
+extends ../layouts/default.pug
+
+block main
+  section.order-check-section
+    .order-check-container
+      h2 Kiểm tra đơn hàng
+      p Bạn có thể kiểm tra tình trạng đơn hàng của mình bằng cách nhập thông tin vào ô bên dưới.
+
+      form#orderCheckForm(action="/tra-cuu-don-hang" method="POST")
+        .form-group
+          label(for="orderCode") * Mã đơn hàng
+          input#orderCode(
+            required 
+            placeholder="Nhập mã đơn hàng" 
+            name="orderCode" 
+            type="text"
+          )
+
+        .form-group
+          label(for="phoneNumber") * Số điện thoại
+          input#phoneNumber(
+            required 
+            placeholder="Nhập số điện thoại" 
+            name="phoneNumber" 
+            type="tel"
+          )
+
+        button.check-btn(type="submit") Kiểm tra ngay

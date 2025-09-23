@@ -1,0 +1,62 @@
+mixin product-item(data)
+  .swiper-slide
+    .product-item
+      // Hình ảnh sản phẩm
+      .inner-image
+        a(href=data.link)
+          img(src=data.image, alt=data.alt)
+
+      // Giảm giá
+      if data.discount
+        .inner-discount
+          i.fa-solid.fa-bolt
+          | Giảm -#{data.discount}%
+
+      // Nội dung sản phẩm
+      .inner-content
+        // Tiêu đề sản phẩm
+        h3.inner-title
+          a(href=data.link)= data.title
+
+        // Giá sản phẩm
+        .inner-prices
+          if data.oldPrice
+            .inner-price-old
+              | #{data.oldPrice}
+              span.inner-unit đ
+          if data.newPrice
+            .inner-price-new
+              | #{data.newPrice}
+              span.inner-unit đ
+
+        // Thông tin mô tả
+        if data.productCode || data.manufactureDate || data.expiryDate
+          .inner-desc
+            if data.productCode
+              .inner-desc-item
+                | Mã Sản Phẩm: 
+                b #{data.productCode}
+            if data.manufactureDate
+              .inner-desc-item
+                | Ngày Sản Xuất: 
+                b #{data.manufactureDate}
+            if data.expiryDate
+              .inner-desc-item
+                | Hạn Sử Dụng: 
+                b #{data.expiryDate}
+
+        // Meta: Rating + Tồn kho
+        .inner-meta
+          if data.rating
+            .inner-rating
+              .inner-stars
+                - for (let i = 0; i < 5; i++)
+                  if i < data.rating
+                    i.fa-solid.fa-star
+                  else
+                    i.fa-regular.fa-star
+              .inner-number (#{data.rating})
+          if data.stock
+            .inner-stock
+              .inner-label Số lượng còn:
+              .inner-number #{data.stock}

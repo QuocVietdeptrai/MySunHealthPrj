@@ -1,0 +1,75 @@
+extends ../layouts/default.pug
+
+block main
+  .content-area
+    // Left Panel
+    .left-panel
+      .panel-title Giỏ hàng
+      #item-list
+        .item-row
+          .item-details
+            img(alt="Product" src="https://via.placeholder.com/60")
+            span.item-name Sản phẩm 1
+          div
+            span.item-cost 250,000đ
+        .item-row
+          .item-details
+            img(alt="Product" src="https://via.placeholder.com/60")
+            span.item-name Sản phẩm 2
+          div
+            span.item-cost 150,000đ
+
+      // Discount Code
+      .discount-section
+        input#discount-code(type="text" placeholder="Nhập mã khuyến mãi")
+        button(onclick="applyPromo()") Áp dụng
+
+      // Shipping Info
+      .panel-title Thông tin giao hàng
+      .shipping-info
+        input(type="text" placeholder="Họ và tên")
+        input(type="text" placeholder="Số điện thoại")
+        input(type="text" placeholder="Địa chỉ chi tiết")
+
+        select
+          option Chọn Tỉnh/Thành phố
+          option Hà Nội
+          option TP. Hồ Chí Minh
+
+        select
+          option Chọn Quận/Huyện
+
+        select
+          option Chọn Phường/Xã
+
+      // Payment Method
+      .panel-title Phương thức thanh toán
+      .payment-options
+        each method in [
+          {name: 'Tiền mặt', img: 'COD'},
+          {name: 'Momo', img: 'Momo'},
+          {name: 'ZaloPay', img: 'ZaloPay'},
+          {name: 'Thẻ tín dụng', img: 'Card'},
+          {name: 'Thẻ ATM', img: 'ATM'},
+          {name: 'Apple Pay', img: 'ApplePay'}
+        ]
+          label.payment-choice
+            input(type="radio" name="payment" checked=method.name === 'Tiền mặt')
+            img(alt=method.name src=`https://via.placeholder.com/40?text=${method.img}`)
+            | #{method.name}
+
+    // Right Panel
+    .right-panel
+      .panel-title Tóm tắt đơn hàng
+      .summary-row
+        span Tạm tính
+        span#subtotal 400,000đ
+      .summary-row
+        span Phí vận chuyển
+        span 30,000đ
+      .summary-row.total
+        span Tổng cộng
+        span#total 430,000đ
+
+      .order-action
+        button(type="submit") Đặt hàng

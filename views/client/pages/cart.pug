@@ -1,0 +1,53 @@
+extends ./default.pug
+
+block main
+  .cart-section
+    .cart-header
+      h1 Giỏ hàng (1)
+      .select-all
+        input#selectAll(type="checkbox" checked)
+        label(for="selectAll") Chọn tất cả
+
+    .free-shipping
+      i.fas.fa-shipping-fast
+      | Miễn phí vận chuyển cho mọi đơn hàng từ 0đ
+
+    .cart-grid
+      // Left: Danh sách sản phẩm
+      .products-section
+        .cart-item
+          input(type="checkbox" checked)
+          img.cart-item-image(
+            src="../../public/client/assets/images/product1.webp"
+            alt="Nucos NMN"
+          )
+          .cart-item-details
+            .cart-item-info
+              h2 Thực Phẩm Bảo Vệ Sức Khỏe Nucos NMN (Hộp 60 viên)
+              .variant Phân loại: Hộp
+              span.promo Mua 1 hộp Tặng 1 hộp NUCOS Spa...
+            .item-price-section
+              .price 3.950.000 đ
+              .old-price 4.500.000 đ
+              .quantity-wrapper
+                button.qty-btn.decrease -
+                input.quantity-input(type="number" min="1" max="99" value="1")
+                button.qty-btn.increase +
+              a.remove-btn(href="#") 🗑 Xóa
+
+      // Right: Tóm tắt đơn hàng
+      .cart-summary
+        .summary-title Tóm tắt đơn hàng
+        .summary-row
+          span Tạm tính
+          span.subtotal 3.950.000 đ
+        .summary-row
+          span Giảm giá ưu đãi
+          span.discount -
+        .summary-row
+          span Giảm giá sản phẩm
+          span.product-discount -
+        .summary-row.total
+          span Tổng tiền
+          span.total-price 3.950.000 đ
+        button.checkout-btn Mua hàng (1)

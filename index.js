@@ -4,6 +4,7 @@ require('dotenv').config()
 const dataBase = require("./config/database");
 // const clientRoutes = require("./routes/client/index.route");
 const adminRoutes = require("./routes/admin/index.route");
+const clientRoutes = require("./routes/client/index.route");
 const variableConfig = require("./config/variable");
 const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
@@ -40,7 +41,7 @@ app.use(flash());
 
 
 //Thiết lập đường dẫn
-// app.use("/",clientRoutes);
+app.use("/",clientRoutes);
 app.use(`/${variableConfig.pathAdmin}`, adminRoutes);
 
 app.listen(port, () => {

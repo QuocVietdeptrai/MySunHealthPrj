@@ -1,0 +1,64 @@
+header
+  // Top Banner
+  .top-banner
+    .promo
+      img(
+        alt="MySunHealth Promotion Banner" 
+        src="/client/assets/images/top_banner.png"
+      )
+
+  // Top Navigation
+  .top-nav
+    a(href="tel:18006821")
+      span Hotline: 1800 6821
+    a(href="/doanh-nghiep")
+      span Doanh nghiệp
+    a(href="/deal-hot-thang-8")
+      span Deal hot tháng 8 🔥
+    a(href="/tra-cuu-don-hang")
+      span Tra cứu đơn hàng
+    a(href="/goc-suc-khoe")
+      span Góc sức khỏe
+    a(href="/he-thong-nha-thuoc")
+      span Hệ thống nhà thuốc
+
+  // Main Header
+  .header
+    .logo
+      a(href="/")
+        img(
+          alt="MySunHealth Logo" 
+          src="/client/assets/images/logo.png"
+        )
+    .search-bar
+      input(
+        placeholder="Bạn đang tìm gì hôm nay..." 
+        type="text"
+      )
+      button(onclick="window.location.href='/tim-kiem'") Tìm kiếm
+    .header-right
+      a.icon-badge(href="/notifications")
+        i.fa-solid.fa-bell
+        span.badge 3
+      a.icon-badge(href="/cart")
+        i.fa-solid.fa-cart-shopping
+        span.badge 5
+      a(href="/account/login")
+        button Đăng nhập / Đăng ký
+
+  // Navigation Menu
+  .nav
+    .dropdown
+      button.dropdown-btn Danh mục
+      .dropdown-content
+        a(href="#") Thuốc
+        a(href="#") Tra cứu bệnh
+        a(href="#") Thực phẩm bảo vệ sức khỏe
+        a(href="#") Mẹ và bé
+        a(href="#") Chăm sóc cá nhân
+    a(href="#") Thuốc
+    a(href="#") Tra cứu bệnh
+    a(href="#") Thực phẩm bảo vệ sức khỏe
+    a(href="#") Mẹ và bé
+    a(href="#") Nhãn hàng Pharmacity
+    a(href="#") Chăm sóc cá nhân

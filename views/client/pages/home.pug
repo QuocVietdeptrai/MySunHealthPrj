@@ -1,0 +1,440 @@
+extends ../layouts/default.pug
+include ../mixins/product-item.pug
+
+block main
+
+  // Section 1: Swiper Slideshow + Side Images
+  section.section-1
+    .swiper.mySwiper
+      .swiper-wrapper
+        .swiper-slide
+          a(href="/promotion/1")
+            img(
+              alt="MySunHealth Promotion Banner 1"
+              src="/client/assets/images/banner.webp"
+            )
+        .swiper-slide
+          a(href="/promotion/2")
+            img(
+              alt="MySunHealth Promotion Banner 2"
+              src="/client/assets/images/banner1.webp"
+            )
+        .swiper-slide
+          a(href="/promotion/3")
+            img(
+              alt="MySunHealth Promotion Banner 3"
+              src="/client/assets/images/banner2.avif"
+            )
+        .swiper-slide
+          a(href="/promotion/4")
+            img(
+              alt="MySunHealth Promotion Banner 4"
+              src="/client/assets/images/bannner3.avif"
+            )
+      .swiper-button-next
+      .swiper-button-prev
+      .swiper-pagination
+    .side-images
+      a(href="/promotion/top")
+        img(
+          alt="MySunHealth Side Banner Top"
+          src="/client/assets/images/banner_top.avif"
+        )
+      a(href="/promotion/under")
+        img(
+          alt="MySunHealth Side Banner Bottom"
+          src="/client/assets/images/banner_under.avif"
+        )
+
+  // Feature Slider
+  section.features-section
+    .swiper.featureSwiper
+      .swiper-wrapper
+        .swiper-slide
+          a.feature-box(href="tu-van.html")
+            img(
+              alt="Tư vấn mua thuốc icon"
+              src="https://cdn-icons-png.flaticon.com/512/854/854878.png"
+            )
+            p Tư vấn mua thuốc
+        .swiper-slide
+          a.feature-box(href="lien-he.html")
+            img(
+              alt="Liên hệ dược sĩ icon"
+              src="https://cdn-icons-png.flaticon.com/512/747/747376.png"
+            )
+            p Liên hệ dược sĩ
+        .swiper-slide
+          a.feature-box(href="he-thong.html")
+            img(
+              alt="Hệ thống nhà thuốc icon"
+              src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png"
+            )
+            p Hệ thống nhà thuốc
+        .swiper-slide
+          a.feature-box(href="khuyen-mai.html")
+            img(
+              alt="Mã giảm giá icon"
+              src="https://cdn-icons-png.flaticon.com/512/929/929426.png"
+            )
+            p Mã giảm giá riêng
+        .swiper-slide
+          a.feature-box(href="chi-tieu.html")
+            img(
+              alt="Chi tiêu sức khỏe icon"
+              src="https://cdn-icons-png.flaticon.com/512/2966/2966486.png"
+            )
+            p Chi tiêu sức khỏe
+        .swiper-slide
+          a.feature-box(href="cham-soc-da.html")
+            img(
+              alt="Chăm sóc da icon"
+              src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png"
+            )
+            p Chăm da chuẩn
+        .swiper-slide
+          a.feature-box(href="deal-hot.html")
+            img(
+              alt="Deal hot icon"
+              src="https://cdn-icons-png.flaticon.com/512/929/929457.png"
+            )
+            p Deal hot tháng 8
+        .swiper-slide
+          a.feature-box(href="lich-su.html")
+            img(
+              alt="Lịch sử P-Xu Vàng icon"
+              src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
+            )
+            p Lịch sử P-Xu Vàng
+      .swiper-button-next
+      .swiper-button-prev
+      .swiper-scrollbar
+
+  // Header Săn Deal
+  .deal-header
+    .deal-header-left
+      img(
+        alt="Săn Deal icon"
+        width="28"
+        src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
+      )
+      h2 SĂN DEAL
+      .countdown
+        span#h 06
+        | :
+        span#m 47
+        | :
+        span#s 06
+    .deal-header-right
+      a(href="#") Xem thêm
+
+  // Deal Section
+  section.form-section(style="background: red;")
+    .swiper.dealSwiper
+      .swiper-wrapper
+        each item, index in Array(10)
+          +product-item({
+            link: '#',
+            image: '/client/assets/images/product1.webp',
+            alt: 'Thuốc Paracetamol 500mg',
+            discount: 30,
+            title: 'Thuốc Paracetamol 500mg (Hộp 100 viên)',
+            oldPrice: '150.000',
+            newPrice: '105.000',
+            productCode: 'PH123456',
+            manufactureDate: '01/06/2024',
+            expiryDate: '01/06/2026',
+            rating: 5,
+            stock: 50
+          })
+      .swiper-button-next
+      .swiper-button-prev
+
+
+  // Form Top Bán Chạy Toàn Quốc
+  section.form-section
+    .top-seller-header
+      .top-seller-header-left
+        h2 TOP BÁN CHẠY TOÀN QUỐC
+      a.top-seller-header-right(href="#") Xem thêm
+    .swiper.dealSwiper
+      .swiper-wrapper
+        each item, index in Array(10)
+          +product-item({
+            link: '#',
+            image: '/client/assets/images/product1.webp',
+            alt: 'Thuốc Paracetamol 500mg',
+            discount: 30,
+            title: 'Thuốc Paracetamol 500mg (Hộp 100 viên)',
+            oldPrice: '150.000',
+            newPrice: '105.000',
+            productCode: 'PH123456',
+            manufactureDate: '01/06/2024',
+            expiryDate: '01/06/2026',
+            rating: 5,
+            stock: 50
+          })
+      .swiper-button-next
+      .swiper-button-prev
+
+  // Section Tra cứu bệnh chi tiết
+  section.disease-section
+    .disease-header
+      h2 TRA CỨU BỆNH CHI TIẾT
+      a.view-more(href="#") Xem thêm
+    .disease-grid
+      .disease-card
+        h3 Bệnh Người Cao Tuổi
+        ul
+          li
+            a(href="#") Tăng huyết áp
+          li
+            a(href="#") Alzheimer
+          li
+            a(href="#") Tai biến mạch máu não
+          li
+            a(href="#") Bệnh tim mạch
+          li
+            a(href="#") Loãng xương
+          li
+            a(href="#") Parkinson
+          li
+            a(href="#") Tiêu đường tuýp 2
+          li
+            a(href="#") Bệnh phổi tắc nghẽn
+      .disease-card
+        h3 Bệnh Nam Giới
+        ul
+          li
+            a(href="#") Mãn dục nam
+          li
+            a(href="#") Yếu sinh lý
+          li
+            a(href="#") Rối loạn cương dương
+          li
+            a(href="#") Liệt dương
+          li
+            a(href="#") Hẹp bao quy đầu
+          li
+            a(href="#") Viêm tuyến tiền liệt
+          li
+            a(href="#") Phì đại tuyến tiền liệt
+      .disease-card
+        h3 Bệnh Nữ Giới
+        ul
+          li
+            a(href="#") Chậm kinh
+          li
+            a(href="#") Hội chứng buồng trứng đa nang
+          li
+            a(href="#") Ung thư vú
+          li
+            a(href="#") Ung thư cổ tử cung
+          li
+            a(href="#") U nang buồng trứng
+          li
+            a(href="#") Mãn kinh
+          li
+            a(href="#") Rối loạn kinh nguyệt
+          li
+            a(href="#") Nang vú
+      .disease-card
+        h3 Bệnh Trẻ Em
+        ul
+          li
+            a(href="#") Tay chân miệng
+          li
+            a(href="#") Thủy đậu
+          li
+            a(href="#") Tiêu chảy
+          li
+            a(href="#") Dinh dưỡng thiếu
+          li
+            a(href="#") Chủng ngừa ngón ngu
+          li
+            a(href="#") Bại não trẻ em
+          li
+            a(href="#") Bạch hầu
+          li
+            a(href="#") Bệnh đường kin
+      .disease-card
+        h3 Bệnh Thường Ngày
+        ul
+          li
+            a(href="#") Mụn trứng cá
+          li
+            a(href="#") Mụn
+          li
+            a(href="#") Mụn bọc
+          li
+            a(href="#") Mụn lưng
+          li
+            a(href="#") Rối loạn kinh nguyệt
+          li
+            a(href="#") Đau đầu
+          li
+            a(href="#") Hắc lào
+          li
+            a(href="#") Lạnh ben
+      .disease-card
+        h3 Bệnh Phụ Nữ Mang Thai
+        ul
+          li
+            a(href="#") Tiêu đường thai kỳ
+          li
+            a(href="#") Chuột rút
+          li
+            a(href="#") Đau lưng
+          li
+            a(href="#") Suy thai
+          li
+            a(href="#") Bé sanh dich
+          li
+            a(href="#") Nhaau bám thấp
+          li
+            a(href="#") Nhaau bong non
+          li
+            a(href="#") Rau bám mẹp
+
+  // Section Nhóm bệnh theo mùa
+  section.seasonal-disease-section
+    .seasonal-disease-header
+      h2 NHÓM BỆNH THEO MÙA
+      a.view-more(href="#") Xem thêm
+    .seasonal-disease-grid
+      .seasonal-disease-card
+        a(href="/benh-phoi-tac-nghen-man")
+          img(
+            alt="Bệnh Phổi Tắc Nghẽn Mạn"
+            src="/client/assets/images/phoitacnghenmantinh.webp"
+          )
+        h3
+          a(href="/benh-phoi-tac-nghen-man") Bệnh Phổi Tắc Nghẽn Mạn...
+      .seasonal-disease-card
+        a(href="/trao-nguoc-da-day")
+          img(
+            alt="Trao Ngược Dạ Dày"
+            src="/client/assets/images/traonguocdaday.avif"
+          )
+        h3
+          a(href="/trao-nguoc-da-day") Trao Ngược Dạ Dày
+      .seasonal-disease-card
+        a(href="/benh-sot")
+          img(
+            alt="Bệnh Sốt"
+            src="/client/assets/images/benhcum.avif"
+          )
+        h3
+          a(href="/benh-sot") Bệnh Sốt
+      .seasonal-disease-card
+        a(href="/dau-mat-do")
+          img(
+            alt="Đau Mắt Đỏ"
+            src="/client/assets/images/daumatdo.avif"
+          )
+        h3
+          a(href="/dau-mat-do") Đau Mắt Đỏ
+      .seasonal-disease-card
+        a(href="/benh-cum")
+          img(
+            alt="Bệnh Cúm"
+            src="/client/assets/images/benhcum.avif"
+          )
+        h3
+          a(href="/benh-cum") Bệnh Cúm
+      .seasonal-disease-card
+        a(href="/sot-phat-ban")
+          img(
+            alt="Sốt Phát Ban"
+            src="/client/assets/images/sotphatban.jpg"
+          )
+        h3
+          a(href="/sot-phat-ban") Sốt Phát Ban
+      .seasonal-disease-card
+        a(href="/benh-di-ung")
+          img(
+            alt="Bệnh Đi Ừng"
+            src="/client/assets/images/benhdiung.webp"
+          )
+        h3
+          a(href="/benh-di-ung") Bệnh Đi Ừng
+      .seasonal-disease-card
+        a(href="/dau-co-xuong-khop")
+          img(
+            alt="Đau Cơ Xương Khớp"
+            src="/client/assets/images/daucoxuongkhop.avif"
+          )
+        h3
+          a(href="/dau-co-xuong-khop") Đau Cơ Xương Khớp
+      .seasonal-disease-card
+        a(href="/viem-hong-cap")
+          img(
+            alt="Viêm Họng Cấp"
+            src="/client/assets/images/viemhong.avif"
+          )
+        h3
+          a(href="/viem-hong-cap") Viêm Họng Cấp
+      .seasonal-disease-card
+        a(href="/tay-chan-mieng")
+          img(
+            alt="Tay Chân Miệng"
+            src="/client/assets/images/taychanmieng.webp"
+          )
+        h3
+          a(href="/tay-chan-mieng") Tay Chân Miệng
+      .seasonal-disease-card
+        a(href="/viem-phe-quan")
+          img(
+            alt="Viêm Phế Quản"
+            src="/client/assets/images/viemphequan.webp"
+          )
+        h3
+          a(href="/viem-phe-quan") Viêm Phế Quản
+      .seasonal-disease-card
+        a(href="/viem-xoang")
+          img(
+            alt="Viêm Xoang"
+            src="/client/assets/images/viemxoang.webp"
+          )
+        h3
+          a(href="/viem-xoang") Viêm Xoang
+
+  // Section Blog Sức Khỏe
+  section.health-blog-section
+    .health-blog-header
+      h2 BLOG SỨC KHỎE
+      a.view-more(href="/blog") Xem thêm
+    .health-blog-grid
+      .health-blog-card
+        a(href="/blog/dinh-duong-tot-cho-suc-khoe")
+          img(
+            alt="Dinh dưỡng tốt cho sức khỏe"
+            src="/client/assets/images/dinhduongtot.webp"
+          )
+        .blog-content
+          h3
+            a(href="/blog/dinh-duong-tot-cho-suc-khoe") Dinh dưỡng tốt cho sức khỏe
+          p Các loại thực phẩm giúp tăng cường sức khỏe và phòng ngừa bệnh tật hiệu quả.
+          span.blog-date 01/09/2025
+      .health-blog-card
+        a(href="/blog/tap-luyen-dep-moi-ngay")
+          img(
+            alt="Tập luyện đẹp mỗi ngày"
+            src="/client/assets/images/tapluyen.webp"
+          )
+        .blog-content
+          h3
+            a(href="/blog/tap-luyen-dep-moi-ngay") Tập luyện đẹp mỗi ngày
+          p Hướng dẫn tập luyện tại nhà để có thân hình cân đối và khỏe mạnh.
+          span.blog-date 01/09/2025
+      .health-blog-card
+        a(href="/blog/phong-ngua-benh-mua")
+          img(
+            alt="Phòng ngừa bệnh mùa"
+            src="/client/assets/images/phongnguabenhmua.png"
+          )
+        .blog-content
+          h3
+            a(href="/blog/phong-ngua-benh-mua") Phòng ngừa bệnh mùa hiệu quả
+          p Mẹo đơn giản để bảo vệ sức khỏe trong mùa thay đổi thời tiết.
+          span.blog-date 01/09/2025

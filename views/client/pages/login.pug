@@ -2,7 +2,7 @@ extends ../layouts/account.pug
 
 block main
   .form-account
-    h2.inner-title Đăng nhập quản trị
+    h2.inner-title Đăng nhập người dùng
     p.inner-desc Vui lòng nhập email và mật khẩu để tiếp tục
     
     form.inner-form#login-form
@@ -43,9 +43,9 @@ block main
             class="inner-label"
             for="remember-password"
           ) Nhớ mật khẩu
-        a(href=`/${pathAdmin}/account/forgot_password` class="inner-forgot-password") Quên mật khẩu?
+        a(href=`/account/forgot_password` class="inner-forgot-password") Quên mật khẩu?
       button(class="inner-button") Đăng Nhập
     
     .inner-more
       span Bạn chưa có tài khoản?
-      a(href=`/${pathAdmin}/account/register`) Tạo tài khoản
+      a(href=`/account/register`) Tạo tài khoản

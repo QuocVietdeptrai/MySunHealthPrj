@@ -1,0 +1,57 @@
+extends ../layouts/default.pug
+
+block content
+  .breadcrumb
+    a(href="/") Trang chủ
+    span >
+    a(href="/thuc-pham-bao-ve-suc-khoe") Thực phẩm bảo vệ sức khỏe
+    span >
+    span Bột uống FERROLIP bổ sung sắt (Hộp 20 gói)
+
+  .product-detail-section
+    .product-image
+      .main-image
+        img#mainImage(alt="Ferrolip Main Image", src="/client/assets/images/product1.webp")
+      .thumbnail-gallery
+        each imgSrc in ["/client/assets/images/product1.webp", "/client/assets/images/product2.webp", "/client/assets/images/product3.avif", "/client/assets/images/product4.avif"]
+          img(onclick=`changeMainImage('${imgSrc}')`, alt="Thumbnail", src=imgSrc)
+
+    .product-info
+      h1 Bột uống FERROLIP bổ sung sắt (Hộp 20 gói)
+      .product-code P28033 - Thương hiệu: FERROLIP
+      .origin Sản phẩm 100% chính hãng, được nhập khẩu chính ngạch
+      .price
+        | 360.000 đ/Hộp
+        span.old-price 420.000 đ
+      .save Tiết kiệm: 60.000 đ
+      div
+        strong Nhà sản xuất:
+        | Ferrolip, Ý
+      div
+        strong Hạn sử dụng:
+        | 24 tháng kể từ ngày sản xuất
+      div
+        strong Bảo quản:
+        | Để nơi khô ráo, tránh ánh nắng trực tiếp, nhiệt độ dưới 30°C
+
+      // Quantity + Buttons
+      .quantity-action
+        .quantity-wrapper
+          button.qty-btn.decrease -
+          input.quantity-input(type="number", min="1", max="99", value="1")
+          button.qty-btn.increase +
+        .buy-buttons
+          button.buy-now Mua ngay
+          button.add-to-cart Thêm vào giỏ
+
+  // Reviews Section
+  .reviews
+    h3 Đánh giá sản phẩm
+    each review in [
+      {rating: "★★★★☆ (4/5)", text: '"Sản phẩm rất tốt, bổ sung sắt hiệu quả, không gây táo bón. Giao hàng nhanh!" - Nguyễn Văn A'},
+      {rating: "★★★☆☆ (3/5)", text: '"Hương vị ổn, nhưng hiệu quả chưa rõ ràng sau 1 tuần sử dụng." - Trần Thị B'},
+      {rating: "★★★★★ (5/5)", text: '"Tuyệt vời, sức khỏe cải thiện rõ rệt sau 2 tuần!" - Lê Văn C'}
+    ]
+      .review-item
+        .rating= review.rating
+        p= review.text

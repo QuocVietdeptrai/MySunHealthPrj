@@ -1,11 +1,24 @@
 extends ../layouts/account.pug
 
+
 block main
   .form-account
-    h2.inner-title Đăng nhập quản trị
-    p.inner-desc Vui lòng nhập email và mật khẩu để tiếp tục
+    h2.inner-title Đăng ký
+    p.inner-desc Tạo một tài khoản để tiếp tục
     
-    form.inner-form#login-form
+    form.inner-form#register-form
+      .inner-group
+        label(
+          class="inner-label"
+          for="fullName"
+        ) Họ tên
+        input(
+          type="text"
+          name="fullName"
+          id="fullName"
+          placeholder="Ví dụ: Lê Văn A"
+          class="inner-control"
+        )
       .inner-group
         label(
           class="inner-label"
@@ -17,7 +30,6 @@ block main
           id="email"
           placeholder="Ví dụ: levana@gmail.com"
           class="inner-control"
-          autocomplete="email"
         )
       .inner-group
         label(
@@ -29,23 +41,21 @@ block main
           name="password"
           id="password"
           class="inner-control"
-          autocomplete="current-password"
         )
       .inner-meta
         .inner-confirm
           input(
             type="checkbox"
-            name="rememberPassword"
-            id="remember-password"
+            name="agree"
+            id="agree"
             class="inner-check"
           )
           label(
             class="inner-label"
-            for="remember-password"
-          ) Nhớ mật khẩu
-        a(href=`/${pathAdmin}/account/forgot_password` class="inner-forgot-password") Quên mật khẩu?
-      button(class="inner-button") Đăng Nhập
+            for="agree"
+          ) Tôi chấp nhận các điều khoản và điều kiện
+      button(class="inner-button") Đăng Ký
     
     .inner-more
-      span Bạn chưa có tài khoản?
-      a(href=`/${pathAdmin}/account/register`) Tạo tài khoản
+      span Bạn đã có tài khoản?
+      a(href=`/${pathAdmin}/account/login`) Đăng nhập

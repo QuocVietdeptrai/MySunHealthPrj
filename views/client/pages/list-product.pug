@@ -1,0 +1,38 @@
+extends ../layouts/default.pug
+
+block main
+  // Breadcrumb
+  .breadcrumb
+    a(href="/") Trang chủ
+    span >
+    a(href="/thuc-pham-bao-ve-suc-khoe") Thực phẩm bảo vệ sức khỏe
+
+  // Main Content
+  .main-content
+    // Filter Section
+    section.filter-section
+      h3 Bộ lọc
+      .filter-group
+        label Sắp xếp theo:
+        input(type="radio" name="sort" value="gia-dan")
+        | Giá giảm dần
+        input(type="radio" name="sort" value="gia-tang")
+        | Giá tăng dần
+
+      .filter-group
+        label Khoảng giá
+        .price-range
+          input#min-price(type="number" min="0" placeholder="Từ (đ)")
+          input#max-price(type="number" min="0" placeholder="Đến (đ)")
+
+      .filter-group
+        button(onclick="applyFilters()") Áp dụng
+
+    // Product Section
+    section.form-section
+      .top-seller-header
+        .top-seller-header-left
+          h2 SẢN PHẨM TƯƠNG TỰ
+
+      .product-grid
+        include ../mixins/product-item.pug
