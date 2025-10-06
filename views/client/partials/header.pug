@@ -15,8 +15,6 @@ header
       span Doanh nghiệp
     a(href="/deal-hot-thang-8")
       span Deal hot tháng 8 🔥
-    a(href="/tra-cuu-don-hang")
-      span Tra cứu đơn hàng
     a(href="/goc-suc-khoe")
       span Góc sức khỏe
     a(href="/he-thong-nha-thuoc")
@@ -43,8 +41,31 @@ header
       a.icon-badge(href="/cart")
         i.fa-solid.fa-cart-shopping
         span.badge 5
-      a(href="/account/login")
-        button Đăng nhập / Đăng ký
+
+      //- Nếu đã đăng nhập thì hiển thị avatar
+      if account
+        .user-menu
+          img.avatar(src=account.avatar || '/client/assets/images/default-avatar.png', alt="Avatar")
+          ul.dropdown-menu
+            li
+              a(href="/profile/edit")
+                i.fa-solid.fa-user
+                span Thông tin cá nhân
+            li
+              a(href="/account/search_order")
+                i.fa-solid.fa-receipt
+                span Danh sách đơn hàng
+
+            li.menu-divider
+
+            li
+              a.logout(href="/")
+                i.fa-solid.fa-right-from-bracket
+                span Đăng xuất
+      else
+        a(href="/account/login")
+          button Đăng nhập / Đăng ký
+
 
   // Navigation Menu
   .nav

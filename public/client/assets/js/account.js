@@ -50,7 +50,7 @@ if(loginForm) {
         password : password,
         rememberPassword : rememberPassword
       };
-      fetch(`/${pathAdmin}/account/login`, {
+      fetch(`/account/login`, {
         method: "POST",
         headers : {
           "Content-Type":"application/json"
@@ -63,7 +63,7 @@ if(loginForm) {
             alert(data.message);
           }
           if(data.code == "success"){
-            window.location.href = `/${pathAdmin}/dashboard`;
+            window.location.href = `/`;
             console.log(pathAdmin);
           }
         })
@@ -146,7 +146,7 @@ if(registerForm) {
         email : email,
         password : password
       };
-      fetch(`/${pathAdmin}/account/register`, {
+      fetch(`/account/register`, {
         method: "POST",
         headers : {
           "Content-Type":"application/json"
@@ -159,8 +159,7 @@ if(registerForm) {
             alert(data.message);
           }
           if(data.code == "success"){
-            window.location.href = `/${pathAdmin}/account/register-initial`;
-            console.log(pathAdmin);
+            window.location.href = `/account/login`;
           }
         })
     })
@@ -189,7 +188,7 @@ if(forgotPasswordForm) {
       const dataFinal ={
         email : email
       };
-      fetch(`/${pathAdmin}/account/forgot_password`, {
+      fetch(`/account/forgot_password`, {
         method: "POST",
         headers : {
           "Content-Type":"application/json"
@@ -202,8 +201,8 @@ if(forgotPasswordForm) {
             alert(data.message);
           }
           if(data.code == "success"){
-            window.location.href = `/${pathAdmin}/account/otp_password?email=${email}`;
-            console.log(pathAdmin);
+            window.location.href = `/account/otp_password?email=${email}`;
+            // console.log(pathAdmin);
           }
         })
     })
@@ -233,7 +232,7 @@ if(otpPasswordForm) {
         email : email,
         otp : otp
       };
-      fetch(`/${pathAdmin}/account/otp_password`, {
+      fetch(`/account/otp_password`, {
         method: "POST",
         headers : {
           "Content-Type":"application/json"
@@ -246,8 +245,7 @@ if(otpPasswordForm) {
             alert(data.message);
           }
           if(data.code == "success"){
-            window.location.href = `/${pathAdmin}/account/reset_password`;
-            console.log(pathAdmin);
+            window.location.href = `/account/reset_password`;
           }
         })
     })
@@ -306,7 +304,7 @@ if(resetPasswordForm) {
       const dataFinal ={
         password:password
       };
-      fetch(`/${pathAdmin}/account/reset_password`, {
+      fetch(`/account/reset_password`, {
         method: "POST",
         headers : {
           "Content-Type":"application/json"
@@ -319,7 +317,7 @@ if(resetPasswordForm) {
             alert(data.message);
           }
           if(data.code == "success"){
-            window.location.href = `/${pathAdmin}/account/login`;
+            window.location.href = `/account/login`;
             console.log(pathAdmin);
           }
         })
@@ -327,3 +325,4 @@ if(resetPasswordForm) {
   ;
 }
 // End Reset Password Form
+
